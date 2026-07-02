@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "firebase-hosting-basics": {
+      "source": "firebase/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/firebase-hosting-basics/SKILL.md",
+      "computedHash": "fd0fede590512379a3103b74a7c1e612e38e6948b08e763a75962cd8c7f5b8e2"
+    }
+  }
+}
