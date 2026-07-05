@@ -1,0 +1,37 @@
+<div class="cart-page">
+  <h1 style="text-align:center;margin-bottom:10px">Your Cart ❄️</h1>
+  {% if cart.item_count == 0 %}
+    <div class="cart-empty">
+      <p style="font-size:44px">🐾</p>
+      <p style="color:var(--muted);margin:10px 0 22px">Your cart is empty — your pet is still warm.</p>
+      <a class="btn" href="/collections/all">Shop the Cooling Mat</a>
+    </div>
+  {% else %}
+    {% if cart.total_discount > 0 %}
+      <p style="text-align:center;color:var(--success);font-weight:800;margin-bottom:8px">You're saving {{ cart.total_discount | money }} ✓</p>
+    {% endif %}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      {% for item in cart.items %}
+      <div class="cart-line">
+        {% if item.image %}<img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}">{% endif %}
+        <div class="cl-info">
+          <b>{{ item.product.title }}</b>
+          <div class="v">{{ item.variant.title }}</div>
+          <div class="qty" style="margin-top:8px">
+            <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity">
+            <a href="{{ item.url_to_remove }}" style="font-size:12.5px;color:var(--muted);text-decoration:underline">Remove</a>
+          </div>
+        </div>
+        <div class="cl-price">
+          {% if item.original_line_price != item.final_line_price %}<span class="was">{{ item.original_line_price | money }}</span>{% endif %}
+          {{ item.final_line_price | money }}
+        </div>
+      </div>
+      {% endfor %}
+      <div class="cart-total"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+      <button type="submit" name="update" class="btn" style="width:100%;margin-bottom:10px;background:#fff;color:var(--navy);border:2px solid var(--ice-mid);box-shadow:none">Update cart</button>
+      <button type="submit" name="checkout" class="btn navy" style="width:100%">Secure Checkout →</button>
+      <p class="cart-note">🔒 Taxes & shipping calculated at checkout · 30-day money-back guarantee</p>
+    </form>
+  {% endif %}
+</div>

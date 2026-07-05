@@ -1,0 +1,69 @@
+<section class="sizes" id="size">
+  <div class="container">
+    <h2 class="fx">{{ section.settings.heading }}</h2>
+    {% if section.settings.sub != blank %}<p class="sub fx">{{ section.settings.sub }}</p>{% endif %}
+    <div class="size-deco fx" aria-hidden="true">🐾</div>
+
+    <div class="size-grid fx">
+      {% for block in section.blocks %}
+        <div class="size-card" {{ block.shopify_attributes }}>
+          <div class="size-img">
+            {% if block.settings.image %}
+              <img src="{{ block.settings.image | image_url: width: 400 }}"
+                srcset="{{ block.settings.image | image_url: width: 240 }} 240w, {{ block.settings.image | image_url: width: 480 }} 480w"
+                sizes="(min-width: 980px) 170px, 42vw"
+                width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}"
+                alt="{{ block.settings.image.alt | default: block.settings.label | escape }}" loading="lazy">
+            {% else %}
+              <span class="ph" aria-hidden="true">🐶</span>
+            {% endif %}
+          </div>
+          <b>{{ block.settings.label }}</b>
+          <span class="dims">{{ block.settings.dims }}</span>
+          {% if block.settings.note != blank %}<span class="note">{{ block.settings.note }}</span>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.cta_label != blank %}
+      <div class="size-cta fx">
+        <a class="btn" href="{{ section.settings.cta_link | default: '#buy' }}">{{ section.settings.cta_label }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Size Guide",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Choose the Perfect Size" },
+    { "type": "textarea", "id": "sub", "label": "Subheading", "default": "From tiny kittens to gentle giants — there's a FrostPaws for every pet." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Choose My Size →" },
+    { "type": "url", "id": "cta_link", "label": "Button link", "info": "Defaults to the Hero buy box (#buy)." }
+  ],
+  "blocks": [
+    {
+      "type": "size", "name": "Size",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Pet photo" },
+        { "type": "text", "id": "label", "label": "Size label", "default": "M" },
+        { "type": "text", "id": "dims", "label": "Dimensions", "default": "62×50cm" },
+        { "type": "text", "id": "note", "label": "Recommendation (optional)", "default": "Small dogs" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size Guide",
+      "blocks": [
+        { "type": "size", "settings": { "label": "XS", "dims": "40×30cm", "note": "Kittens & toy breeds" } },
+        { "type": "size", "settings": { "label": "S", "dims": "50×40cm", "note": "Cats & small dogs" } },
+        { "type": "size", "settings": { "label": "M", "dims": "62×50cm", "note": "Corgis & spaniels" } },
+        { "type": "size", "settings": { "label": "L", "dims": "70×55cm", "note": "Medium dogs" } },
+        { "type": "size", "settings": { "label": "XL", "dims": "100×70cm", "note": "Retrievers" } },
+        { "type": "size", "settings": { "label": "XXL", "dims": "120×90cm", "note": "Giant breeds" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

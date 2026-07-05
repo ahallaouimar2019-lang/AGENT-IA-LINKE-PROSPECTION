@@ -1,0 +1,48 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="logo">{{ section.settings.logo_text }}<span class="accent">{{ section.settings.logo_accent }}</span>™</div>
+        <p>{{ section.settings.about }}</p>
+        <div class="foot-pay">
+          {% for type in shop.enabled_payment_types %}{{ type | payment_type_svg_tag: class: 'pay-icon' }}{% endfor %}
+        </div>
+      </div>
+      <div>
+        <h4>{{ section.settings.links_heading }}</h4>
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}<a href="{{ block.settings.url }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>{% endfor %}
+        {% else %}
+          <a href="/#size">Size Guide</a>
+          <a href="/#faq">FAQ</a>
+          <a href="/#reviews">Reviews</a>
+        {% endif %}
+      </div>
+      <div>
+        <h4>Legal</h4>
+        {% for policy in shop.policies %}{% if policy != blank %}<a href="{{ policy.url }}">{{ policy.title }}</a>{% endif %}{% endfor %}
+      </div>
+    </div>
+    <div class="foot-legal">© {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "Frost" },
+    { "type": "text", "id": "logo_accent", "label": "Logo accent text", "default": "Paws" },
+    { "type": "textarea", "id": "about", "label": "About text", "default": "Premium cooling comfort for dogs & cats. Designed for hot days, loved all year." },
+    { "type": "text", "id": "links_heading", "label": "Links column heading", "default": "Help" }
+  ],
+  "blocks": [
+    {
+      "type": "link", "name": "Link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "FAQ" },
+        { "type": "url", "id": "url", "label": "Link" }
+      ]
+    }
+  ]
+}
+{% endschema %}

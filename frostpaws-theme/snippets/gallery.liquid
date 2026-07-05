@@ -1,0 +1,69 @@
+{%- comment -%}
+  Product gallery — main image + clickable thumbnails.
+  Sources images from "image" blocks when present (up to 10),
+  otherwise falls back to the product's own media.
+  Params: product, blocks, glow, float, eager
+{%- endcomment -%}
+{%- liquid
+  assign image_blocks = blocks | where: 'type', 'image'
+  assign main_img = nil
+  assign valid = 0
+  for b in image_blocks
+    if b.settings.image
+      assign valid = valid | plus: 1
+      if main_img == nil
+        assign main_img = b.settings.image
+      endif
+    endif
+  endfor
+-%}
+<div class="gallery">
+  <div class="g-main{% if float %} float{% endif %}{% if glow %} glow{% endif %}">
+    {%- if main_img -%}
+      <img data-gallery-main
+        src="{{ main_img | image_url: width: 900 }}"
+        srcset="{{ main_img | image_url: width: 480 }} 480w, {{ main_img | image_url: width: 760 }} 760w, {{ main_img | image_url: width: 1100 }} 1100w"
+        sizes="(min-width: 980px) 46vw, 94vw"
+        width="{{ main_img.width }}" height="{{ main_img.height }}"
+        alt="{{ main_img.alt | default: product.title | escape }}"
+        {% if eager %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}>
+    {%- elsif product.featured_media -%}
+      {%- assign fm = product.featured_media.preview_image -%}
+      <img data-gallery-main
+        src="{{ fm | image_url: width: 900 }}"
+        srcset="{{ fm | image_url: width: 480 }} 480w, {{ fm | image_url: width: 760 }} 760w, {{ fm | image_url: width: 1100 }} 1100w"
+        sizes="(min-width: 980px) 46vw, 94vw"
+        width="{{ fm.width }}" height="{{ fm.height }}"
+        alt="{{ fm.alt | default: product.title | escape }}"
+        {% if eager %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}>
+    {%- else -%}
+      <div class="ph" aria-hidden="true">🐶🐱</div>
+    {%- endif -%}
+  </div>
+
+  {%- if valid > 1 -%}
+    <div class="thumbs">
+      {%- assign tcount = 0 -%}
+      {%- for b in image_blocks -%}
+        {%- if b.settings.image -%}
+          {%- assign tcount = tcount | plus: 1 -%}
+          <button type="button" class="thumb{% if tcount == 1 %} on{% endif %}" data-thumb
+            data-full="{{ b.settings.image | image_url: width: 1100 }}"
+            aria-label="View image {{ tcount }}" {{ b.shopify_attributes }}>
+            <img src="{{ b.settings.image | image_url: width: 160 }}" width="64" height="64" alt="" loading="lazy">
+          </button>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- elsif valid == 0 and product.media.size > 1 -%}
+    <div class="thumbs">
+      {%- for media in product.media limit: 10 -%}
+        <button type="button" class="thumb{% if forloop.first %} on{% endif %}" data-thumb
+          data-full="{{ media | image_url: width: 1100 }}"
+          aria-label="View image {{ forloop.index }}">
+          <img src="{{ media | image_url: width: 160 }}" width="64" height="64" alt="{{ media.alt | escape }}" loading="lazy">
+        </button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,9 @@
+<div class="page-content">
+  <h1>Search</h1>
+  <form action="{{ routes.search_url }}" method="get"><input type="text" name="q" value="{{ search.terms | escape }}" placeholder="Search…" style="width:100%;border:1.5px solid var(--ice-mid);border-radius:999px;padding:13px 20px"></form>
+  {% if search.performed %}
+    <div style="margin-top:26px">
+    {% for item in search.results %}<p><a href="{{ item.url }}" style="color:var(--ice-deep);font-weight:700">{{ item.title }}</a></p>{% else %}<p>No results.</p>{% endfor %}
+    </div>
+  {% endif %}
+</div>

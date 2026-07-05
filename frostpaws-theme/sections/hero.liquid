@@ -1,0 +1,106 @@
+{%- assign product = all_products[section.settings.product] -%}
+<section class="hero" id="buy">
+  {% if section.settings.show_flakes %}<div class="flakes" data-flakes aria-hidden="true"></div>{% endif %}
+  <div class="container hero-grid">
+    <div class="hero-copy fx in">
+      {% if section.settings.badge != blank %}<span class="hero-badge">{{ section.settings.badge }}</span>{% endif %}
+      <h1>{{ section.settings.heading_1 }}{% if section.settings.heading_2 != blank %} <span class="grad">{{ section.settings.heading_2 }}</span>{% endif %}</h1>
+      <p class="lead">{{ section.settings.sub }}</p>
+      <div class="rating-row">
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <span><b>{{ section.settings.rating_value }}/5</b> — {{ section.settings.rating_caption }}</span>
+      </div>
+      {%- assign benefit_blocks = section.blocks | where: 'type', 'benefit' -%}
+      {% if benefit_blocks.size > 0 %}
+        <ul class="hero-benefits">
+          {% for block in benefit_blocks %}
+            <li {{ block.shopify_attributes }}><span class="ic" aria-hidden="true">{{ block.settings.icon }}</span>{{ block.settings.text }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+    <div class="hero-media fx in">
+      {% render 'gallery', product: product, blocks: section.blocks, glow: section.settings.show_glow, float: section.settings.enable_float, eager: true %}
+    </div>
+
+    <div class="hero-buy fx in">
+      {% render 'buy-box', product: product, section: section, show_title: section.settings.show_product_title, show_rating: false %}
+    </div>
+  </div>
+</section>
+{% render 'product-jsonld', product: product, rating_value: section.settings.rating_value, rating_count: section.settings.rating_count %}
+{% schema %}
+{
+  "name": "Hero — Buy Box",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "info": "The buy box, prices and gallery are all driven by this product." },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "badge", "label": "Badge", "default": "❄️ Summer Sale — Keep Pets Cool" },
+    { "type": "text", "id": "heading_1", "label": "Heading", "default": "Keep Your Pet" },
+    { "type": "text", "id": "heading_2", "label": "Heading highlight (gradient)", "default": "Cool All Summer" },
+    { "type": "textarea", "id": "sub", "label": "Subheadline", "default": "The self-cooling mat your dog or cat will never want to leave. No electricity. No freezer. No water." },
+    { "type": "text", "id": "rating_value", "label": "Rating value", "default": "4.9" },
+    { "type": "text", "id": "rating_count", "label": "Review count (for SEO)", "default": "2400" },
+    { "type": "text", "id": "rating_caption", "label": "Rating caption", "default": "Trusted by thousands of pet owners" },
+    { "type": "header", "content": "Buy box" },
+    { "type": "checkbox", "id": "show_product_title", "label": "Show product title", "default": false },
+    { "type": "text", "id": "atc_label", "label": "Add to cart label", "default": "Add to Cart" },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout (Buy now)", "default": true },
+    { "type": "checkbox", "id": "cart_redirect", "label": "Go to cart after adding", "default": true },
+    { "type": "text", "id": "bundles_label", "label": "Bundles label", "default": "Bundle & Save" },
+    { "type": "text", "id": "bundle_note", "label": "Note under button", "default": "✓ Discount applied automatically at checkout · ✓ Free shipping over $50" },
+    { "type": "text", "id": "size_guide_label", "label": "Size guide link label", "default": "Size guide" },
+    { "type": "text", "id": "size_guide_link", "label": "Size guide link", "default": "#size" },
+    { "type": "header", "content": "Trust" },
+    { "type": "text", "id": "trust_1", "label": "Trust item 1", "default": "🚚 Free Shipping" },
+    { "type": "text", "id": "trust_2", "label": "Trust item 2", "default": "🔒 Secure Checkout" },
+    { "type": "text", "id": "trust_3", "label": "Trust item 3", "default": "💰 30-Day Money-Back Guarantee" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+    { "type": "header", "content": "Visual effects" },
+    { "type": "checkbox", "id": "show_flakes", "label": "Floating snowflakes", "default": true },
+    { "type": "checkbox", "id": "show_glow", "label": "Soft blue glow around image", "default": true },
+    { "type": "checkbox", "id": "enable_float", "label": "Floating product animation", "default": true },
+    { "type": "paragraph", "content": "Gallery: add Image blocks (up to 10). If none are added, the product's own images are used automatically." }
+  ],
+  "blocks": [
+    {
+      "type": "image", "name": "Gallery image",
+      "settings": [ { "type": "image_picker", "id": "image", "label": "Image" } ]
+    },
+    {
+      "type": "benefit", "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "❄️" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Instantly cools your pet" }
+      ]
+    },
+    {
+      "type": "bundle", "name": "Bundle option",
+      "settings": [
+        { "type": "range", "id": "qty", "label": "Quantity", "min": 1, "max": 10, "step": 1, "default": 1 },
+        { "type": "range", "id": "discount", "label": "Discount %", "min": 0, "max": 50, "step": 5, "default": 0, "info": "Create a matching automatic discount in Shopify admin so checkout matches this price." },
+        { "type": "text", "id": "title", "label": "Title", "default": "Single Pack" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Perfect for one pet" },
+        { "type": "text", "id": "tag", "label": "Badge (optional)" },
+        { "type": "checkbox", "id": "preselect", "label": "Pre-selected", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero — Buy Box",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "❄️", "text": "Instantly cools your pet on contact" } },
+        { "type": "benefit", "settings": { "icon": "☀️", "text": "Prevents overheating on hot days" } },
+        { "type": "benefit", "settings": { "icon": "💧", "text": "No electricity, water or freezer needed" } },
+        { "type": "benefit", "settings": { "icon": "🛡️", "text": "Safe, non-toxic & scratch-resistant" } },
+        { "type": "benefit", "settings": { "icon": "🐾", "text": "Loved by dogs & cats of every size" } },
+        { "type": "bundle", "settings": { "qty": 1, "discount": 0, "title": "Single Pack", "subtitle": "Perfect for one pet" } },
+        { "type": "bundle", "settings": { "qty": 2, "discount": 15, "title": "Duo Pack — Save 15%", "subtitle": "Two pets or multiple rooms", "tag": "⭐ MOST POPULAR", "preselect": true } },
+        { "type": "bundle", "settings": { "qty": 3, "discount": 30, "title": "Family Pack — Save 30%", "subtitle": "Home + car + gifting", "tag": "🔥 BEST VALUE" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,70 @@
+<section class="faqs" id="faq">
+  <div class="container">
+    <h2 class="fx">{{ section.settings.heading }}</h2>
+    <p class="sub fx">{{ section.settings.sub }}</p>
+    <div class="faq-wrap">
+      {% for block in section.blocks %}
+        <details class="faq fx" data-faq {{ block.shopify_attributes }}{% if forloop.first and section.settings.open_first %} open{% endif %}>
+          <summary>{{ block.settings.question }} <span class="pl" aria-hidden="true">+</span></summary>
+          <div class="a">{{ block.settings.answer }}</div>
+        </details>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.show_guarantee %}
+      <div class="guar-card fx">
+        <div class="shield" aria-hidden="true">{{ section.settings.guar_icon }}</div>
+        <h3>{{ section.settings.guar_heading }}</h3>
+        <p>{{ section.settings.guar_text }}</p>
+        <a href="{{ section.settings.guar_link | default: '#buy' }}" class="btn">{{ section.settings.guar_cta }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% if section.blocks.size > 0 %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{% for block in section.blocks %}{"@type":"Question","name":{{ block.settings.question | json }},"acceptedAnswer":{"@type":"Answer","text":{{ block.settings.answer | strip_html | json }}}}{% unless forloop.last %},{% endunless %}{% endfor %}
+]}
+</script>
+{% endif %}
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Questions? Answered." },
+    { "type": "textarea", "id": "sub", "label": "Subheading", "default": "Everything you need to know before ordering." },
+    { "type": "checkbox", "id": "open_first", "label": "Open first question by default", "default": true },
+    { "type": "header", "content": "Guarantee card" },
+    { "type": "checkbox", "id": "show_guarantee", "label": "Show guarantee card", "default": true },
+    { "type": "text", "id": "guar_icon", "label": "Icon (emoji)", "default": "🛡️" },
+    { "type": "text", "id": "guar_heading", "label": "Heading", "default": "Love it, or it's free." },
+    { "type": "textarea", "id": "guar_text", "label": "Text", "default": "Try FrostPaws for 30 days. If your pet doesn't love it, we'll refund every cent. No questions, no hassle." },
+    { "type": "text", "id": "guar_cta", "label": "Button label", "default": "Try It Risk-Free →" },
+    { "type": "url", "id": "guar_link", "label": "Button link", "info": "Defaults to the Hero buy box (#buy)." }
+  ],
+  "blocks": [
+    {
+      "type": "item", "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How does it work?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>The mat contains a pressure-activated cooling gel. Your pet's body weight activates it on contact and it draws heat away instantly.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "item", "settings": { "question": "How does it work?", "answer": "<p>The mat contains a pressure-activated cooling gel. Your pet's body weight activates it on contact, drawing heat away instantly — no preparation needed.</p>" } },
+        { "type": "item", "settings": { "question": "Does it require electricity?", "answer": "<p>No. Zero electricity, water or freezing. The gel recharges itself within minutes once your pet hops off.</p>" } },
+        { "type": "item", "settings": { "question": "Can cats use it?", "answer": "<p>Absolutely. It works for cats, dogs and small pets. Sizes XS and S are the favorites for cats.</p>" } },
+        { "type": "item", "settings": { "question": "How long does it stay cool?", "answer": "<p>It cools continuously while your pet rests — typically up to 3 hours of constant use — and self-recharges in 15–20 minutes.</p>" } },
+        { "type": "item", "settings": { "question": "Can I wash it?", "answer": "<p>Yes. Wipe it with a damp cloth daily, or machine wash cold on gentle and air dry.</p>" } },
+        { "type": "item", "settings": { "question": "How fast is shipping?", "answer": "<p>Orders ship within 24 hours with tracking. Free shipping on orders over $50.</p>" } },
+        { "type": "item", "settings": { "question": "What if my pet doesn't like it?", "answer": "<p>You're covered by our 30-day money-back guarantee. If your pet doesn't love it, we'll refund every cent — no questions asked.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

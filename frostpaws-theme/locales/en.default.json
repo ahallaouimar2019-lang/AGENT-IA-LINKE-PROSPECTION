@@ -1,0 +1,12 @@
+{
+  "general": {
+    "meta": { "tags": "Tagged \"{{ tags }}\"", "page": "Page {{ page }}" },
+    "404": { "title": "Page not found" },
+    "search": { "title": "Search" },
+    "password_page": { "login_form_password_label": "Password", "login_form_submit": "Enter" }
+  },
+  "products": { "product": { "add_to_cart": "Add to cart", "sold_out": "Sold out", "unavailable": "Unavailable" } },
+  "cart": { "general": { "title": "Your Cart", "checkout": "Checkout", "empty": "Your cart is empty" } },
+  "customer": { "login_page": { "title": "Log in" }, "register": { "title": "Create account" } },
+  "gift_cards": { "issued": { "title": "Gift card" } }
+}
