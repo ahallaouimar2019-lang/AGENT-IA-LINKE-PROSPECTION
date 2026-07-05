@@ -1,0 +1,4 @@
+<div class="page-content">
+  <h1>Collections</h1>
+  {% for collection in collections %}<p><a href="{{ collection.url }}" style="color:var(--ice-deep);font-weight:700">{{ collection.title }}</a></p>{% endfor %}
+</div>

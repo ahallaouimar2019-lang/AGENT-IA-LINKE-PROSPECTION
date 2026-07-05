@@ -1,0 +1,17 @@
+<section>
+  <div class="container">
+    <h2>{{ collection.title }}</h2>
+    <div class="bene-grid" style="margin-top:30px">
+      {% for product in collection.products %}
+      <a class="bene" href="{{ product.url }}">
+        {% if product.featured_media %}<img src="{{ product.featured_media | image_url: width: 500 }}" alt="{{ product.title | escape }}" style="border-radius:14px;margin-bottom:12px">{% else %}<div class="ic">🐾</div>{% endif %}
+        <h3>{{ product.title }}</h3>
+        <p>From {{ product.price_min | money }}</p>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name":"Collection", "settings":[] }
+{% endschema %}

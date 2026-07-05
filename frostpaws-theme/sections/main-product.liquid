@@ -1,0 +1,52 @@
+<section class="pp">
+  <div class="container pp-grid">
+    <div class="pp-gallery">
+      {% render 'gallery', product: product, blocks: section.blocks, glow: section.settings.show_glow, float: section.settings.enable_float, eager: true %}
+    </div>
+    <div class="pp-info">
+      {% render 'buy-box', product: product, section: section, show_title: true, heading_tag: 'h1', show_rating: true %}
+      {% if product.description != blank %}<div class="pp-desc">{{ product.description }}</div>{% endif %}
+    </div>
+  </div>
+</section>
+{% render 'product-jsonld', product: product, rating_value: section.settings.rating_value, rating_count: section.settings.rating_count %}
+{% schema %}
+{
+  "name": "Product page",
+  "settings": [
+    { "type": "text", "id": "rating_value", "label": "Rating value", "default": "4.9" },
+    { "type": "text", "id": "rating_count", "label": "Review count (for SEO)", "default": "2400" },
+    { "type": "text", "id": "rating_caption", "label": "Rating caption", "default": "happy pets everywhere" },
+    { "type": "text", "id": "atc_label", "label": "Add to cart label", "default": "Add to Cart" },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout (Buy now)", "default": true },
+    { "type": "checkbox", "id": "cart_redirect", "label": "Go to cart after adding", "default": true },
+    { "type": "text", "id": "bundles_label", "label": "Bundles label", "default": "Bundle & Save" },
+    { "type": "text", "id": "bundle_note", "label": "Note under button", "default": "✓ Discount applied automatically at checkout · ✓ Free shipping over $50" },
+    { "type": "text", "id": "size_guide_label", "label": "Size guide link label", "default": "Size guide" },
+    { "type": "text", "id": "size_guide_link", "label": "Size guide link", "default": "/#size" },
+    { "type": "text", "id": "trust_1", "label": "Trust item 1", "default": "🚚 Free Shipping" },
+    { "type": "text", "id": "trust_2", "label": "Trust item 2", "default": "🔒 Secure Checkout" },
+    { "type": "text", "id": "trust_3", "label": "Trust item 3", "default": "💰 30-Day Money-Back Guarantee" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+    { "type": "checkbox", "id": "show_glow", "label": "Soft blue glow around image", "default": true },
+    { "type": "checkbox", "id": "enable_float", "label": "Floating product animation", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "image", "name": "Gallery image",
+      "settings": [ { "type": "image_picker", "id": "image", "label": "Image" } ]
+    },
+    {
+      "type": "bundle", "name": "Bundle option",
+      "settings": [
+        { "type": "range", "id": "qty", "label": "Quantity", "min": 1, "max": 10, "step": 1, "default": 1 },
+        { "type": "range", "id": "discount", "label": "Discount %", "min": 0, "max": 50, "step": 5, "default": 0, "info": "Create a matching automatic discount in Shopify admin so checkout matches this price." },
+        { "type": "text", "id": "title", "label": "Title", "default": "Single Pack" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Perfect for one pet" },
+        { "type": "text", "id": "tag", "label": "Badge (optional)" },
+        { "type": "checkbox", "id": "preselect", "label": "Pre-selected", "default": false }
+      ]
+    }
+  ]
+}
+{% endschema %}

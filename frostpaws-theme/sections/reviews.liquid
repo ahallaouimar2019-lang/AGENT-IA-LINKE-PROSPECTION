@@ -1,0 +1,86 @@
+<section class="reviews" id="reviews">
+  <div class="container">
+    <h2 class="fx">{{ section.settings.heading }}</h2>
+    <div class="rev-summary fx">
+      <span class="rev-score">{{ section.settings.rating_value }}</span>
+      <span class="stars big" aria-hidden="true">★★★★★</span>
+      <span class="rev-caption">{{ section.settings.rating_caption }}</span>
+    </div>
+
+    <div class="rev-carousel fx">
+      <button type="button" class="rev-nav prev" data-rev-prev aria-label="Previous reviews">‹</button>
+      <div class="rev-track" data-rev-track tabindex="0" aria-label="Customer reviews carousel">
+        {% for block in section.blocks %}
+          <article class="rev" {{ block.shopify_attributes }}>
+            <div class="rev-top">
+              <span class="stars sm" aria-hidden="true">{% for i in (1..block.settings.stars) %}★{% endfor %}</span>
+              {% if block.settings.date != blank %}<span class="rev-date">{{ block.settings.date }}</span>{% endif %}
+            </div>
+            <p class="rev-text">“{{ block.settings.text }}”</p>
+            {% if block.settings.pet_photo %}
+              <div class="rev-pet">
+                <img src="{{ block.settings.pet_photo | image_url: width: 480 }}"
+                  width="{{ block.settings.pet_photo.width }}" height="{{ block.settings.pet_photo.height }}"
+                  alt="{{ block.settings.pet_photo.alt | default: block.settings.pet | escape }}" loading="lazy">
+              </div>
+            {% endif %}
+            <footer class="who">
+              <span class="av" aria-hidden="true">
+                {% if block.settings.photo %}
+                  <img src="{{ block.settings.photo | image_url: width: 96 }}" width="44" height="44" alt="" loading="lazy">
+                {% else %}{{ block.settings.name | slice: 0 }}{% endif %}
+              </span>
+              <span class="who-info">
+                <b>{{ block.settings.name }} {{ block.settings.flag }}</b>
+                <span class="ver-line">
+                  {% if block.settings.verified %}<span class="ver">✓ Verified Buyer</span>{% endif %}
+                  {% if block.settings.pet != blank %}<span class="pet-name">· {{ block.settings.pet }}</span>{% endif %}
+                </span>
+              </span>
+            </footer>
+          </article>
+        {% endfor %}
+      </div>
+      <button type="button" class="rev-nav next" data-rev-next aria-label="Next reviews">›</button>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Reviews",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Cooler, happier pets everywhere" },
+    { "type": "text", "id": "rating_value", "label": "Average rating", "default": "4.9" },
+    { "type": "text", "id": "rating_caption", "label": "Caption", "default": "from 2,400+ verified reviews" }
+  ],
+  "blocks": [
+    {
+      "type": "review", "name": "Review",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Customer photo" },
+        { "type": "image_picker", "id": "pet_photo", "label": "Pet photo" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Sarah M." },
+        { "type": "text", "id": "flag", "label": "Country flag (emoji)", "default": "🇺🇸" },
+        { "type": "text", "id": "pet", "label": "Pet", "default": "Golden Retriever" },
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer", "default": true },
+        { "type": "range", "id": "stars", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "date", "label": "Purchase date", "default": "June 2026" },
+        { "type": "textarea", "id": "text", "label": "Review text", "default": "Milo found the mat within 5 minutes and hasn't left it since. A lifesaver during the heatwave." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews",
+      "blocks": [
+        { "type": "review", "settings": { "name": "Sarah M.", "flag": "🇺🇸", "pet": "Golden Retriever", "date": "June 2026", "text": "Milo found the mat within 5 minutes and hasn't left it since. A lifesaver during the heatwave." } },
+        { "type": "review", "settings": { "name": "Jenna K.", "flag": "🇬🇧", "pet": "British Shorthair", "date": "June 2026", "text": "My cat ignores every bed I buy her. This is the first thing she actually uses. Washed twice — like new." } },
+        { "type": "review", "settings": { "name": "David R.", "flag": "🇨🇦", "pet": "2 Labradors", "date": "May 2026", "text": "Bought 3 — living room, car, grandma's house. The bundle discount made it easy to say yes." } },
+        { "type": "review", "settings": { "name": "Emily T.", "flag": "🇺🇸", "pet": "French Bulldog", "date": "June 2026", "text": "French Bulldogs really struggle in heat. This mat is fantastic quality and he cools right down." } },
+        { "type": "review", "settings": { "name": "Priya S.", "flag": "🇦🇺", "pet": "Ragdoll cat", "date": "May 2026", "text": "No electricity, no mess, no fuss. Exactly what it promises. Anti-slip works great on wood floors." } },
+        { "type": "review", "settings": { "name": "Marcus L.", "flag": "🇩🇪", "pet": "Shiba Inu", "date": "April 2026", "text": "Shiba approved. He walks off the hot balcony straight onto his FrostPaws now." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

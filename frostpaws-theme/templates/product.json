@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "bun1": { "type": "bundle", "settings": { "qty": 1, "discount": 0, "title": "Single Pack", "subtitle": "Perfect for one pet", "preselect": false } },
+        "bun2": { "type": "bundle", "settings": { "qty": 2, "discount": 15, "title": "Duo Pack — Save 15%", "subtitle": "Two pets or multiple rooms", "tag": "⭐ MOST POPULAR", "preselect": true } },
+        "bun3": { "type": "bundle", "settings": { "qty": 3, "discount": 30, "title": "Family Pack — Save 30%", "subtitle": "Home + car + gifting", "tag": "🔥 BEST VALUE", "preselect": false } }
+      },
+      "block_order": ["bun1", "bun2", "bun3"],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

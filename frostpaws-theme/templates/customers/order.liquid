@@ -1,0 +1,3 @@
+<div class="page-content"><h1>Order {{ order.name }}</h1>
+{% for line_item in order.line_items %}<p>{{ line_item.quantity }} × {{ line_item.title }} — {{ line_item.final_line_price | money }}</p>{% endfor %}
+<p><b>Total: {{ order.total_price | money }}</b></p></div>

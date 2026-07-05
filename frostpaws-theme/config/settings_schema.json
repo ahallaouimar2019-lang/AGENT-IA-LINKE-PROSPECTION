@@ -1,0 +1,20 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "FrostPaws Premium",
+    "theme_version": "2.0.0",
+    "theme_author": "FrostPaws",
+    "theme_documentation_url": "https://frostpaws.example.com",
+    "theme_support_url": "https://frostpaws.example.com"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon", "info": "64 × 64 px recommended" },
+      { "type": "color", "id": "color_accent", "label": "Accent (ice blue)", "default": "#3BAEE9" },
+      { "type": "color", "id": "color_primary", "label": "Primary (navy)", "default": "#12385D" },
+      { "type": "color", "id": "color_bg_soft", "label": "Soft background", "default": "#EAF7FF" },
+      { "type": "color", "id": "color_star", "label": "Stars / highlight", "default": "#FFC85C" }
+    ]
+  }
+]

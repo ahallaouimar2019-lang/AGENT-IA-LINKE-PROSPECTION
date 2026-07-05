@@ -1,0 +1,77 @@
+<section class="problem" id="problem">
+  {% if section.settings.show_heat %}
+    <div class="heat" aria-hidden="true"><span>☀️</span><span>🌡️</span></div>
+  {% endif %}
+  <div class="container">
+    <h2 class="fx">{{ section.settings.heading }}</h2>
+    <p class="sub fx">{{ section.settings.sub }}</p>
+
+    {% if section.settings.image %}
+      <div class="prob-media fx">
+        <img src="{{ section.settings.image | image_url: width: 1000 }}"
+          srcset="{{ section.settings.image | image_url: width: 480 }} 480w, {{ section.settings.image | image_url: width: 760 }} 760w, {{ section.settings.image | image_url: width: 1200 }} 1200w"
+          sizes="(min-width: 980px) 860px, 94vw"
+          width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}"
+          alt="{{ section.settings.image.alt | default: section.settings.heading | escape }}" loading="lazy">
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="prob-grid">
+        {% for block in section.blocks %}
+          <div class="prob-card fx" {{ block.shopify_attributes }}>
+            <div class="n" aria-hidden="true">{{ block.settings.icon }}</div>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.sol_heading != blank %}
+      <div class="prob-solution fx">
+        <h3>{{ section.settings.sol_heading }}</h3>
+        <p>{{ section.settings.sol_text }}</p>
+        {% if section.settings.sol_cta != blank %}
+          <a href="{{ section.settings.sol_link | default: '#buy' }}" class="btn btn-light">{{ section.settings.sol_cta }}</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Problem / Solution",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Heat is harder on them than on you." },
+    { "type": "textarea", "id": "sub", "label": "Subheading", "default": "Dogs and cats can't sweat like we do. When temperatures climb, they suffer in silence — panting, pacing, searching for cold floors." },
+    { "type": "image_picker", "id": "image", "label": "Main image", "info": "Large centered image — the focus of this section." },
+    { "type": "checkbox", "id": "show_heat", "label": "Subtle heat visuals (☀️ 🌡️)", "default": true },
+    { "type": "header", "content": "Solution banner" },
+    { "type": "text", "id": "sol_heading", "label": "Heading", "default": "FrostPaws™ gives them the cool spot they're looking for." },
+    { "type": "textarea", "id": "sol_text", "label": "Text", "default": "Pressure-activated cooling gel draws body heat away the moment they lie down — and it never needs power, water or a freezer." },
+    { "type": "text", "id": "sol_cta", "label": "Button label", "default": "Get FrostPaws →" },
+    { "type": "url", "id": "sol_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "card", "name": "Benefit card",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "❄️" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Instant Cooling" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Pressure-activated gel starts cooling the moment they lie down." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Problem / Solution",
+      "blocks": [
+        { "type": "card", "settings": { "icon": "❄️", "title": "Instant Cooling", "text": "Pressure-activated gel starts cooling the moment they lie down." } },
+        { "type": "card", "settings": { "icon": "❤️", "title": "More Comfort", "text": "A gentle, supportive surface that stays cool for hours of rest." } },
+        { "type": "card", "settings": { "icon": "🐶", "title": "Happy Pets", "text": "Calmer, cooler, happier pets — even on the hottest days." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

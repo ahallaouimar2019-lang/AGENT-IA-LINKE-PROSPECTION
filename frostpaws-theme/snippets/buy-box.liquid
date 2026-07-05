@@ -1,0 +1,113 @@
+{%- comment -%}
+  Full conversion buy box, bound to real Shopify product data.
+  Params: product, section, show_title, heading_tag ('h1'|'h2'), show_rating
+  Section settings used: atc_label, show_dynamic_checkout, cart_redirect,
+  bundles_label, bundle_note, size_guide_label, size_guide_link,
+  trust_1..3, show_payment_icons, rating_value, rating_caption
+  Section blocks used: "bundle"
+{%- endcomment -%}
+{%- if product == blank -%}
+  <div class="buybox buybox-empty"><p>⚙️ Select a product in the theme editor to activate the buy box.</p></div>
+{%- else -%}
+{%- liquid
+  assign s = section.settings
+  assign v = product.selected_or_first_available_variant
+  assign bundle_blocks = section.blocks | where: 'type', 'bundle'
+  assign has_cmp = false
+  if v.compare_at_price > v.price
+    assign has_cmp = true
+  endif
+-%}
+<div class="buybox" data-buybox data-selected="{{ v.id }}"
+  data-redirect="{% if s.cart_redirect %}1{% else %}0{% endif %}"
+  data-atc-label="{{ s.atc_label | default: 'Add to Cart' | escape }}"
+  data-soldout-label="Sold Out">
+  <script type="application/json" data-product-json>{{ product | json }}</script>
+
+  {%- if show_title -%}
+    {%- if heading_tag == 'h1' -%}<h1 class="buybox-title">{{ product.title }}</h1>{%- else -%}<h2 class="buybox-title">{{ product.title }}</h2>{%- endif -%}
+  {%- endif -%}
+
+  {%- if show_rating and s.rating_value != blank -%}
+    <div class="rating-row buybox-rating">
+      <span class="stars" aria-hidden="true">★★★★★</span>
+      <span><b>{{ s.rating_value }}/5</b>{% if s.rating_caption != blank %} — {{ s.rating_caption }}{% endif %}</span>
+    </div>
+  {%- endif -%}
+
+  <div class="price-row">
+    <span class="price" data-price>{{ v.price | money }}</span>
+    <s class="was" data-compare {% unless has_cmp %}hidden{% endunless %}>{% if has_cmp %}{{ v.compare_at_price | money }}{% endif %}</s>
+    <span class="off-badge" data-off-badge {% unless has_cmp %}hidden{% endunless %}>{% if has_cmp %}-{{ v.compare_at_price | minus: v.price | times: 100 | divided_by: v.compare_at_price }}%{% endif %}</span>
+  </div>
+
+  {%- unless product.has_only_default_variant -%}
+    <div class="opt-label">
+      <span>{{ product.options_with_values[0].name }}</span>
+      {% if s.size_guide_link != blank %}<a class="size-link" href="{{ s.size_guide_link }}">📏 {{ s.size_guide_label | default: 'Size guide' }}</a>{% endif %}
+    </div>
+    <div class="pills" role="group" aria-label="{{ product.options_with_values[0].name | escape }}">
+      {%- for variant in product.variants -%}
+        <button type="button"
+          class="pill{% if variant.id == v.id %} on{% endif %}{% unless variant.available %} soldout{% endunless %}"
+          data-variant="{{ variant.id }}"
+          aria-pressed="{% if variant.id == v.id %}true{% else %}false{% endif %}"
+          {% unless variant.available %}aria-disabled="true"{% endunless %}>{{ variant.title }}</button>
+      {%- endfor -%}
+    </div>
+  {%- endunless -%}
+
+  {%- if bundle_blocks.size > 0 -%}
+    <div class="opt-label"><span>{{ s.bundles_label | default: 'Bundle & Save' }}</span></div>
+    <div class="bundles">
+      {%- for block in bundle_blocks -%}
+        <button type="button" class="bundle{% if block.settings.preselect %} on{% endif %}"
+          data-qty="{{ block.settings.qty }}" data-off="{{ block.settings.discount }}"
+          aria-pressed="{% if block.settings.preselect %}true{% else %}false{% endif %}" {{ block.shopify_attributes }}>
+          {%- if block.settings.tag != blank -%}<span class="tag">{{ block.settings.tag }}</span>{%- endif -%}
+          <span class="radio" aria-hidden="true"></span>
+          <span class="binfo"><b>{{ block.settings.title }}</b><span>{{ block.settings.subtitle }}</span></span>
+          <span class="bprice"><b data-b-price></b><s class="bwas" data-b-was></s><span class="sv" data-b-save></span></span>
+        </button>
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <div class="opt-label"><span>Quantity</span></div>
+    <div class="qty-stepper">
+      <button type="button" data-qty-minus aria-label="Decrease quantity">−</button>
+      <input type="number" value="1" min="1" inputmode="numeric" data-qty-input aria-label="Quantity">
+      <button type="button" data-qty-plus aria-label="Increase quantity">+</button>
+    </div>
+  {%- endif -%}
+
+  <p class="save-line" data-save-line hidden></p>
+
+  {%- form 'product', product, class: 'atc-form', data-buy-form: '' -%}
+    <input type="hidden" name="id" value="{{ v.id }}" data-form-id>
+    <input type="hidden" name="quantity" value="1" data-form-qty>
+    <button type="submit" class="btn btn-atc" data-atc{% unless v.available %} disabled{% endunless %}>
+      <span data-cta-text>{% if v.available %}{{ s.atc_label | default: 'Add to Cart' }}{% else %}Sold Out{% endif %}</span>
+    </button>
+    {%- if s.show_dynamic_checkout -%}{{ form | payment_button }}{%- endif -%}
+    <p class="form-error" role="alert" data-form-error hidden></p>
+    {%- if s.bundle_note != blank -%}<p class="btn-note">{{ s.bundle_note }}</p>{%- endif -%}
+  {%- endform -%}
+
+  <div class="trust-line">
+    {%- if s.trust_1 != blank -%}<span>{{ s.trust_1 }}</span>{%- endif -%}
+    {%- if s.trust_2 != blank -%}<span>{{ s.trust_2 }}</span>{%- endif -%}
+    {%- if s.trust_3 != blank -%}<span>{{ s.trust_3 }}</span>{%- endif -%}
+  </div>
+
+  {%- if s.show_payment_icons -%}
+    <div class="pay-icons" role="img" aria-label="Accepted payment methods">
+      {%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'pay-icon' }}{%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<div class="sticky-atc" data-sticky aria-hidden="true">
+  <div class="info"><b data-sticky-title>{{ product.title }}</b><span data-sticky-save></span></div>
+  <button type="button" class="btn" data-sticky-submit>{{ s.atc_label | default: 'Add to Cart' }}</button>
+</div>
+{%- endif -%}
