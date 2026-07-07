@@ -1,0 +1,66 @@
+{%- comment -%} FrostPaws™ — Customer Account (dashboard + order history) {%- endcomment -%}
+<section class="fp-section">
+  <div class="fp-container">
+    <header class="fp-account__head">
+      <div>
+        <span class="fp-overline">Your account</span>
+        <h1 class="fp-h1" style="margin-top:var(--fp-space-3)">Hi, {{ customer.first_name | default: 'friend' }}</h1>
+      </div>
+      <a class="fp-btn fp-btn--secondary" href="{{ routes.account_logout_url }}">Sign out</a>
+    </header>
+
+    <div class="fp-account__grid">
+      <main>
+        <h2 class="fp-h3" style="margin-bottom:var(--fp-space-4)">Order history</h2>
+        {%- paginate customer.orders by 12 -%}
+          {%- if customer.orders.size > 0 -%}
+            <div class="fp-orders">
+              <div class="fp-orders__head fp-caption fp-muted">
+                <span>Order</span><span>Date</span><span>Status</span><span>Total</span>
+              </div>
+              {%- for order in customer.orders -%}
+                <a class="fp-orders__row" href="{{ order.customer_url }}">
+                  <span class="fp-orders__num">{{ order.name }}</span>
+                  <span class="fp-caption">{{ order.created_at | date: '%b %d, %Y' }}</span>
+                  <span><span class="fp-badge {% if order.financial_status == 'paid' %}fp-badge--fresh{% endif %}">{{ order.financial_status_label }}</span></span>
+                  <span class="fp-tabular">{{ order.total_net_amount | money }}</span>
+                </a>
+              {%- endfor -%}
+            </div>
+            {%- if paginate.pages > 1 -%}
+              <nav class="fp-pagination" aria-label="Pagination">
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}<a class="fp-pagination__link" href="{{ part.url }}">{{ part.title }}</a>
+                  {%- else -%}<span class="fp-pagination__link {% if part.title == paginate.current_page %}is-current{% endif %}">{{ part.title }}</span>{%- endif -%}
+                {%- endfor -%}
+              </nav>
+            {%- endif -%}
+          {%- else -%}
+            <div class="fp-empty">
+              <div class="fp-feature__icon" style="margin-inline:auto">{% render 'frostpaws-icon', name: 'package' %}</div>
+              <p class="fp-body fp-muted">No orders yet — your cooling journey starts here.</p>
+              <a class="fp-btn fp-btn--primary" href="{{ routes.all_products_collection_url }}"><span>Shop FrostPaws</span></a>
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </main>
+
+      <aside class="fp-account__side">
+        <div class="fp-card">
+          <h2 class="fp-h3">Default address</h2>
+          {%- if customer.default_address -%}
+            <address class="fp-body fp-muted" style="font-style:normal;margin-top:var(--fp-space-3)">
+              {{ customer.default_address.name }}<br>
+              {{ customer.default_address.street }}<br>
+              {{ customer.default_address.city }}, {{ customer.default_address.province_code }} {{ customer.default_address.zip }}<br>
+              {{ customer.default_address.country }}
+            </address>
+          {%- else -%}
+            <p class="fp-body fp-muted" style="margin-top:var(--fp-space-3)">No address saved yet.</p>
+          {%- endif -%}
+          <a class="fp-btn fp-btn--secondary fp-btn--full" href="{{ routes.account_addresses_url }}" style="margin-top:var(--fp-space-4)">Manage addresses</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

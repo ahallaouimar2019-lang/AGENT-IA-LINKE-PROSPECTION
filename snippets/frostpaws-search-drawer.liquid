@@ -1,0 +1,25 @@
+{%- comment -%} FrostPaws™ — Global search drawer with predictive results {%- endcomment -%}
+<div class="fp-drawer fp-drawer--top" id="fp-search-drawer" data-fp-search-drawer aria-hidden="true">
+  <div class="fp-drawer__overlay" data-fp-search-close tabindex="-1"></div>
+  <div class="fp-search-panel" role="dialog" aria-modal="true" aria-label="Search">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="fp-search-form" data-fp-predictive-form>
+      <div class="fp-search-field">
+        {% render 'frostpaws-icon', name: 'search' %}
+        <label class="fp-sr-only" for="fp-predictive-input">Search</label>
+        <input id="fp-predictive-input" type="search" name="q" placeholder="Search cooling mats, sizes, colors…"
+               autocomplete="off" autocorrect="off" spellcheck="false" data-fp-predictive-input aria-expanded="false" aria-controls="fp-predictive-results">
+        <button type="button" class="fp-icon-btn" data-fp-search-close aria-label="Close search">{% render 'frostpaws-icon', name: 'close' %}</button>
+      </div>
+    </form>
+    <div id="fp-predictive-results" class="fp-predictive-results" data-fp-predictive-results aria-live="polite">
+      <div class="fp-predictive fp-predictive--hint">
+        <span class="fp-overline">Popular</span>
+        <ul role="list">
+          <li><a class="fp-predictive__query" href="{{ routes.search_url }}?q=cooling+mat">{% render 'frostpaws-icon', name: 'search' %}<span>Cooling mat</span></a></li>
+          <li><a class="fp-predictive__query" href="{{ routes.search_url }}?q=large">{% render 'frostpaws-icon', name: 'search' %}<span>Large size</span></a></li>
+          <li><a class="fp-predictive__query" href="{{ routes.search_url }}?q=cat">{% render 'frostpaws-icon', name: 'search' %}<span>For cats</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

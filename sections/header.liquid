@@ -24,8 +24,17 @@
     </nav>
 
     <div class="fp-header__actions">
-      <a class="fp-icon-btn" href="{{ routes.cart_url }}" aria-label="Cart">
+      <button type="button" class="fp-icon-btn" data-fp-search-open aria-label="Search">
+        {% render 'frostpaws-icon', name: 'search' %}
+      </button>
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="fp-icon-btn fp-header__account" href="{{ routes.account_url }}" aria-label="Account">
+          {% render 'frostpaws-icon', name: 'user' %}
+        </a>
+      {%- endif -%}
+      <a class="fp-icon-btn fp-cart-toggle" href="{{ routes.cart_url }}" data-fp-cart-open aria-label="Cart">
         {% render 'frostpaws-icon', name: 'cart' %}
+        <span class="fp-cart-count fp-tabular" data-fp-cart-bubble {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
       </a>
       {%- if section.settings.cta_label != blank -%}
         <a class="fp-btn fp-btn--primary fp-header__cta" href="{{ section.settings.cta_link | default: '#size-guide' }}">

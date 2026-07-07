@@ -1,0 +1,55 @@
+{%- comment -%}
+  FrostPaws™ product card. Params:
+    product        - a product object
+    sizes          - responsive sizes (default grid)
+    show_wishlist  - bool (default true)
+{%- endcomment -%}
+{%- liquid
+  assign p = product
+  assign _sizes = sizes | default: '(min-width:1024px) 25vw, (min-width:600px) 33vw, 50vw'
+  assign show_wishlist = show_wishlist | default: true, allow_false: true
+-%}
+{%- if p and p != empty -%}
+<article class="fp-product fp-card fp-card--interactive" data-fp-product-card>
+  <a class="fp-product__link" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
+    <div class="fp-product__media">
+      {%- if p.featured_media -%}
+        <div class="fp-media" style="aspect-ratio:1/1;">
+          {{ p.featured_media | image_url: width: 800 | image_tag:
+             class: 'fp-media__img fp-product__img', loading: 'lazy',
+             widths: '200,300,400,600,800', sizes: _sizes, alt: p.featured_media.alt | default: p.title }}
+        </div>
+      {%- else -%}
+        {% render 'frostpaws-image', ratio: '1/1', slot: 'PRODUCT_IMAGE', alt: p.title, sizes: _sizes %}
+      {%- endif -%}
+      {%- if p.compare_at_price > p.price -%}
+        <span class="fp-badge fp-badge--accent fp-product__badge">Save {{ p.compare_at_price | minus: p.price | money_without_trailing_zeros }}</span>
+      {%- elsif p.tags contains 'bestseller' -%}
+        <span class="fp-badge fp-badge--accent fp-product__badge">Bestseller</span>
+      {%- endif -%}
+    </div>
+  </a>
+  {%- if show_wishlist -%}
+    <button type="button" class="fp-wishlist-btn" data-fp-wishlist="{{ p.id }}" aria-pressed="false"
+            aria-label="Save {{ p.title | escape }} to wishlist">
+      {% render 'frostpaws-icon', name: 'heart' %}
+    </button>
+  {%- endif -%}
+  <div class="fp-product__info">
+    <h3 class="fp-product__title"><a href="{{ p.url }}">{{ p.title }}</a></h3>
+    {%- if p.metafields.reviews.rating -%}
+      {% render 'frostpaws-stars', rating: p.metafields.reviews.rating.value, count: p.metafields.reviews.rating_count %}
+    {%- else -%}
+      {% render 'frostpaws-stars', rating: 5, count: '4.9' %}
+    {%- endif -%}
+    <div class="fp-product__row">
+      {% render 'frostpaws-price', product: p %}
+      {%- if p.available -%}
+        <span class="fp-badge fp-badge--fresh">In stock</span>
+      {%- else -%}
+        <span class="fp-caption fp-muted">Sold out</span>
+      {%- endif -%}
+    </div>
+  </div>
+</article>
+{%- endif -%}

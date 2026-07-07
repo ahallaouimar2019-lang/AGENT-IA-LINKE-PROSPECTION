@@ -36,6 +36,13 @@
       {%- endfor -%}
     </div>
 
+    {%- if settings.social_instagram != blank or settings.social_tiktok != blank or settings.social_facebook != blank -%}
+      <div class="fp-footer__social">
+        {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" aria-label="Instagram" class="fp-icon-btn">{% render 'frostpaws-icon', name: 'instagram' %}</a>{%- endif -%}
+        {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" aria-label="TikTok" class="fp-icon-btn">{% render 'frostpaws-icon', name: 'tiktok' %}</a>{%- endif -%}
+        {%- if settings.social_facebook != blank -%}<a href="{{ settings.social_facebook }}" aria-label="Facebook" class="fp-icon-btn">{% render 'frostpaws-icon', name: 'facebook' %}</a>{%- endif -%}
+      </div>
+    {%- endif -%}
     <hr class="fp-footer__divider">
     <div class="fp-footer__bottom">
       <p class="fp-footer__legal">© {{ 'now' | date: '%Y' }} {{ section.settings.brand | default: 'FrostPaws™' }} · {{ section.settings.legal }}</p>

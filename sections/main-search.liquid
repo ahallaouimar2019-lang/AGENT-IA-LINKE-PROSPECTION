@@ -1,0 +1,59 @@
+{%- comment -%} FrostPaws™ — Search results {%- endcomment -%}
+<section class="fp-section">
+  <div class="fp-container">
+    <header class="fp-section__head" style="text-align:left;margin-bottom:var(--fp-space-8)">
+      <span class="fp-overline">Search</span>
+      <h1 class="fp-h1" style="margin-top:var(--fp-space-3)">
+        {%- if search.performed -%}Results for “{{ search.terms | escape }}”{%- else -%}Search FrostPaws{%- endif -%}
+      </h1>
+    </header>
+
+    <form action="{{ routes.search_url }}" method="get" role="search" class="fp-search-form">
+      <div class="fp-search-field">
+        {% render 'frostpaws-icon', name: 'search' %}
+        <label class="fp-sr-only" for="fp-search-input">Search</label>
+        <input id="fp-search-input" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search cooling mats, sizes, colors…" autocomplete="off">
+        <button type="submit" class="fp-btn fp-btn--primary"><span>Search</span></button>
+      </div>
+    </form>
+
+    {%- if search.performed -%}
+      {%- paginate search.results by 20 -%}
+        <p class="fp-caption fp-muted" style="margin:var(--fp-space-8) 0 var(--fp-space-4)">{{ search.results_count }} {{ search.results_count | pluralize: 'result', 'results' }}</p>
+        {%- if search.results.size > 0 -%}
+          <div class="fp-product-grid">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                {% render 'frostpaws-product-card', product: item %}
+              {%- else -%}
+                <a class="fp-card fp-card--interactive" href="{{ item.url }}">
+                  <h2 class="fp-h3">{{ item.title }}</h2>
+                  <p class="fp-body fp-muted">{{ item.content | strip_html | truncatewords: 24 }}</p>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- if paginate.pages > 1 -%}
+            <nav class="fp-pagination" aria-label="Pagination">
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}<a class="fp-pagination__link" href="{{ part.url }}">{{ part.title }}</a>
+                {%- else -%}<span class="fp-pagination__link {% if part.title == paginate.current_page %}is-current{% endif %}">{{ part.title }}</span>{%- endif -%}
+              {%- endfor -%}
+            </nav>
+          {%- endif -%}
+        {%- else -%}
+          <div class="fp-empty">
+            <div class="fp-feature__icon" style="margin-inline:auto">{% render 'frostpaws-icon', name: 'search' %}</div>
+            <h2 class="fp-h3">No results</h2>
+            <p class="fp-body fp-muted">We couldn't find anything for “{{ search.terms | escape }}”. Try a different term.</p>
+            <a class="fp-btn fp-btn--secondary" href="{{ routes.all_products_collection_url }}">Browse all products</a>
+          </div>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Search", "tag": "section", "settings": [] }
+{% endschema %}

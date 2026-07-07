@@ -25,7 +25,31 @@
   </noscript>
 
   <link rel="stylesheet" href="{{ 'frostpaws.css' | asset_url }}">
+  <script>
+    window.FrostPaws = {
+      routes: {
+        cart_add: "{{ routes.cart_add_url }}",
+        cart_change: "{{ routes.cart_change_url }}",
+        cart: "{{ routes.cart_url }}",
+        predictive: "{{ routes.predictive_search_url }}"
+      },
+      currency: "{{ shop.currency }}",
+      moneyFormat: {{ shop.money_format | json }}
+    };
+  </script>
   <script src="{{ 'frostpaws.js' | asset_url }}" defer></script>
+  <script src="{{ 'frostpaws-store.js' | asset_url }}" defer></script>
+
+  {%- comment -%} SEO: Organization + Website structured data {%- endcomment -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "url": {{ shop.url | json }}
+    {%- if settings.logo -%}, "logo": {{ settings.logo | image_url: width: 400 | prepend: 'https:' | json }}{%- endif -%}
+  }
+  </script>
 
   {{ content_for_header }}
 </head>
@@ -39,5 +63,8 @@
   </main>
 
   {%- sections 'footer-group' -%}
+
+  {%- section 'cart-drawer' -%}
+  {% render 'frostpaws-search-drawer' %}
 </body>
 </html>

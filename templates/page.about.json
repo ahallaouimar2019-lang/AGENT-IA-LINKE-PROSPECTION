@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "story": { "type": "story" },
+    "why": { "type": "why-frostpaws", "settings": { "bg_class": "fp-section--alt", "eyebrow": "What we stand for", "heading": "Comfort, done properly" } },
+    "gallery": { "type": "lifestyle-gallery", "settings": { "eyebrow": "In real homes", "heading": "The FrostPaws family" } },
+    "guarantee": { "type": "guarantee" },
+    "cta": { "type": "final-cta" }
+  },
+  "order": ["story", "why", "gallery", "guarantee", "cta"]
+}

@@ -1,0 +1,80 @@
+{%- comment -%} FrostPaws™ — Cart Drawer (global, section-rendered) {%- endcomment -%}
+{%- assign threshold = settings.free_shipping_threshold | default: 6000 -%}
+{%- assign remaining = threshold | minus: cart.total_price -%}
+<div class="fp-drawer" id="fp-cart-drawer" data-fp-cart-drawer aria-hidden="true">
+  <div class="fp-drawer__overlay" data-fp-drawer-close tabindex="-1"></div>
+  <aside class="fp-drawer__panel" role="dialog" aria-modal="true" aria-label="Shopping cart">
+    <header class="fp-drawer__head">
+      <h2 class="fp-h3">Your cart <span class="fp-muted fp-tabular" data-fp-cart-count>({{ cart.item_count }})</span></h2>
+      <button type="button" class="fp-icon-btn" data-fp-drawer-close aria-label="Close cart">{% render 'frostpaws-icon', name: 'close' %}</button>
+    </header>
+
+    {%- if threshold > 0 -%}
+      <div class="fp-ship-progress" data-fp-ship-progress>
+        {%- if remaining > 0 -%}
+          <p class="fp-caption">You're <strong class="fp-tabular">{{ remaining | money }}</strong> away from <strong>free shipping</strong> {% render 'frostpaws-icon', name: 'truck' %}</p>
+        {%- else -%}
+          <p class="fp-caption">{% render 'frostpaws-icon', name: 'check' %} You've unlocked <strong>free express shipping</strong>!</p>
+        {%- endif -%}
+        {%- assign pct = cart.total_price | times: 100 | divided_by: threshold -%}
+        {%- if pct > 100 -%}{%- assign pct = 100 -%}{%- endif -%}
+        <div class="fp-ship-progress__track"><span class="fp-ship-progress__bar" style="width:{{ pct }}%"></span></div>
+      </div>
+    {%- endif -%}
+
+    <div class="fp-drawer__body">
+      {%- if cart.item_count > 0 -%}
+        <ul class="fp-drawer__items" role="list">
+          {%- for item in cart.items -%}
+            <li class="fp-drawer-item" data-key="{{ item.key }}" data-line="{{ forloop.index }}">
+              <a class="fp-drawer-item__media" href="{{ item.url }}">
+                <div class="fp-media" style="aspect-ratio:1/1;width:72px;">
+                  {%- if item.image -%}
+                    {{ item.image | image_url: width: 160 | image_tag: class: 'fp-media__img', loading: 'lazy', widths: '72,144', sizes: '72px', alt: item.title }}
+                  {%- else -%}
+                    {% render 'frostpaws-image', ratio: '1/1', slot: 'PRODUCT_IMAGE', alt: item.title %}
+                  {%- endif -%}
+                </div>
+              </a>
+              <div class="fp-drawer-item__info">
+                <a class="fp-drawer-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                {%- unless item.product.has_only_default_variant -%}<span class="fp-caption fp-muted">{{ item.variant.title }}</span>{%- endunless -%}
+                <div class="fp-drawer-item__bottom">
+                  <div class="fp-qty fp-qty--sm" data-fp-line-qty>
+                    <button type="button" class="fp-qty__btn" data-line-minus aria-label="Decrease">{% render 'frostpaws-icon', name: 'minus' %}</button>
+                    <input class="fp-qty__input fp-tabular" type="number" value="{{ item.quantity }}" min="0" data-line-qty-input data-line="{{ forloop.index }}" inputmode="numeric" aria-label="Quantity">
+                    <button type="button" class="fp-qty__btn" data-line-plus aria-label="Increase">{% render 'frostpaws-icon', name: 'plus' %}</button>
+                  </div>
+                  <span class="fp-drawer-item__price fp-tabular">{{ item.final_line_price | money }}</span>
+                </div>
+              </div>
+              <button type="button" class="fp-drawer-item__remove" data-line-remove="{{ forloop.index }}" aria-label="Remove {{ item.title | escape }}">{% render 'frostpaws-icon', name: 'trash' %}</button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <div class="fp-drawer__empty">
+          <div class="fp-feature__icon" style="margin-inline:auto">{% render 'frostpaws-icon', name: 'cart' %}</div>
+          <p class="fp-body">Your cart is cool and empty.</p>
+          <a class="fp-btn fp-btn--secondary" href="{{ routes.all_products_collection_url }}" data-fp-drawer-close>Shop FrostPaws</a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+      <footer class="fp-drawer__foot">
+        <div class="fp-drawer__subtotal">
+          <span>Subtotal</span>
+          <span class="fp-tabular" data-fp-cart-subtotal>{{ cart.total_price | money }}</span>
+        </div>
+        <p class="fp-caption fp-muted">Shipping & taxes calculated at checkout.</p>
+        <a class="fp-btn fp-btn--primary fp-btn--full" href="{{ routes.cart_url }}/checkout"><span>{% render 'frostpaws-icon', name: 'lock' %} Checkout</span></a>
+        <a class="fp-btn fp-btn--text" href="{{ routes.cart_url }}" style="justify-content:center;width:100%;margin-top:var(--fp-space-2)"><span class="fp-btn__label">View cart</span></a>
+      </footer>
+    {%- endif -%}
+  </aside>
+</div>
+
+{% schema %}
+{ "name": "Cart drawer", "settings": [] }
+{% endschema %}

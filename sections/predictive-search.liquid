@@ -1,0 +1,65 @@
+{%- comment -%} FrostPaws™ — Predictive Search results (fetched via Search Suggest + Section Rendering) {%- endcomment -%}
+{%- if predictive_search.performed -%}
+  {%- if predictive_search.resources.products.size > 0 or predictive_search.resources.queries.size > 0 or predictive_search.resources.collections.size > 0 -%}
+    <div class="fp-predictive">
+      {%- if predictive_search.resources.queries.size > 0 -%}
+        <div class="fp-predictive__group">
+          <span class="fp-overline">Suggestions</span>
+          <ul role="list">
+            {%- for q in predictive_search.resources.queries limit: 4 -%}
+              <li><a class="fp-predictive__query" href="{{ q.url }}">{% render 'frostpaws-icon', name: 'search' %}<span>{{ q.styled_text }}</span></a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- if predictive_search.resources.products.size > 0 -%}
+        <div class="fp-predictive__group">
+          <span class="fp-overline">Products</span>
+          <ul class="fp-predictive__products" role="list">
+            {%- for product in predictive_search.resources.products limit: 5 -%}
+              <li>
+                <a class="fp-predictive__product" href="{{ product.url }}">
+                  <span class="fp-predictive__thumb">
+                    <div class="fp-media" style="aspect-ratio:1/1;width:52px;">
+                      {%- if product.featured_media -%}
+                        {{ product.featured_media | image_url: width: 104 | image_tag: class: 'fp-media__img', loading: 'lazy', widths: '52,104', sizes: '52px', alt: '' }}
+                      {%- else -%}
+                        {% render 'frostpaws-image', ratio: '1/1', slot: 'PRODUCT_IMAGE', alt: product.title %}
+                      {%- endif -%}
+                    </div>
+                  </span>
+                  <span class="fp-predictive__meta">
+                    <span class="fp-predictive__title">{{ product.title }}</span>
+                    <span class="fp-caption">{% render 'frostpaws-price', product: product %}</span>
+                  </span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- if predictive_search.resources.collections.size > 0 -%}
+        <div class="fp-predictive__group">
+          <span class="fp-overline">Collections</span>
+          <ul role="list">
+            {%- for c in predictive_search.resources.collections limit: 3 -%}
+              <li><a class="fp-predictive__query" href="{{ c.url }}">{% render 'frostpaws-icon', name: 'grid' %}<span>{{ c.title }}</span></a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      <a class="fp-btn fp-btn--text fp-predictive__all" href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}"><span class="fp-btn__label">See all results</span> <span class="fp-btn__arrow">→</span></a>
+    </div>
+  {%- else -%}
+    <div class="fp-predictive fp-predictive--empty">
+      <p class="fp-body fp-muted">No matches for “{{ predictive_search.terms }}”. Try another search.</p>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{ "name": "Predictive search", "settings": [] }
+{% endschema %}

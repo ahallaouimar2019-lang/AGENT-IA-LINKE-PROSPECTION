@@ -1,0 +1,29 @@
+{%- comment -%} FrostPaws™ — Gift Card {%- endcomment -%}
+<section class="fp-section">
+  <div class="fp-container" style="max-width:520px;text-align:center">
+    <span class="fp-overline">FrostPaws™ Gift Card</span>
+    <h1 class="fp-h1" style="margin-block:var(--fp-space-4)">{{ gift_card.balance | money }} to keep them cool</h1>
+    <p class="fp-body fp-muted">Redeem this gift card at checkout — comfort is the best gift.</p>
+
+    <div class="fp-card" style="margin-top:var(--fp-space-8);background:var(--fp-grad-frost-air)">
+      <div class="fp-media" style="aspect-ratio:16/10;margin-bottom:var(--fp-space-6)">
+        {% render 'frostpaws-image', ratio: '16/10', slot: 'GIFTCARD_IMAGE', alt: 'FrostPaws gift card' %}
+      </div>
+      <div class="fp-giftcard__code" data-fp-giftcard-code>
+        <span class="fp-overline">Your code</span>
+        <strong class="fp-h3 fp-tabular" style="display:block;letter-spacing:.06em;margin-top:var(--fp-space-2)">{{ gift_card.code | format_code }}</strong>
+      </div>
+      {%- if gift_card.qr_identifier -%}
+        <div style="margin-top:var(--fp-space-6);display:grid;place-items:center" data-fp-qr="{{ gift_card.qr_identifier }}"></div>
+      {%- endif -%}
+      {%- if gift_card.pass_url -%}
+        <a class="fp-btn fp-btn--secondary" href="{{ gift_card.pass_url }}" style="margin-top:var(--fp-space-6)">Add to Apple Wallet</a>
+      {%- endif -%}
+    </div>
+
+    <div style="display:flex;gap:var(--fp-space-3);justify-content:center;margin-top:var(--fp-space-8)">
+      <button type="button" class="fp-btn fp-btn--primary" onclick="window.print()"><span>Print</span></button>
+      <a class="fp-btn fp-btn--secondary" href="{{ shop.url }}">Shop FrostPaws</a>
+    </div>
+  </div>
+</section>

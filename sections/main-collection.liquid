@@ -1,0 +1,100 @@
+{%- comment -%} FrostPaws™ — Main Collection {%- endcomment -%}
+<section class="fp-section">
+  <div class="fp-container">
+    <header class="fp-collection__head fp-reveal">
+      <span class="fp-overline">{{ section.settings.eyebrow | default: 'Collection' }}</span>
+      <h1 class="fp-h1" style="margin-top:var(--fp-space-3)">{{ collection.title | default: 'All products' }}</h1>
+      {%- if collection.description != blank and section.settings.show_description -%}
+        <div class="fp-body-lg fp-muted" style="margin-top:var(--fp-space-4)">{{ collection.description }}</div>
+      {%- endif -%}
+    </header>
+
+    {%- paginate collection.products by section.settings.per_page -%}
+      <div class="fp-collection__toolbar">
+        <span class="fp-caption">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</span>
+        {%- if section.settings.show_sort -%}
+          <form class="fp-collection__sort" method="get">
+            {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+            <label class="fp-sr-only" for="fp-sort">Sort by</label>
+            <select id="fp-sort" name="sort_by" class="fp-select" onchange="this.form.submit()">
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>{{ option.name }}</option>
+              {%- endfor -%}
+            </select>
+          </form>
+        {%- endif -%}
+      </div>
+
+      <div class="fp-collection__body">
+        {%- if section.settings.show_filters and collection.filters.size > 0 -%}
+          <aside class="fp-filters" aria-label="Filters">
+            <form method="get">
+              {%- for filter in collection.filters -%}
+                <details class="fp-filters__group" open>
+                  <summary><span>{{ filter.label }}</span>{% render 'frostpaws-icon', name: 'chevron' %}</summary>
+                  <div class="fp-filters__values">
+                    {%- for value in filter.values -%}
+                      <label class="fp-filters__value">
+                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"
+                               {% if value.active %}checked{% endif %} onchange="this.form.submit()">
+                        <span>{{ value.label }} <span class="fp-muted">({{ value.count }})</span></span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                </details>
+              {%- endfor -%}
+              <noscript><button class="fp-btn fp-btn--secondary" type="submit">Apply</button></noscript>
+              {%- if collection.current_type or collection.current_vendor or collection.filters.size > 0 -%}
+                <a class="fp-btn fp-btn--text" href="{{ collection.url }}"><span class="fp-btn__label">Clear all</span></a>
+              {%- endif -%}
+            </form>
+          </aside>
+        {%- endif -%}
+
+        <div>
+          {%- if collection.products.size > 0 -%}
+            <div class="fp-product-grid">
+              {%- for product in collection.products -%}
+                {% render 'frostpaws-product-card', product: product %}
+              {%- endfor -%}
+            </div>
+            {%- if paginate.pages > 1 -%}
+              <nav class="fp-pagination" aria-label="Pagination">
+                {%- if paginate.previous -%}<a class="fp-pagination__link" href="{{ paginate.previous.url }}" aria-label="Previous">{% render 'frostpaws-icon', name: 'chevron-left' %}</a>{%- endif -%}
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                    <a class="fp-pagination__link" href="{{ part.url }}">{{ part.title }}</a>
+                  {%- else -%}
+                    <span class="fp-pagination__link {% if part.title == paginate.current_page %}is-current{% endif %}" aria-current="page">{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if paginate.next -%}<a class="fp-pagination__link" href="{{ paginate.next.url }}" aria-label="Next">{% render 'frostpaws-icon', name: 'chevron-right' %}</a>{%- endif -%}
+              </nav>
+            {%- endif -%}
+          {%- else -%}
+            <div class="fp-empty">
+              <div class="fp-feature__icon" style="margin-inline:auto">{% render 'frostpaws-icon', name: 'search' %}</div>
+              <h2 class="fp-h3">Nothing here yet</h2>
+              <p class="fp-body fp-muted">No products match your filters. Try clearing them to see everything.</p>
+              <a class="fp-btn fp-btn--secondary" href="{{ collection.url }}">Clear filters</a>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop FrostPaws" },
+    { "type": "checkbox", "id": "show_description", "label": "Show description", "default": true },
+    { "type": "checkbox", "id": "show_sort", "label": "Show sorting", "default": true },
+    { "type": "checkbox", "id": "show_filters", "label": "Show filters", "default": true },
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 16 }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,32 @@
+{%- comment -%} FrostPaws™ — Article {%- endcomment -%}
+<article class="fp-section">
+  <div class="fp-container" style="max-width:760px">
+    <a class="fp-btn fp-btn--text" href="{{ blog.url }}"><span class="fp-btn__arrow">←</span> <span class="fp-btn__label">All articles</span></a>
+    <header style="margin:var(--fp-space-6) 0 var(--fp-space-8);text-align:center">
+      <span class="fp-overline">{{ article.published_at | date: '%B %d, %Y' }}</span>
+      <h1 class="fp-h1" style="margin-top:var(--fp-space-3)">{{ article.title }}</h1>
+      {%- if article.author != blank -%}<p class="fp-caption fp-muted" style="margin-top:var(--fp-space-3)">By {{ article.author }}</p>{%- endif -%}
+    </header>
+    {%- if article.image -%}
+      <div class="fp-media" style="aspect-ratio:16/9;margin-bottom:var(--fp-space-8)">
+        {{ article.image | image_url: width: 1200 | image_tag: class: 'fp-media__img', loading: 'eager', widths: '600,900,1200', sizes: '760px', alt: article.title }}
+      </div>
+    {%- endif -%}
+    <div class="fp-rte fp-body-lg">{{ article.content }}</div>
+
+    {%- if blog.comments_enabled? -%}
+      <hr class="fp-hr" style="margin-block:var(--fp-space-12)">
+      <h2 class="fp-h3">Comments</h2>
+      {%- for comment in article.comments -%}
+        <div class="fp-card" style="margin-top:var(--fp-space-4)">
+          <p class="fp-body">{{ comment.content }}</p>
+          <span class="fp-caption fp-muted">— {{ comment.author }}, {{ comment.created_at | date: '%b %d, %Y' }}</span>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</article>
+
+{% schema %}
+{ "name": "Article", "tag": "section", "settings": [] }
+{% endschema %}

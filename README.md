@@ -58,5 +58,47 @@ Other slots include `HERO_IMAGE_1–4`, `HOW_IT_WORKS_IMAGE`, `COLOR_*_IMAGE`, `
 ## Built for
 Mobile-first conversion · fast loading (responsive `srcset`, lazy-loading, deferred JS, `font-display: swap`) · accessibility (skip link, focus states, `prefers-reduced-motion`, ARIA) · SEO (semantic headings, canonical, meta, FAQ structured data) · Online Store 2.0 (JSON templates, section groups, blocks, presets).
 
-## Scope note
-This delivers the **landing page** (homepage) theme. Standard store templates (`product`, `collection`, `cart`, `404`, etc.) are the next step for a full storefront upload.
+## Complete store (production theme)
+
+The theme is now a full Online Store 2.0 storefront, all on the same design system. No images are generated — **every image is a Theme-Editor image picker with a branded placeholder** (`frostpaws-image`), including the six size-guide slots (`SIZE_XS_IMAGE` … `SIZE_XXL_IMAGE`), each independently uploadable and auto-filling its card.
+
+**Templates**
+```
+templates/
+  index.json              Homepage (locked)
+  product.json            Product + reviews + recommendations + recently viewed
+  collection.json         Grid, sort, storefront filters, pagination
+  list-collections.json   Collection index
+  cart.json               Full cart page
+  search.json             Search results
+  blog.json / article.json
+  page.json (page.liquid) Generic pages
+  page.contact.json       Contact form + quick FAQ
+  page.about.json         Story + values + gallery + guarantee + CTA
+  policy.liquid           Privacy / refund / terms / shipping
+  404.json
+  password.json           Coming-soon storefront lock (layout/password.liquid)
+  gift_card.liquid
+  customers/              login · register · account · order · addresses · reset_password · activate_account
+```
+
+**Commerce sections & snippets**
+```
+sections/  main-product · main-collection · main-list-collections · main-cart ·
+           cart-drawer · predictive-search · main-search · product-recommendations ·
+           recently-viewed · story · contact-form · main-blog · main-article ·
+           main-page · main-404 · main-password
+snippets/  frostpaws-product-card · frostpaws-price · frostpaws-search-drawer
+assets/    frostpaws-store.js   (cart AJAX, variants, sticky ATC, predictive
+                                 search, wishlist, recently viewed, drawers)
+```
+
+**Features**
+- **Cart drawer** with free-shipping progress bar, AJAX add/update/remove via the Section Rendering API, live count bubble.
+- **Product page:** sticky media gallery, accessible variant swatch selector (updates price/availability/URL), quantity stepper, sticky Add-to-Cart, dynamic checkout, collapsible details, trust badges, complementary products.
+- **Predictive search** drawer (Shopify Search Suggest + section rendering).
+- **Collection:** sorting, storefront filters, pagination, graceful empty state.
+- **Full customer flow:** login (+ password recovery), register, account dashboard with order history, order detail, address book, reset/activate.
+- **Wishlist-ready architecture** (localStorage + events + heart toggles), **recently viewed** (localStorage), **product recommendations** (Shopify API).
+- **Complete theme settings** (`config/settings_schema.json`): logo, cart type, free-shipping threshold, product-card options, social links, search.
+- SEO (Organization + FAQ JSON-LD, canonical/meta), a11y (focus, ARIA, reduced-motion, skip link), performance (responsive `srcset`, lazy loading, deferred JS, `font-display: swap`).

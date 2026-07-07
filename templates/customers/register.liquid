@@ -1,0 +1,39 @@
+{%- comment -%} FrostPaws™ — Customer Register {%- endcomment -%}
+<section class="fp-section">
+  <div class="fp-container fp-auth">
+    <div class="fp-auth__card fp-card">
+      <span class="fp-overline">Join FrostPaws</span>
+      <h1 class="fp-h2" style="margin-top:var(--fp-space-3)">Create your account</h1>
+      <p class="fp-body fp-muted" style="margin-top:var(--fp-space-2)">Faster checkout, order tracking, and members-only cool-weather tips.</p>
+
+      {%- form 'create_customer', novalidate: 'novalidate' -%}
+        {%- if form.errors -%}
+          <div class="fp-form-error" role="alert">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+        <div class="fp-field-row">
+          <div class="fp-field">
+            <label for="first_name">First name</label>
+            <input type="text" name="customer[first_name]" id="first_name" autocomplete="given-name">
+          </div>
+          <div class="fp-field">
+            <label for="last_name">Last name</label>
+            <input type="text" name="customer[last_name]" id="last_name" autocomplete="family-name">
+          </div>
+        </div>
+        <div class="fp-field">
+          <label for="reg_email">Email</label>
+          <input type="email" name="customer[email]" id="reg_email" autocomplete="email" required>
+        </div>
+        <div class="fp-field">
+          <label for="reg_password">Password</label>
+          <input type="password" name="customer[password]" id="reg_password" autocomplete="new-password" required>
+        </div>
+        <button type="submit" class="fp-btn fp-btn--primary fp-btn--full"><span>Create account</span></button>
+      {%- endform -%}
+
+      <p class="fp-caption" style="margin-top:var(--fp-space-6);text-align:center">
+        Already have an account? <a href="{{ routes.account_login_url }}">Sign in</a>
+      </p>
+    </div>
+  </div>
+</section>
