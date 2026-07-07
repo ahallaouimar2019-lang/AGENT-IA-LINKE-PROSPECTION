@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FrostPaws™ — Design System</title>
+  <link rel="stylesheet" href="design-system/tokens.css" />
+  <link rel="stylesheet" href="design-system/base.css" />
+  <link rel="stylesheet" href="design-system/components.css" />
+  <style>
+    /* styleguide-only helpers (not part of the design system) */
+    .sg-label { font-size: var(--fp-fs-caption); color: var(--fp-text-secondary); margin-top: var(--fp-space-2); }
+    .sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap: var(--fp-space-4); }
+    .sg-swatch { border-radius: var(--fp-r-md); overflow: hidden; border: 1px solid var(--fp-border); background: var(--fp-surface); }
+    .sg-chip { height: 84px; }
+    .sg-swatch .sg-meta { padding: var(--fp-space-3); }
+    .sg-swatch .sg-hex { font-family: var(--fp-font-body); font-variant-numeric: tabular-nums; font-size: 0.75rem; color: var(--fp-text-secondary); }
+    .sg-row { display: flex; flex-wrap: wrap; gap: var(--fp-space-4); align-items: center; }
+    .sg-block { display: grid; place-items: center; color: var(--fp-navy-700); font-weight: 600; background: var(--fp-frost-100); border:1px solid var(--fp-border); }
+    .sg-section-title { display: flex; align-items: baseline; gap: var(--fp-space-4); margin-bottom: var(--fp-space-8); }
+    .sg-num { font-family: var(--fp-font-display); font-weight: 600; color: var(--fp-ice-300); font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+    .sg-grid-demo { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--fp-space-2); }
+    .sg-grid-demo span { background: var(--fp-frost-100); border:1px dashed var(--fp-ice-300); height: 48px; border-radius: 6px; }
+    .sg-shadow-demo { display: grid; place-items:center; height:96px; background: var(--fp-surface); border-radius: var(--fp-r-md); font-size: var(--fp-fs-caption); color: var(--fp-text-secondary); }
+    .sg-paw { font-size: 2rem; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="fp-nav fp-glass">
+    <span class="fp-nav__brand">FrostPaws™</span>
+    <div class="fp-nav__links">
+      <a class="fp-nav__link" href="#colors">Colors</a>
+      <a class="fp-nav__link" href="#type">Type</a>
+      <a class="fp-nav__link" href="#components">Components</a>
+    </div>
+    <a class="fp-btn fp-btn--primary" href="#components" style="min-height:42px;padding:10px 20px;">Keep them cool</a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="fp-hero">
+    <div class="fp-container">
+      <div class="fp-hero__inner">
+        <div class="fp-stack-lg fp-reveal">
+          <span class="fp-overline">FrostPaws™ · Design System v1.0</span>
+          <h1 class="fp-display">Cold air,<br>given form.</h1>
+          <p class="fp-body-lg fp-muted">The complete visual identity for a premium self-cooling mat brand. Every color, type ramp, shadow and component — rendered, not just described.</p>
+          <div class="sg-row">
+            <a class="fp-btn fp-btn--primary" href="#components"><span>Explore the system</span></a>
+            <a class="fp-btn fp-btn--text" href="#colors"><span class="fp-btn__label">Jump to colors</span> <span class="fp-btn__arrow">→</span></a>
+          </div>
+          <div class="fp-trust" style="margin-top:var(--fp-space-4)">
+            <span class="fp-trust__item">Freshness</span>
+            <span class="fp-trust__item">Comfort</span>
+            <span class="fp-trust__item">Premium</span>
+            <span class="fp-trust__item">Trust</span>
+          </div>
+        </div>
+        <div class="fp-hero__visual fp-reveal">
+          <div class="fp-hero__halo"></div>
+          <div class="sg-block" style="position:relative;width:64%;aspect-ratio:4/5;border-radius:var(--fp-r-xl);box-shadow:var(--fp-sh-lg);background:var(--fp-grad-frost-air);">
+            <span class="sg-paw">🐾</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- COLORS -->
+  <section id="colors" class="fp-section">
+    <div class="fp-container fp-stack-lg">
+      <div class="sg-section-title"><span class="sg-num">01</span><div><span class="fp-overline">Palette</span><h2 class="fp-h2">Cool, desaturated, expensive</h2></div></div>
+
+      <div>
+        <h3 class="fp-h3" style="margin-bottom:var(--fp-space-4)">Core</h3>
+        <div class="sg-swatches">
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-snow)"></div><div class="sg-meta"><div>Snow</div><div class="sg-hex">#FBFDFE</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-frost-50)"></div><div class="sg-meta"><div>Frost 50</div><div class="sg-hex">#F2F7FB</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-frost-100)"></div><div class="sg-meta"><div>Frost 100</div><div class="sg-hex">#E7EEF4</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-ice-300)"></div><div class="sg-meta"><div>Ice Blue</div><div class="sg-hex">#BFD9E8</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-cyan-400)"></div><div class="sg-meta"><div>Soft Cyan</div><div class="sg-hex">#8FCBDD</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-glacier-500)"></div><div class="sg-meta"><div>Glacier</div><div class="sg-hex">#4E9FC4</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-navy-700)"></div><div class="sg-meta"><div>Deep Navy</div><div class="sg-hex">#1B3A5B</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-navy-900)"></div><div class="sg-meta"><div>Midnight</div><div class="sg-hex">#0E2338</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-grey-400)"></div><div class="sg-meta"><div>Cool Grey</div><div class="sg-hex">#8A97A2</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-grey-200)"></div><div class="sg-meta"><div>Light Grey</div><div class="sg-hex">#DCE3E8</div></div></div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="fp-h3" style="margin-bottom:var(--fp-space-4)">Accents <span class="fp-caption">— seasoning only, ~5% max</span></h3>
+        <div class="sg-swatches">
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-mint)"></div><div class="sg-meta"><div>Fresh Mint</div><div class="sg-hex">#7FD9C4</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-warm-sand)"></div><div class="sg-meta"><div>Warm Sand</div><div class="sg-hex">#E9DFD3</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-gold)"></div><div class="sg-meta"><div>Gold (stars)</div><div class="sg-hex">#E4B95B</div></div></div>
+          <div class="sg-swatch"><div class="sg-chip" style="background:var(--fp-coral)"></div><div class="sg-meta"><div>Coral (error)</div><div class="sg-hex">#D98A82</div></div></div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="fp-h3" style="margin-bottom:var(--fp-space-4)">Gradients — "cold air"</h3>
+        <div class="fp-grid fp-grid--3">
+          <div><div class="sg-shadow-demo" style="background:var(--fp-grad-frost-air)">Frost Air</div><p class="sg-label">Hero / backgrounds</p></div>
+          <div><div class="sg-shadow-demo" style="background:var(--fp-grad-glacier);color:var(--fp-snow)">Glacier Depth</div><p class="sg-label">Dark sections</p></div>
+          <div><div class="sg-shadow-demo" style="background:radial-gradient(closest-side, rgba(143,203,221,0.55), rgba(143,203,221,0))">Cyan Halo</div><p class="sg-label">Behind product</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section id="type" class="fp-section fp-section--alt">
+    <div class="fp-container fp-stack-lg">
+      <div class="sg-section-title"><span class="sg-num">02</span><div><span class="fp-overline">Typography</span><h2 class="fp-h2">General Sans × Inter</h2></div></div>
+      <p class="fp-body-lg fp-muted">Headlines in <strong>General Sans</strong> — geometric, confident, engineered. Body in <strong>Inter</strong> — invisible clarity at any size. Weights 400 / 500 / 600 only.</p>
+      <div class="fp-stack">
+        <div><p class="fp-display">Keep them cool.</p><p class="sg-label">Display · General Sans 600 · clamp 40→72</p></div>
+        <div><p class="fp-h1">Pressure-activated comfort</p><p class="sg-label">H1 · 32→52</p></div>
+        <div><p class="fp-h2">Designed to stay cool. All summer.</p><p class="sg-label">H2 · 26→38</p></div>
+        <div><p class="fp-h3">A calm object you're proud to leave out.</p><p class="sg-label">H3 · 20→24</p></div>
+        <div><p class="fp-body-lg">Body Large — Inter, generous line-height, capped at 66 characters for effortless reading on any device.</p><p class="sg-label">Body Large · 18→20</p></div>
+        <div><p class="fp-body">Body — the workhorse. Neutral, readable, premium. Never smaller than 16px so mobile never zooms.</p><p class="sg-label">Body · 16</p></div>
+        <div><span class="fp-overline">Overline / eyebrow</span><p class="sg-label">Overline · uppercase · +8% tracking</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section id="components" class="fp-section">
+    <div class="fp-container fp-stack-lg">
+      <div class="sg-section-title"><span class="sg-num">03</span><div><span class="fp-overline">Components</span><h2 class="fp-h2">The building blocks</h2></div></div>
+
+      <!-- Buttons -->
+      <div>
+        <h3 class="fp-h3" style="margin-bottom:var(--fp-space-4)">Buttons</h3>
+        <div class="sg-row">
+          <button class="fp-btn fp-btn--primary"><span>Keep them cool — $59</span></button>
+          <button class="fp-btn fp-btn--secondary">See sizes</button>
+          <button class="fp-btn fp-btn--text"><span class="fp-btn__label">Learn more</span> <span class="fp-btn__arrow">→</span></button>
+          <button class="fp-btn fp-btn--primary" disabled>Sold out</button>
+        </div>
+      </div>
+
+      <!-- Badges -->
+      <div>
+        <h3 class="fp-h3" style="margin-bottom:var(--fp-space-4)">Badges & trust</h3>
+        <div class="sg-row">
+          <span class="fp-badge">New</span>
+          <span class="fp-badge fp-badge--accent">Best value</span>
+          <span class="fp-badge fp-badge--fresh">In stock</span>
+        </div>
+        <div class="fp-trust" style="margin-top:var(--fp-space-6)">
+          <span class="fp-trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Free 30-day returns</span>
+          <span class="fp-trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/></svg> 2-year guarantee</span>
+          <span class="fp-trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16M4 6h16M4 18h16"/></svg> Machine washable</span>
+        </div>
+      </div>
+
+      <!-- Cards grid: feature, review, product -->
+      <div class="fp-grid fp-grid--3">
+        <!-- feature -->
+        <div class="fp-card fp-card--interactive">
+          <div class="fp-feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg></div>
+          <h3 class="fp-h3">Instant cooling</h3>
+          <p class="fp-body fp-muted" style="margin-top:var(--fp-space-2)">Pressure-activated gel stays 3–5°C below room temperature. No water, no electricity.</p>
+        </div>
+        <!-- review -->
+        <div class="fp-card">
+          <div class="fp-review">
+            <div class="fp-stars" aria-label="5 out of 5">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+            </div>
+            <p class="fp-review__quote">"She hasn't left it since the heatwave started. Finally a pet product that looks good in our living room."</p>
+            <div class="fp-review__author">
+              <div class="fp-review__avatar"></div>
+              <div>
+                <div class="fp-review__name">Sofia M. <span class="fp-badge fp-badge--fresh" style="margin-left:6px">Verified</span></div>
+                <div class="fp-review__meta">Luna · Golden Retriever</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- product -->
+        <div class="fp-card fp-product" style="padding:var(--fp-space-4)">
+          <span class="fp-badge fp-badge--accent fp-product__badge">Best value</span>
+          <div class="fp-product__media">
+            <div class="fp-product__img sg-block" style="width:60%;aspect-ratio:1;border-radius:var(--fp-r-md);background:var(--fp-grad-frost-air)"><span class="sg-paw">🐾</span></div>
+          </div>
+          <h3 class="fp-product__title">FrostPaws Mat</h3>
+          <p class="fp-product__benefit">Self-cooling comfort, all summer.</p>
+          <div class="fp-stars" style="margin-top:var(--fp-space-2)" aria-label="4.9 stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5 1.6-6.8L2 9.1l7-.6z"/></svg>
+            <span class="fp-caption" style="margin-left:6px">4.9 (2,140)</span>
+          </div>
+          <div class="fp-product__row">
+            <span class="fp-product__price">$59</span>
+            <button class="fp-btn fp-btn--primary" style="min-height:42px;padding:10px 18px"><span>Add</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div>
+        <h3 class="fp-h3" style="margin-bottom:var(--fp-space-4)">FAQ</h3>
+        <div class="fp-faq">
+          <details class="fp-faq__item" open>
+            <summary class="fp-faq__q">How does the cooling work?<svg class="fp-faq__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <p class="fp-faq__a">A pressure-activated cooling gel absorbs and disperses body heat — no water, no refrigeration, no electricity. It recharges itself after a few minutes unused.</p>
+          </details>
+          <details class="fp-faq__item">
+            <summary class="fp-faq__q">Is it safe if my pet chews it?<svg class="fp-faq__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <p class="fp-faq__a">The gel is non-toxic and the cover is durable, but like any mat it's not a chew toy. We include care guidance in the box.</p>
+          </details>
+          <details class="fp-faq__item">
+            <summary class="fp-faq__q">What sizes are available?<svg class="fp-faq__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <p class="fp-faq__a">Three sizes — Small, Medium and Large — sized to breed weight ranges shown on the product page.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDATIONS: radius / shadow / spacing / grid -->
+  <section class="fp-section fp-section--alt">
+    <div class="fp-container fp-stack-lg">
+      <div class="sg-section-title"><span class="sg-num">04</span><div><span class="fp-overline">Foundations</span><h2 class="fp-h2">Radius · Shadow · Grid</h2></div></div>
+      <div>
+        <h3 class="fp-h3" style="margin-bottom:var(--fp-space-4)">Border radius</h3>
+        <div class="sg-row">
+          <div class="sg-block" style="width:96px;height:96px;border-radius:var(--fp-r-sm)">10</div>
+          <div class="sg-block" style="width:96px;height:96px;border-radius:var(--fp-r-md)">16</div>
+          <div class="sg-block" style="width:96px;height:96px;border-radius:var(--fp-r-lg)">24</div>
+          <div class="sg-block" style="width:96px;height:96px;border-radius:var(--fp-r-xl)">32</div>
+          <div class="sg-block" style="width:96px;height:96px;border-radius:var(--fp-r-pill)">pill</div>
+        </div>
+      </div>
+      <div>
+        <h3 class="fp-h3" style="margin-bottom:var(--fp-space-4)">Shadows — navy-tinted, diffuse</h3>
+        <div class="fp-grid fp-grid--3">
+          <div class="sg-shadow-demo" style="box-shadow:var(--fp-sh-sm)">sm — cards at rest</div>
+          <div class="sg-shadow-demo" style="box-shadow:var(--fp-sh-md)">md — raised</div>
+          <div class="sg-shadow-demo" style="box-shadow:var(--fp-sh-lg)">lg — product float</div>
+        </div>
+      </div>
+      <div>
+        <h3 class="fp-h3" style="margin-bottom:var(--fp-space-4)">12-column grid</h3>
+        <div class="sg-grid-demo">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DARK CTA -->
+  <section class="fp-section fp-section--dark">
+    <div class="fp-container" style="text-align:center;max-width:760px">
+      <span class="fp-overline">Ready when you are</span>
+      <h2 class="fp-display" style="margin-block:var(--fp-space-4)">Keep them cool.</h2>
+      <p class="fp-body-lg" style="margin-inline:auto;color:var(--fp-ice-300)">This is the design system, rendered and approved-ready. Say the word and Step 3 builds the store on top of it.</p>
+      <div style="margin-top:var(--fp-space-8)"><a class="fp-btn fp-btn--primary" href="#top"><span>Approve & build the store</span></a></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="fp-footer">
+    <div class="fp-container">
+      <div class="fp-footer__brand">FrostPaws™</div>
+      <p class="fp-body" style="color:var(--fp-ice-300);margin-top:var(--fp-space-3);max-width:44ch">Premium self-cooling comfort for the pets people treat like family.</p>
+      <hr class="fp-footer__divider" />
+      <p class="fp-footer__legal">© 2026 FrostPaws™ · Design System v1.0 · Cold air, given form.</p>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile CTA -->
+  <div class="fp-cta-bar fp-glass">
+    <span class="fp-product__price">$59</span>
+    <button class="fp-btn fp-btn--primary fp-btn--full" style="flex:1"><span>Keep them cool</span></button>
+  </div>
+
+  <script>
+    // Scroll reveal (fade + rise, once)
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fp-reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

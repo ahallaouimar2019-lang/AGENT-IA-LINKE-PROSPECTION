@@ -1,0 +1,133 @@
+{%- comment -%}
+  FrostPaws™ — Interactive Size Guide
+  Six dedicated image slots (exact IDs): SIZE_XS_IMAGE … SIZE_XXL_IMAGE.
+  Desktop: premium 6-card grid. Mobile: snap-scroll carousel.
+  Selecting a card enlarges it, adds a FrostPaws-blue outline + stronger
+  shadow, and highlights the matching size in the product selector.
+{%- endcomment -%}
+{%- assign codes = 'XS,S,M,L,XL,XXL' | split: ',' -%}
+<section class="fp-section {{ section.settings.bg_class }}" id="{{ section.settings.anchor | default: 'size-guide' }}">
+  <div class="fp-container">
+    <div class="fp-section__head fp-reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="fp-overline">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="fp-h2" style="margin-top:var(--fp-space-3)">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}<p class="fp-body-lg fp-muted" style="margin-top:var(--fp-space-4)">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+
+    <div data-fp-size-guide>
+      <div class="fp-size__grid" role="list">
+        {%- for code in codes -%}
+          {%- assign img_key   = 'SIZE_' | append: code | append: '_IMAGE' -%}
+          {%- assign dims_key  = 'SIZE_' | append: code | append: '_DIMS' -%}
+          {%- assign pet_key   = 'SIZE_' | append: code | append: '_PET' -%}
+          {%- assign wt_key    = 'SIZE_' | append: code | append: '_WEIGHT' -%}
+          {%- assign desc_key  = 'SIZE_' | append: code | append: '_DESC' -%}
+          {%- assign is_sel = false -%}
+          {%- if section.settings.default_size == code -%}{%- assign is_sel = true -%}{%- endif -%}
+          <div class="fp-size-card {% if is_sel %}is-selected{% endif %} fp-reveal" role="listitem"
+               data-size="{{ code }}" tabindex="0" aria-pressed="{% if is_sel %}true{% else %}false{% endif %}"
+               aria-label="Size {{ code }} — {{ section.settings[pet_key] }}">
+            <span class="fp-size-card__check" aria-hidden="true">{% render 'frostpaws-icon', name: 'check' %}</span>
+            <div class="fp-size-card__media">
+              {% render 'frostpaws-image',
+                 image: section.settings[img_key],
+                 ratio: '4/5',
+                 slot: img_key,
+                 alt: section.settings[pet_key],
+                 sizes: '(min-width:1200px) 190px, (min-width:600px) 33vw, 78vw' %}
+            </div>
+            <div class="fp-size-card__body">
+              <div class="fp-size-card__label">
+                <span class="fp-size-card__size">{{ code }}</span>
+                <span class="fp-size-card__dims fp-tabular">{{ section.settings[dims_key] }}</span>
+              </div>
+              <dl class="fp-stack" style="--fp-space-4:6px">
+                <div class="fp-size-card__row"><dt>Best for</dt><dd>{{ section.settings[pet_key] }}</dd></div>
+                <div class="fp-size-card__row"><dt>Weight</dt><dd class="fp-tabular">{{ section.settings[wt_key] }}</dd></div>
+              </dl>
+              <p class="fp-size-card__desc">{{ section.settings[desc_key] }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.show_selector -%}
+        <div class="fp-size__selector" role="group" aria-label="Select your size">
+          <span class="fp-overline fp-size__selector-label">{{ section.settings.selector_label }}</span>
+          {%- for code in codes -%}
+            {%- assign is_sel = false -%}
+            {%- if section.settings.default_size == code -%}{%- assign is_sel = true -%}{%- endif -%}
+            <button type="button" class="fp-size-chip {% if is_sel %}is-selected{% endif %}"
+                    data-size="{{ code }}" aria-pressed="{% if is_sel %}true{% else %}false{% endif %}">{{ code }}</button>
+          {%- endfor -%}
+        </div>
+        <p class="fp-size__hint fp-caption">{{ section.settings.hint }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Interactive size guide",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "size-guide" },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "",
+      "options": [ { "value": "", "label": "Snow" }, { "value": "fp-section--alt", "label": "Frost" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Size guide" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find their perfect fit" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Six sizes, from the smallest kitten to the largest breed. Tap a size to see it — we'll highlight it in the selector for you." },
+
+    { "type": "header", "content": "Product selector" },
+    { "type": "checkbox", "id": "show_selector", "label": "Show size selector", "default": true },
+    { "type": "text", "id": "selector_label", "label": "Selector label", "default": "Your selection" },
+    { "type": "text", "id": "hint", "label": "Hint", "default": "Between two sizes? Go up — pets love room to stretch and cool." },
+    { "type": "select", "id": "default_size", "label": "Pre-selected size", "default": "M",
+      "options": [ {"value":"XS","label":"XS"},{"value":"S","label":"S"},{"value":"M","label":"M"},{"value":"L","label":"L"},{"value":"XL","label":"XL"},{"value":"XXL","label":"XXL"} ] },
+
+    { "type": "header", "content": "XS" },
+    { "type": "image_picker", "id": "SIZE_XS_IMAGE", "label": "SIZE_XS_IMAGE" },
+    { "type": "text", "id": "SIZE_XS_DIMS", "label": "Dimensions", "default": "40 × 30 cm" },
+    { "type": "text", "id": "SIZE_XS_PET", "label": "Recommended pet", "default": "Kittens & teacup breeds" },
+    { "type": "text", "id": "SIZE_XS_WEIGHT", "label": "Recommended weight", "default": "Up to 4 kg" },
+    { "type": "textarea", "id": "SIZE_XS_DESC", "label": "Short description", "default": "Pocket-sized cooling for the littlest ones — perfect for carriers and cozy corners." },
+
+    { "type": "header", "content": "S" },
+    { "type": "image_picker", "id": "SIZE_S_IMAGE", "label": "SIZE_S_IMAGE" },
+    { "type": "text", "id": "SIZE_S_DIMS", "label": "Dimensions", "default": "50 × 40 cm" },
+    { "type": "text", "id": "SIZE_S_PET", "label": "Recommended pet", "default": "Cats & small dogs" },
+    { "type": "text", "id": "SIZE_S_WEIGHT", "label": "Recommended weight", "default": "4–9 kg" },
+    { "type": "textarea", "id": "SIZE_S_DESC", "label": "Short description", "default": "The everyday favorite for cats, Chihuahuas and Dachshunds who love a cool curl-up." },
+
+    { "type": "header", "content": "M" },
+    { "type": "image_picker", "id": "SIZE_M_IMAGE", "label": "SIZE_M_IMAGE" },
+    { "type": "text", "id": "SIZE_M_DIMS", "label": "Dimensions", "default": "65 × 50 cm" },
+    { "type": "text", "id": "SIZE_M_PET", "label": "Recommended pet", "default": "Medium breeds" },
+    { "type": "text", "id": "SIZE_M_WEIGHT", "label": "Recommended weight", "default": "9–18 kg" },
+    { "type": "textarea", "id": "SIZE_M_DESC", "label": "Short description", "default": "Room to sprawl for Beagles, Cockers and Frenchies — our most popular size." },
+
+    { "type": "header", "content": "L" },
+    { "type": "image_picker", "id": "SIZE_L_IMAGE", "label": "SIZE_L_IMAGE" },
+    { "type": "text", "id": "SIZE_L_DIMS", "label": "Dimensions", "default": "90 × 60 cm" },
+    { "type": "text", "id": "SIZE_L_PET", "label": "Recommended pet", "default": "Large breeds" },
+    { "type": "text", "id": "SIZE_L_WEIGHT", "label": "Recommended weight", "default": "18–30 kg" },
+    { "type": "textarea", "id": "SIZE_L_DESC", "label": "Short description", "default": "Full-body cooling for Labradors, Boxers and Border Collies who stretch right out." },
+
+    { "type": "header", "content": "XL" },
+    { "type": "image_picker", "id": "SIZE_XL_IMAGE", "label": "SIZE_XL_IMAGE" },
+    { "type": "text", "id": "SIZE_XL_DIMS", "label": "Dimensions", "default": "110 × 70 cm" },
+    { "type": "text", "id": "SIZE_XL_PET", "label": "Recommended pet", "default": "Extra-large breeds" },
+    { "type": "text", "id": "SIZE_XL_WEIGHT", "label": "Recommended weight", "default": "30–45 kg" },
+    { "type": "textarea", "id": "SIZE_XL_DESC", "label": "Short description", "default": "Generous space for German Shepherds, Retrievers and Huskies through the hottest days." },
+
+    { "type": "header", "content": "XXL" },
+    { "type": "image_picker", "id": "SIZE_XXL_IMAGE", "label": "SIZE_XXL_IMAGE" },
+    { "type": "text", "id": "SIZE_XXL_DIMS", "label": "Dimensions", "default": "130 × 90 cm" },
+    { "type": "text", "id": "SIZE_XXL_PET", "label": "Recommended pet", "default": "Giant breeds" },
+    { "type": "text", "id": "SIZE_XXL_WEIGHT", "label": "Recommended weight", "default": "45 kg+" },
+    { "type": "textarea", "id": "SIZE_XXL_DESC", "label": "Short description", "default": "Maximum coverage for Great Danes, Mastiffs and Saint Bernards — no paw left warm." }
+  ],
+  "presets": [ { "name": "Interactive size guide" } ]
+}
+{% endschema %}

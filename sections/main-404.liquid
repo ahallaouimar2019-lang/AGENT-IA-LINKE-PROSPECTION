@@ -1,0 +1,16 @@
+{%- comment -%} FrostPaws™ — 404 {%- endcomment -%}
+<section class="fp-section fp-hero" style="min-height:70vh;display:grid;place-items:center;text-align:center">
+  <div class="fp-container">
+    <span class="fp-overline">Error 404</span>
+    <h1 class="fp-display" style="margin-block:var(--fp-space-4)">This page wandered off</h1>
+    <p class="fp-body-lg fp-muted" style="margin-inline:auto">Like a cat at nap time, this page is nowhere to be found. Let's get you back somewhere cool.</p>
+    <div style="margin-top:var(--fp-space-8);display:flex;gap:var(--fp-space-4);justify-content:center;flex-wrap:wrap">
+      <a class="fp-btn fp-btn--primary" href="{{ routes.root_url }}"><span>Back to home</span></a>
+      <a class="fp-btn fp-btn--secondary" href="{{ routes.all_products_collection_url }}">Shop FrostPaws</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "404", "tag": "section", "settings": [] }
+{% endschema %}

@@ -1,0 +1,61 @@
+{%- comment -%} FrostPaws™ — Final CTA {%- endcomment -%}
+<section class="fp-section fp-section--dark" id="{{ section.settings.anchor | default: 'final-cta' }}">
+  <div class="fp-container">
+    <div class="fp-finalcta fp-reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="fp-overline">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="fp-display" style="margin-block:var(--fp-space-4)">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}<p class="fp-body-lg" style="margin-inline:auto">{{ section.settings.subheading }}</p>{%- endif -%}
+      <div style="margin-top:var(--fp-space-8);display:flex;flex-wrap:wrap;gap:var(--fp-space-4);justify-content:center;">
+        <a class="fp-btn fp-btn--primary" href="{{ section.settings.primary_link | default: '#size-guide' }}"><span>{{ section.settings.primary_label }}</span></a>
+        {%- if section.settings.secondary_label != blank -%}
+          <a class="fp-btn fp-btn--secondary" href="{{ section.settings.secondary_link | default: '#reviews' }}">{{ section.settings.secondary_label }}</a>
+        {%- endif -%}
+      </div>
+      <div class="fp-trust">
+        {%- for block in section.blocks -%}
+          <span class="fp-trust__item" {{ block.shopify_attributes }}>
+            {% render 'frostpaws-icon', name: block.settings.icon %} {{ block.settings.text }}
+          </span>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Final CTA",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "final-cta" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Ready when you are" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Keep them cool." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Give your best friend the coolest, calmest summer yet — risk-free for 30 nights, shipped free to your door." },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "primary_label", "label": "Primary label", "default": "Find your size" },
+    { "type": "url", "id": "primary_link", "label": "Primary link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary label", "default": "Read the reviews" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary link" }
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust item",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck",
+          "options": [ { "value": "truck", "label": "Truck" }, { "value": "return", "label": "Return" }, { "value": "shield", "label": "Shield" }, { "value": "snowflake", "label": "Snowflake" } ] },
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping" }
+      ]
+    }
+  ],
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "trust", "settings": { "icon": "truck", "text": "Free express shipping" } },
+      { "type": "trust", "settings": { "icon": "return", "text": "30-night trial" } },
+      { "type": "trust", "settings": { "icon": "shield", "text": "2-year guarantee" } }
+    ]
+  },
+  "presets": [ { "name": "Final CTA" } ]
+}
+{% endschema %}

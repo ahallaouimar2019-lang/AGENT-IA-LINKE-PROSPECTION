@@ -1,0 +1,52 @@
+{%- comment -%} FrostPaws™ — Customer Addresses {%- endcomment -%}
+<section class="fp-section" data-fp-addresses>
+  <div class="fp-container">
+    <a class="fp-btn fp-btn--text" href="{{ routes.account_url }}"><span class="fp-btn__arrow">←</span> <span class="fp-btn__label">Back to account</span></a>
+    <header class="fp-account__head" style="margin-top:var(--fp-space-6)">
+      <div>
+        <span class="fp-overline">Address book</span>
+        <h1 class="fp-h1" style="margin-top:var(--fp-space-3)">Your addresses</h1>
+      </div>
+      <button type="button" class="fp-btn fp-btn--primary" data-fp-address-toggle="#fp-new-address"><span>Add address</span></button>
+    </header>
+
+    <div id="fp-new-address" class="fp-card" hidden style="margin-bottom:var(--fp-space-8)">
+      <h2 class="fp-h3">New address</h2>
+      {%- form 'customer_address', customer.new_address -%}
+        <div class="fp-field-row">
+          <div class="fp-field"><label for="af">First name</label><input id="af" type="text" name="address[first_name]" autocomplete="given-name"></div>
+          <div class="fp-field"><label for="al">Last name</label><input id="al" type="text" name="address[last_name]" autocomplete="family-name"></div>
+        </div>
+        <div class="fp-field"><label for="a1">Address</label><input id="a1" type="text" name="address[address1]" autocomplete="address-line1"></div>
+        <div class="fp-field"><label for="a2">Apartment, suite (optional)</label><input id="a2" type="text" name="address[address2]" autocomplete="address-line2"></div>
+        <div class="fp-field-row">
+          <div class="fp-field"><label for="ac">City</label><input id="ac" type="text" name="address[city]" autocomplete="address-level2"></div>
+          <div class="fp-field"><label for="az">ZIP</label><input id="az" type="text" name="address[zip]" autocomplete="postal-code"></div>
+        </div>
+        <div class="fp-field"><label for="aco">Country</label><select id="aco" name="address[country]">{{ all_country_option_tags }}</select></div>
+        <label class="fp-checkbox"><input type="checkbox" name="address[default]" value="true"> Set as default address</label>
+        <button type="submit" class="fp-btn fp-btn--primary fp-btn--full" style="margin-top:var(--fp-space-4)"><span>Save address</span></button>
+      {%- endform -%}
+    </div>
+
+    {%- if customer.addresses.size > 0 -%}
+      <div class="fp-grid fp-grid--2">
+        {%- for address in customer.addresses -%}
+          <div class="fp-card">
+            {%- if address == customer.default_address -%}<span class="fp-badge fp-badge--fresh">Default</span>{%- endif -%}
+            <address class="fp-body fp-muted" style="font-style:normal;margin-top:var(--fp-space-3)">
+              {{ address.name }}<br>{{ address.street }}<br>{{ address.city }}, {{ address.province_code }} {{ address.zip }}<br>{{ address.country }}
+            </address>
+            <div style="display:flex;gap:var(--fp-space-3);margin-top:var(--fp-space-4)">
+              <a class="fp-btn fp-btn--text" href="{{ address.url }}"><span class="fp-btn__label">Edit</span></a>
+              {%- form 'customer_address', address -%}
+                <button type="button" class="fp-btn fp-btn--text" onclick="if(confirm('Delete this address?')){this.closest('form').querySelector('[name=_method]').value='delete';this.closest('form').submit();}">Delete</button>
+                <input type="hidden" name="_method" value="delete">
+              {%- endform -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>

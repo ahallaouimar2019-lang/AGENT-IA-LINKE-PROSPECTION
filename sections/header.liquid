@@ -1,0 +1,91 @@
+{%- comment -%} FrostPaws™ — Sticky Header {%- endcomment -%}
+<header class="fp-header {% if section.settings.glass %}fp-glass{% endif %}"
+        style="{% unless section.settings.glass %}background:{{ section.settings.bg_color }};{% endunless %}">
+  <div class="fp-header__inner">
+    <button class="fp-icon-btn fp-burger" type="button"
+            data-fp-menu-toggle aria-controls="fp-mobile-nav" aria-expanded="false" aria-label="Open menu">
+      {% render 'frostpaws-icon', name: 'menu' %}
+    </button>
+
+    <a class="fp-header__brand" href="{{ routes.root_url }}">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 240 | image_tag: alt: shop.name, loading: 'eager', class: 'fp-header__logo', widths: '120,180,240' }}
+      {%- else -%}
+        {{ section.settings.brand_text | default: shop.name }}
+      {%- endif -%}
+    </a>
+
+    <nav class="fp-header__nav" aria-label="Primary">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link' -%}
+          <a class="fp-header__link" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    <div class="fp-header__actions">
+      <button type="button" class="fp-icon-btn" data-fp-search-open aria-label="Search">
+        {% render 'frostpaws-icon', name: 'search' %}
+      </button>
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="fp-icon-btn fp-header__account" href="{{ routes.account_url }}" aria-label="Account">
+          {% render 'frostpaws-icon', name: 'user' %}
+        </a>
+      {%- endif -%}
+      <a class="fp-icon-btn fp-cart-toggle" href="{{ routes.cart_url }}" {% if settings.cart_type == 'drawer' %}data-fp-cart-open{% endif %} aria-label="Cart">
+        {% render 'frostpaws-icon', name: 'cart' %}
+        <span class="fp-cart-count fp-tabular" data-fp-cart-bubble {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+      </a>
+      {%- if section.settings.cta_label != blank -%}
+        <a class="fp-btn fp-btn--primary fp-header__cta" href="{{ section.settings.cta_link | default: '#size-guide' }}">
+          <span>{{ section.settings.cta_label }}</span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <nav id="fp-mobile-nav" class="fp-header__mobile fp-glass" aria-label="Mobile" hidden>
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'link' -%}
+        <a class="fp-header__link" href="{{ block.settings.link }}">{{ block.settings.label }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "section",
+  "class": "fp-header-section",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image" },
+    { "type": "text", "id": "brand_text", "label": "Brand text (if no logo)", "default": "FrostPaws™" },
+    { "type": "checkbox", "id": "glass", "label": "Frosted-glass background", "default": true },
+    { "type": "color", "id": "bg_color", "label": "Background (if glass off)", "default": "#FBFDFE" },
+    { "type": "header", "content": "Call to action" },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Keep them cool" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Nav link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Shop" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "link", "settings": { "label": "Why FrostPaws" } },
+      { "type": "link", "settings": { "label": "How it works" } },
+      { "type": "link", "settings": { "label": "Reviews" } },
+      { "type": "link", "settings": { "label": "Size guide" } }
+    ]
+  }
+}
+{% endschema %}

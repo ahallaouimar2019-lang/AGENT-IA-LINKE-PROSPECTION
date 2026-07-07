@@ -1,0 +1,63 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "FrostPaws",
+    "theme_version": "1.0.0",
+    "theme_author": "FrostPaws",
+    "theme_documentation_url": "https://frostpaws.com",
+    "theme_support_url": "https://frostpaws.com"
+  },
+  {
+    "name": "Logo & branding",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo" },
+      { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 240, "step": 10, "unit": "px", "default": 140 },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon", "info": "32 × 32px recommended" }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "paragraph", "content": "FrostPaws ships with a fixed cooling palette from the design system — Snow, Ice Blue, Soft Cyan, Deep Navy, Midnight Navy. Per-section background toggles (Snow / Frost) keep the whole store harmonious. Override only if absolutely necessary." },
+      { "type": "color", "id": "color_accent", "label": "Interactive accent", "default": "#4E9FC4" },
+      { "type": "color", "id": "color_primary", "label": "Primary / buttons", "default": "#1B3A5B" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "paragraph", "content": "Headlines: General Sans · Body: Inter (loaded via CDN with font-display: swap). The type scale is fluid and defined in the design system." }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      { "type": "select", "id": "cart_type", "label": "Cart type", "default": "drawer",
+        "options": [ { "value": "drawer", "label": "Slide-out drawer" }, { "value": "page", "label": "Page only" } ] },
+      { "type": "checkbox", "id": "cart_show_free_shipping", "label": "Show free-shipping progress bar", "default": true },
+      { "type": "number", "id": "free_shipping_threshold", "label": "Free shipping threshold (in cents)", "default": 6000, "info": "e.g. 6000 = $60.00. Set 0 to hide." }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      { "type": "checkbox", "id": "card_show_wishlist", "label": "Show wishlist button", "default": true },
+      { "type": "checkbox", "id": "card_show_rating", "label": "Show rating", "default": true },
+      { "type": "checkbox", "id": "card_show_second_image", "label": "Reveal second image on hover", "default": false }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok URL" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook URL" }
+    ]
+  },
+  {
+    "name": "Search",
+    "settings": [
+      { "type": "checkbox", "id": "predictive_search_enabled", "label": "Enable predictive search", "default": true }
+    ]
+  }
+]

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#0E2338">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- comment -%} Open Graph / Twitter for premium social sharing {%- endcomment -%}
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:type" content="{% if request.page_type == 'product' %}product{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if page_description -%}<meta property="og:description" content="{{ page_description | escape }}">{%- endif -%}
+  {%- if request.page_type == 'product' and product.featured_media -%}
+    <meta property="og:image" content="https:{{ product.featured_media | image_url: width: 1200 }}">
+  {%- elsif settings.logo -%}
+    <meta property="og:image" content="https:{{ settings.logo | image_url: width: 1200 }}">
+  {%- endif -%}
+  <meta name="twitter:card" content="summary_large_image">
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+
+  <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+
+  {%- comment -%} Fonts: General Sans (display) + Inter (body) {%- endcomment -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+  </noscript>
+
+  <link rel="stylesheet" href="{{ 'frostpaws.css' | asset_url }}">
+  <script>
+    window.FrostPaws = {
+      routes: {
+        cart_add: "{{ routes.cart_add_url }}",
+        cart_change: "{{ routes.cart_change_url }}",
+        cart: "{{ routes.cart_url }}",
+        predictive: "{{ routes.predictive_search_url }}"
+      },
+      currency: "{{ shop.currency }}",
+      moneyFormat: {{ shop.money_format | json }},
+      predictiveEnabled: {% if settings.predictive_search_enabled == false %}false{% else %}true{% endif %},
+      freeShippingThreshold: {{ settings.free_shipping_threshold | default: 0 }}
+    };
+  </script>
+  <script src="{{ 'frostpaws.js' | asset_url }}" defer></script>
+  <script src="{{ 'frostpaws-store.js' | asset_url }}" defer></script>
+
+  {%- comment -%} SEO: Organization + Website structured data {%- endcomment -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "url": {{ shop.url | json }}
+    {%- if settings.logo -%}, "logo": {{ settings.logo | image_url: width: 400 | prepend: 'https:' | json }}{%- endif -%}
+  }
+  </script>
+
+  {{ content_for_header }}
+</head>
+<body class="template-{{ template.name }}">
+  <a class="fp-skip" href="#MainContent">Skip to content</a>
+
+  {%- sections 'header-group' -%}
+
+  <main id="MainContent" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {%- sections 'footer-group' -%}
+
+  {%- if settings.cart_type == 'drawer' -%}{% section 'cart-drawer' %}{%- endif -%}
+  {% render 'frostpaws-search-drawer' %}
+</body>
+</html>

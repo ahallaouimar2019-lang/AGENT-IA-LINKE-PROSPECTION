@@ -1,0 +1,86 @@
+{%- comment -%} FrostPaws™ — Customer Reviews {%- endcomment -%}
+<section class="fp-section {{ section.settings.bg_class }}" id="{{ section.settings.anchor | default: 'reviews' }}">
+  <div class="fp-container">
+    <div class="fp-section__head fp-reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="fp-overline">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="fp-h2" style="margin-top:var(--fp-space-3)">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="fp-reviews__summary fp-reveal">
+      <span class="fp-reviews__score fp-tabular">{{ section.settings.avg_score }}</span>
+      <div>
+        {% render 'frostpaws-stars', rating: 5 %}
+        <p class="fp-caption" style="margin-top:4px">{{ section.settings.summary_text }}</p>
+      </div>
+    </div>
+
+    <div class="fp-grid fp-grid--3">
+      {%- for block in section.blocks -%}
+        <article class="fp-card fp-reveal" {{ block.shopify_attributes }}>
+          <div class="fp-review">
+            {% render 'frostpaws-stars', rating: block.settings.rating %}
+            <p class="fp-review__quote">{{ block.settings.quote }}</p>
+            <div class="fp-review__author">
+              <span class="fp-review__avatar">
+                {%- if block.settings.avatar != blank -%}
+                  {% render 'frostpaws-image', image: block.settings.avatar, ratio: '1/1', slot: block.settings.slot_id, alt: block.settings.name, sizes: '44px' %}
+                {%- endif -%}
+              </span>
+              <div>
+                <div class="fp-review__name">
+                  {{ block.settings.name }}
+                  {%- if block.settings.verified -%}<span class="fp-badge fp-badge--fresh" style="margin-left:6px">Verified</span>{%- endif -%}
+                </div>
+                <div class="fp-review__meta">{{ block.settings.meta }}</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer reviews",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "reviews" },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "fp-section--alt",
+      "options": [ { "value": "", "label": "Snow" }, { "value": "fp-section--alt", "label": "Frost" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Loved by pet parents" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "40,000 cooler, happier pets" },
+    { "type": "text", "id": "avg_score", "label": "Average score", "default": "4.9" },
+    { "type": "text", "id": "summary_text", "label": "Summary text", "default": "Based on 2,140 verified reviews" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "A wonderful product." },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" },
+        { "type": "text", "id": "slot_id", "label": "Placeholder ID", "default": "REVIEW_AVATAR" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Sofia M." },
+        { "type": "text", "id": "meta", "label": "Meta", "default": "Luna · Golden Retriever" },
+        { "type": "checkbox", "id": "verified", "label": "Verified badge", "default": true }
+      ]
+    }
+  ],
+  "max_blocks": 9,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "review", "settings": { "rating": 5, "quote": "She hasn't left it since the heatwave started. Finally a pet product that actually looks good in our living room.", "name": "Sofia M.", "meta": "Luna · Golden Retriever", "slot_id": "REVIEW_AVATAR_1" } },
+      { "type": "review", "settings": { "rating": 5, "quote": "My senior Lab used to pant all night. First evening on FrostPaws he slept straight through. I'm sold.", "name": "James R.", "meta": "Cooper · Labrador", "slot_id": "REVIEW_AVATAR_2" } },
+      { "type": "review", "settings": { "rating": 5, "quote": "Two cats, one mat, endless negotiations. The gel really does stay cold — and it wipes clean in seconds.", "name": "Amara O.", "meta": "Miso & Nori · Cats", "slot_id": "REVIEW_AVATAR_3" } },
+      { "type": "review", "settings": { "rating": 5, "quote": "You can feel the quality the moment you unbox it. This is not the flimsy mat I bought last summer.", "name": "Daniel K.", "meta": "Bruno · Boxer", "slot_id": "REVIEW_AVATAR_4" } },
+      { "type": "review", "settings": { "rating": 5, "quote": "Bought the XL for our Great Dane and he finally fits. Cool, calm, and no more restless pacing at night.", "name": "Priya S.", "meta": "Atlas · Great Dane", "slot_id": "REVIEW_AVATAR_5" } },
+      { "type": "review", "settings": { "rating": 5, "quote": "Delivery was quick, the trial made it risk-free, and honestly it's become the dog's favourite spot in the house.", "name": "Elena V.", "meta": "Pixel · Frenchie", "slot_id": "REVIEW_AVATAR_6" } }
+    ]
+  },
+  "presets": [ { "name": "Customer reviews" } ]
+}
+{% endschema %}

@@ -1,0 +1,21 @@
+{%- comment -%}
+  FrostPaws™ price. Params: product (or variant via target), show_compare (bool).
+{%- endcomment -%}
+{%- liquid
+  assign target = product
+  assign on_sale = false
+  if target.compare_at_price > target.price
+    assign on_sale = true
+  endif
+-%}
+<span class="fp-price {% if on_sale %}fp-price--sale{% endif %}">
+  {%- if target.price_varies -%}
+    <span class="fp-price__from">From</span>
+  {%- endif -%}
+  <span class="fp-price__amount fp-tabular">{{ target.price | money }}</span>
+  {%- if on_sale -%}
+    <s class="fp-price__was fp-tabular">{{ target.compare_at_price | money }}</s>
+    {%- assign saved = target.compare_at_price | minus: target.price -%}
+    <span class="fp-price__save">Save {{ saved | money }}</span>
+  {%- endif -%}
+</span>

@@ -1,0 +1,39 @@
+{%- comment -%} FrostPaws™ — Product Recommendations (Shopify API) {%- endcomment -%}
+<section class="fp-section {{ section.settings.bg_class }}"
+         data-fp-recommendations
+         data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}">
+  <div class="fp-container">
+    <div class="fp-section__head fp-reveal">
+      <span class="fp-overline">{{ section.settings.eyebrow }}</span>
+      <h2 class="fp-h2" style="margin-top:var(--fp-space-3)">{{ section.settings.heading }}</h2>
+    </div>
+    {%- if recommendations.performed and recommendations.products_count > 0 -%}
+      <div class="fp-product-grid">
+        {%- for product in recommendations.products -%}
+          {% render 'frostpaws-product-card', product: product %}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="fp-product-grid" aria-hidden="true">
+        {%- for i in (1..section.settings.limit) -%}
+          <div class="fp-card"><div class="fp-media fp-skeleton" style="aspect-ratio:1/1"></div></div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product recommendations",
+  "tag": "section",
+  "settings": [
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "fp-section--alt",
+      "options": [ { "value": "", "label": "Snow" }, { "value": "fp-section--alt", "label": "Frost" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "You may also love" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Complete their comfort" },
+    { "type": "range", "id": "limit", "label": "Products", "min": 2, "max": 8, "step": 1, "default": 4 }
+  ],
+  "presets": [ { "name": "Product recommendations" } ]
+}
+{% endschema %}

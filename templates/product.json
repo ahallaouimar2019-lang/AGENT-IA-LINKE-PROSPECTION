@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": { "type": "main-product" },
+    "reviews": { "type": "reviews", "settings": { "bg_class": "fp-section--alt" } },
+    "recommendations": { "type": "product-recommendations" },
+    "recently_viewed": { "type": "recently-viewed" }
+  },
+  "order": ["main", "reviews", "recommendations", "recently_viewed"]
+}

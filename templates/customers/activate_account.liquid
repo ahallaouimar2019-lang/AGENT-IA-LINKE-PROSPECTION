@@ -1,0 +1,25 @@
+{%- comment -%} FrostPaws™ — Activate Account {%- endcomment -%}
+<section class="fp-section">
+  <div class="fp-container fp-auth">
+    <div class="fp-auth__card fp-card">
+      <span class="fp-overline">Welcome to FrostPaws</span>
+      <h1 class="fp-h2" style="margin-top:var(--fp-space-3)">Activate your account</h1>
+      <p class="fp-body fp-muted" style="margin-top:var(--fp-space-2)">Create a password to finish setting up your account.</p>
+      {%- form 'activate_customer_password' -%}
+        {%- if form.errors -%}<div class="fp-form-error" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <div class="fp-field">
+          <label for="password">Password</label>
+          <input type="password" name="customer[password]" id="password" autocomplete="new-password" required>
+        </div>
+        <div class="fp-field">
+          <label for="password_confirmation">Confirm password</label>
+          <input type="password" name="customer[password_confirmation]" id="password_confirmation" autocomplete="new-password" required>
+        </div>
+        <div style="display:flex;gap:var(--fp-space-3)">
+          <button type="submit" class="fp-btn fp-btn--primary fp-btn--full"><span>Activate account</span></button>
+          <button type="submit" name="decline" class="fp-btn fp-btn--secondary">Decline</button>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</section>

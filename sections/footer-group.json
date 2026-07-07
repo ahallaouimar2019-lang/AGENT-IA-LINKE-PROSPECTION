@@ -1,0 +1,16 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "c1": { "type": "column", "settings": { "title": "Shop", "links": "Cooling mat | /products\nSize guide | #size-guide\nColorways | #colors\nReviews | #reviews" } },
+        "c2": { "type": "column", "settings": { "title": "Support", "links": "Track order | /pages/track\nShipping | /pages/shipping\nReturns | /pages/returns\nContact | /pages/contact" } },
+        "c3": { "type": "column", "settings": { "title": "Company", "links": "Our story | /pages/about\nSustainability | /pages/sustainability\nPrivacy | /policies/privacy-policy\nTerms | /policies/terms-of-service" } }
+      },
+      "block_order": ["c1", "c2", "c3"]
+    }
+  },
+  "order": ["footer"]
+}

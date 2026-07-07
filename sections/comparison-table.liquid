@@ -1,0 +1,93 @@
+{%- comment -%} FrostPaws™ — Comparison Table {%- endcomment -%}
+<section class="fp-section {{ section.settings.bg_class }}" id="{{ section.settings.anchor | default: 'compare' }}">
+  <div class="fp-container">
+    <div class="fp-section__head fp-reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="fp-overline">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="fp-h2" style="margin-top:var(--fp-space-3)">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}<p class="fp-body-lg fp-muted" style="margin-top:var(--fp-space-4)">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+
+    <div class="fp-compare fp-reveal" style="max-width:900px;margin-inline:auto">
+      <table>
+        <caption class="fp-sr-only">FrostPaws compared with ordinary cooling mats</caption>
+        <thead>
+          <tr>
+            <th class="fp-compare__feature-col" scope="col"><span class="fp-sr-only">Feature</span></th>
+            <th class="fp-compare__brand" scope="col">{{ section.settings.brand_col | default: 'FrostPaws™' }}</th>
+            <th scope="col">{{ section.settings.other_col | default: 'Ordinary mats' }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            <tr {{ block.shopify_attributes }}>
+              <th scope="row">{{ block.settings.feature }}</th>
+              <td class="fp-compare__brand">
+                {%- if block.settings.brand_text != blank -%}
+                  {{ block.settings.brand_text }}
+                {%- elsif block.settings.brand_yes -%}
+                  <span class="fp-compare__yes">{% render 'frostpaws-icon', name: 'check' %}<span class="fp-sr-only">Yes</span></span>
+                {%- else -%}
+                  <span class="fp-compare__no">{% render 'frostpaws-icon', name: 'menu' %}<span class="fp-sr-only">No</span></span>
+                {%- endif -%}
+              </td>
+              <td>
+                {%- if block.settings.other_text != blank -%}
+                  <span class="fp-muted">{{ block.settings.other_text }}</span>
+                {%- elsif block.settings.other_yes -%}
+                  <span class="fp-compare__yes">{% render 'frostpaws-icon', name: 'check' %}<span class="fp-sr-only">Yes</span></span>
+                {%- else -%}
+                  <span class="fp-compare__no" aria-hidden="true">✕</span><span class="fp-sr-only">No</span>
+                {%- endif -%}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Comparison table",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "compare" },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "",
+      "options": [ { "value": "", "label": "Snow" }, { "value": "fp-section--alt", "label": "Frost" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The difference" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why pet parents switch to FrostPaws" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "The same job, done properly. Here's how FrostPaws compares to the cheap mats flooding the market." },
+    { "type": "text", "id": "brand_col", "label": "Brand column", "default": "FrostPaws™" },
+    { "type": "text", "id": "other_col", "label": "Other column", "default": "Ordinary mats" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        { "type": "text", "id": "feature", "label": "Feature", "default": "Cooling that lasts" },
+        { "type": "checkbox", "id": "brand_yes", "label": "FrostPaws: check", "default": true },
+        { "type": "text", "id": "brand_text", "label": "FrostPaws: custom text (optional)" },
+        { "type": "checkbox", "id": "other_yes", "label": "Other: check", "default": false },
+        { "type": "text", "id": "other_text", "label": "Other: custom text (optional)" }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "row", "settings": { "feature": "Cools for hours, self-recharges", "brand_yes": true, "other_text": "Warms up fast" } },
+      { "type": "row", "settings": { "feature": "Pressure-activated gel technology", "brand_yes": true, "other_yes": false } },
+      { "type": "row", "settings": { "feature": "Orthopedic, joint-friendly support", "brand_yes": true, "other_yes": false } },
+      { "type": "row", "settings": { "feature": "Chew & tear resistant", "brand_yes": true, "other_text": "Punctures easily" } },
+      { "type": "row", "settings": { "feature": "Machine-washable cover", "brand_yes": true, "other_yes": false } },
+      { "type": "row", "settings": { "feature": "Non-toxic, certified materials", "brand_yes": true, "other_text": "Often unlabeled" } },
+      { "type": "row", "settings": { "feature": "Premium, home-friendly design", "brand_yes": true, "other_yes": false } },
+      { "type": "row", "settings": { "feature": "30-night trial & 2-year guarantee", "brand_yes": true, "other_yes": false } }
+    ]
+  },
+  "presets": [ { "name": "Comparison table" } ]
+}
+{% endschema %}

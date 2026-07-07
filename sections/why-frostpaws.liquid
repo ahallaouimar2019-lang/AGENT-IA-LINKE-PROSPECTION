@@ -1,0 +1,64 @@
+{%- comment -%} FrostPaws™ — Why FrostPaws (benefit cards) {%- endcomment -%}
+<section class="fp-section {{ section.settings.bg_class }}" id="{{ section.settings.anchor | default: 'why' }}">
+  <div class="fp-container">
+    <div class="fp-section__head fp-reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="fp-overline">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="fp-h2" style="margin-top:var(--fp-space-3)">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}<p class="fp-body-lg fp-muted" style="margin-top:var(--fp-space-4)">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+    <div class="fp-grid fp-grid--3">
+      {%- for block in section.blocks -%}
+        <article class="fp-card fp-card--interactive fp-reveal" {{ block.shopify_attributes }}>
+          <div class="fp-feature__icon">{% render 'frostpaws-icon', name: block.settings.icon %}</div>
+          <h3 class="fp-h3">{{ block.settings.title }}</h3>
+          <p class="fp-body fp-muted" style="margin-top:var(--fp-space-2)">{{ block.settings.text }}</p>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why FrostPaws",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "why" },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "",
+      "options": [ { "value": "", "label": "Snow" }, { "value": "fp-section--alt", "label": "Frost" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why FrostPaws" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Engineered comfort, not a gimmick" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Every detail exists for one reason: a calmer, cooler pet — and a beautiful object you're proud to leave out." }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "snowflake",
+          "options": [
+            { "value": "snowflake", "label": "Snowflake" }, { "value": "drop", "label": "Drop" },
+            { "value": "feather", "label": "Feather" }, { "value": "shield", "label": "Shield" },
+            { "value": "leaf", "label": "Leaf" }, { "value": "wash", "label": "Wash" },
+            { "value": "sparkle", "label": "Sparkle" }, { "value": "clock", "label": "Clock" }
+          ] },
+        { "type": "text", "id": "title", "label": "Title", "default": "Instant cooling" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Pressure-activated gel draws heat away the moment your pet lies down." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "benefit", "settings": { "icon": "snowflake", "title": "Instant cooling", "text": "Pressure-activated gel draws heat away the second your pet settles — 3–5°C below room temperature, no charging required." } },
+      { "type": "benefit", "settings": { "icon": "drop", "title": "Zero effort", "text": "No water, no electricity, no refrigeration. It self-recharges in minutes, ready for the next nap." } },
+      { "type": "benefit", "settings": { "icon": "feather", "title": "Orthopedic calm", "text": "A supportive, pressure-relieving surface that soothes joints while it cools — restful sleep, every time." } },
+      { "type": "benefit", "settings": { "icon": "shield", "title": "Chew-resistant build", "text": "Reinforced, tear-tested cover and non-toxic gel, designed to survive real pets and real summers." } },
+      { "type": "benefit", "settings": { "icon": "wash", "title": "Wipe & wash clean", "text": "A quick wipe or a machine-wash cover keeps it fresh. Fur, dust and drool don't stand a chance." } },
+      { "type": "benefit", "settings": { "icon": "leaf", "title": "Designed to belong", "text": "Muted, premium tones that disappear into your home instead of shouting 'pet product'." } }
+    ]
+  },
+  "presets": [ { "name": "Why FrostPaws" } ]
+}
+{% endschema %}

@@ -1,0 +1,60 @@
+{%- comment -%} FrostPaws™ — Guarantee {%- endcomment -%}
+<section class="fp-section {{ section.settings.bg_class }}" id="{{ section.settings.anchor | default: 'guarantee' }}">
+  <div class="fp-container">
+    <div class="fp-panel fp-reveal">
+      <div class="fp-guarantee">
+        <div class="fp-guarantee__seal" aria-hidden="true">{% render 'frostpaws-icon', name: section.settings.icon %}</div>
+        <div class="fp-stack">
+          {%- if section.settings.eyebrow != blank -%}<span class="fp-overline">{{ section.settings.eyebrow }}</span>{%- endif -%}
+          <h2 class="fp-h2">{{ section.settings.heading }}</h2>
+          <p class="fp-body-lg fp-muted">{{ section.settings.text }}</p>
+          <div class="fp-trust" style="margin-top:var(--fp-space-2)">
+            {%- for block in section.blocks -%}
+              <span class="fp-trust__item" {{ block.shopify_attributes }}>
+                {% render 'frostpaws-icon', name: block.settings.icon %} {{ block.settings.text }}
+              </span>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Guarantee",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "guarantee" },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "",
+      "options": [ { "value": "", "label": "Snow" }, { "value": "fp-section--alt", "label": "Frost" } ] },
+    { "type": "select", "id": "icon", "label": "Seal icon", "default": "shield",
+      "options": [ { "value": "shield", "label": "Shield" }, { "value": "return", "label": "Return" }, { "value": "snowflake", "label": "Snowflake" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our promise" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Try it cool-risk-free for 30 nights" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Give FrostPaws a full month in your home. If your pet isn't cooler, calmer and happier, send it back for a full refund — shipping's on us. Backed by a 2-year quality guarantee." }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "return",
+          "options": [ { "value": "return", "label": "Return" }, { "value": "truck", "label": "Truck" }, { "value": "shield", "label": "Shield" }, { "value": "clock", "label": "Clock" } ] },
+        { "type": "text", "id": "text", "label": "Text", "default": "30-night trial" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "point", "settings": { "icon": "return", "text": "30-night cool-sleep trial" } },
+      { "type": "point", "settings": { "icon": "shield", "text": "2-year quality guarantee" } },
+      { "type": "point", "settings": { "icon": "truck", "text": "Free returns, no questions" } }
+    ]
+  },
+  "presets": [ { "name": "Guarantee" } ]
+}
+{% endschema %}

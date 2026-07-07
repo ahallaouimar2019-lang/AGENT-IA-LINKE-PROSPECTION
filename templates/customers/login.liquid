@@ -1,0 +1,53 @@
+{%- comment -%} FrostPaws™ — Customer Login {%- endcomment -%}
+<section class="fp-section">
+  <div class="fp-container fp-auth">
+    <div class="fp-auth__card fp-card">
+      <div id="fp-login">
+        <span class="fp-overline">Welcome back</span>
+        <h1 class="fp-h2" style="margin-top:var(--fp-space-3)">Sign in</h1>
+        <p class="fp-body fp-muted" style="margin-top:var(--fp-space-2)">Track orders, manage details and check out faster.</p>
+
+        {%- form 'customer_login', novalidate: 'novalidate' -%}
+          {%- if form.errors -%}
+            <div class="fp-form-error" role="alert">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+          <div class="fp-field">
+            <label for="customer_email">Email</label>
+            <input type="email" name="customer[email]" id="customer_email" autocomplete="email" required>
+          </div>
+          {%- if form.password_needed -%}
+            <div class="fp-field">
+              <label for="customer_password">Password</label>
+              <input type="password" name="customer[password]" id="customer_password" autocomplete="current-password" required>
+              <a class="fp-btn fp-btn--text" href="#fp-recover" data-fp-toggle="#fp-recover" data-fp-hide="#fp-login"><span class="fp-btn__label">Forgot password?</span></a>
+            </div>
+          {%- endif -%}
+          <button type="submit" class="fp-btn fp-btn--primary fp-btn--full"><span>Sign in</span></button>
+        {%- endform -%}
+
+        <p class="fp-caption" style="margin-top:var(--fp-space-6);text-align:center">
+          New here? <a href="{{ routes.account_register_url }}">Create an account</a>
+        </p>
+      </div>
+
+      <div id="fp-recover" hidden>
+        <span class="fp-overline">Reset</span>
+        <h1 class="fp-h2" style="margin-top:var(--fp-space-3)">Forgot your password?</h1>
+        <p class="fp-body fp-muted" style="margin-top:var(--fp-space-2)">Enter your email and we'll send a reset link.</p>
+        {%- form 'recover_customer_password' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="fp-form-success" role="status">We've sent you an email with a reset link.</div>
+          {%- endif -%}
+          <div class="fp-field">
+            <label for="recover_email">Email</label>
+            <input type="email" name="email" id="recover_email" autocomplete="email" required>
+          </div>
+          <button type="submit" class="fp-btn fp-btn--primary fp-btn--full"><span>Send reset link</span></button>
+        {%- endform -%}
+        <p class="fp-caption" style="margin-top:var(--fp-space-6);text-align:center">
+          <a href="#fp-login" data-fp-toggle="#fp-login" data-fp-hide="#fp-recover">Back to sign in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+{
+  "current": {
+    "color_accent": "#4E9FC4",
+    "color_primary": "#1B3A5B",
+    "logo_width": 140,
+    "cart_type": "drawer",
+    "cart_show_free_shipping": true,
+    "free_shipping_threshold": 6000,
+    "card_show_wishlist": true,
+    "card_show_rating": true,
+    "card_show_second_image": false,
+    "predictive_search_enabled": true
+  },
+  "presets": {
+    "FrostPaws": {
+      "color_accent": "#4E9FC4",
+      "color_primary": "#1B3A5B",
+      "cart_type": "drawer",
+      "cart_show_free_shipping": true,
+      "free_shipping_threshold": 6000,
+      "card_show_wishlist": true,
+      "card_show_rating": true,
+      "predictive_search_enabled": true
+    }
+  }
+}

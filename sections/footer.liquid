@@ -1,0 +1,98 @@
+{%- comment -%} FrostPaws™ — Midnight Navy Footer (+ sticky mobile CTA) {%- endcomment -%}
+<footer class="fp-footer" role="contentinfo">
+  <div class="fp-container">
+    <div class="fp-footer__grid">
+      <div class="fp-footer__col">
+        <div class="fp-footer__brand">{{ section.settings.brand | default: 'FrostPaws™' }}</div>
+        <p class="fp-body" style="color:var(--fp-ice-300);margin-top:var(--fp-space-3)">{{ section.settings.tagline }}</p>
+        {%- if section.settings.show_newsletter -%}
+          <form class="fp-footer__news" method="post" action="/contact#footer-news" accept-charset="UTF-8">
+            <input type="hidden" name="form_type" value="customer">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <label class="fp-sr-only" for="fp-news-email">Email address</label>
+            <input id="fp-news-email" type="email" name="contact[email]" placeholder="{{ section.settings.news_placeholder }}" required>
+            <button class="fp-btn fp-btn--primary" type="submit" style="min-height:auto;padding:12px 18px"><span>Join</span></button>
+          </form>
+        {%- endif -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'column' -%}
+          <div class="fp-footer__col" {{ block.shopify_attributes }}>
+            <h4>{{ block.settings.title }}</h4>
+            <ul>
+              {%- assign links = block.settings.links | newline_to_br | split: '<br />' -%}
+              {%- for link in links -%}
+                {%- assign parts = link | strip | split: '|' -%}
+                {%- if parts.size > 1 -%}
+                  <li><a href="{{ parts[1] | strip }}">{{ parts[0] | strip }}</a></li>
+                {%- elsif parts[0] != blank -%}
+                  <li><a href="#">{{ parts[0] | strip }}</a></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if settings.social_instagram != blank or settings.social_tiktok != blank or settings.social_facebook != blank -%}
+      <div class="fp-footer__social">
+        {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" aria-label="Instagram" class="fp-icon-btn">{% render 'frostpaws-icon', name: 'instagram' %}</a>{%- endif -%}
+        {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" aria-label="TikTok" class="fp-icon-btn">{% render 'frostpaws-icon', name: 'tiktok' %}</a>{%- endif -%}
+        {%- if settings.social_facebook != blank -%}<a href="{{ settings.social_facebook }}" aria-label="Facebook" class="fp-icon-btn">{% render 'frostpaws-icon', name: 'facebook' %}</a>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <hr class="fp-footer__divider">
+    <div class="fp-footer__bottom">
+      <p class="fp-footer__legal">© {{ 'now' | date: '%Y' }} {{ section.settings.brand | default: 'FrostPaws™' }} · {{ section.settings.legal }}</p>
+      <div class="fp-footer__pay"><span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span><span>Apple&nbsp;Pay</span></div>
+    </div>
+  </div>
+</footer>
+
+{%- if section.settings.show_sticky_cta -%}
+  <div class="fp-cta-bar fp-glass">
+    <span class="fp-cta-bar__price">{{ section.settings.sticky_price }}</span>
+    <a class="fp-btn fp-btn--primary" href="{{ section.settings.sticky_link | default: '#size-guide' }}"><span>{{ section.settings.sticky_label }}</span></a>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "brand", "label": "Brand", "default": "FrostPaws™" },
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Premium self-cooling comfort for the pets people treat like family." },
+    { "type": "text", "id": "legal", "label": "Legal line", "default": "Cold air, given form." },
+    { "type": "header", "content": "Newsletter" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter", "default": true },
+    { "type": "text", "id": "news_placeholder", "label": "Placeholder", "default": "Your email for cooler tips" },
+    { "type": "header", "content": "Sticky mobile CTA" },
+    { "type": "checkbox", "id": "show_sticky_cta", "label": "Show sticky CTA (mobile)", "default": true },
+    { "type": "text", "id": "sticky_price", "label": "Price", "default": "From $59" },
+    { "type": "text", "id": "sticky_label", "label": "Button label", "default": "Keep them cool" },
+    { "type": "url", "id": "sticky_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Link column",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Shop" },
+        { "type": "textarea", "id": "links", "label": "Links (one per line: Label | /url)", "default": "Cooling mat | /products\nSize guide | #size-guide\nColors | #colors" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "column", "settings": { "title": "Shop", "links": "Cooling mat | /products\nSize guide | #size-guide\nColorways | #colors\nReviews | #reviews" } },
+      { "type": "column", "settings": { "title": "Support", "links": "Track order | /pages/track\nShipping | /pages/shipping\nReturns | /pages/returns\nContact | /pages/contact" } },
+      { "type": "column", "settings": { "title": "Company", "links": "Our story | /pages/about\nSustainability | /pages/sustainability\nPrivacy | /policies/privacy-policy\nTerms | /policies/terms-of-service" } }
+    ]
+  }
+}
+{% endschema %}

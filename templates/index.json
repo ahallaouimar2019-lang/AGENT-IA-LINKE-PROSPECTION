@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "hero": { "type": "hero" },
+    "why": { "type": "why-frostpaws" },
+    "how": { "type": "how-it-works" },
+    "size_guide": { "type": "size-guide" },
+    "colors": { "type": "color-variants" },
+    "gallery": { "type": "lifestyle-gallery" },
+    "benefits": { "type": "benefits" },
+    "compare": { "type": "comparison-table" },
+    "reviews": { "type": "reviews" },
+    "before_after": { "type": "before-after" },
+    "faq": { "type": "faq" },
+    "guarantee": { "type": "guarantee" },
+    "final_cta": { "type": "final-cta" }
+  },
+  "order": [
+    "hero",
+    "why",
+    "how",
+    "size_guide",
+    "colors",
+    "gallery",
+    "benefits",
+    "compare",
+    "reviews",
+    "before_after",
+    "faq",
+    "guarantee",
+    "final_cta"
+  ]
+}
