@@ -1,0 +1,166 @@
+/* ============================================================
+   FrostPaws™ — Design Tokens (v1.0)
+   Single source of truth. Every value in the UI derives from here.
+   "Cold air, given form."
+   ============================================================ */
+
+:root {
+  /* ---------------------------------------------------------
+     1. COLOR — core (cool, desaturated, expensive)
+     --------------------------------------------------------- */
+  --fp-snow:      #FBFDFE; /* primary background — warmer white, faint blue */
+  --fp-frost-50:  #F2F7FB; /* alternating section bands */
+  --fp-frost-100: #E7EEF4; /* card fills, input fills, dividers */
+  --fp-ice-300:   #BFD9E8; /* soft accents, borders, illustration tint */
+  --fp-cyan-400:  #8FCBDD; /* secondary accent, highlights, focus glow */
+  --fp-glacier-500:#4E9FC4;/* interactive mid-tone, links, icon strokes */
+  --fp-navy-700:  #1B3A5B; /* PRIMARY brand — buttons, key headlines */
+  --fp-navy-900:  #0E2338; /* darkest surface — footer */
+  --fp-ink:       #132433; /* body text (never pure black) */
+  --fp-grey-400:  #8A97A2; /* secondary text, captions, meta */
+  --fp-grey-200:  #DCE3E8; /* hairline borders, disabled */
+
+  /* ---------------------------------------------------------
+     2. COLOR — accents (seasoning only, ~5% max of a screen)
+     --------------------------------------------------------- */
+  --fp-mint:      #7FD9C4; /* freshness / success / in-stock */
+  --fp-mint-ink:  #0F5F52; /* text on mint chips */
+  --fp-warm-sand: #E9DFD3; /* the one warm note — photo styling / soft badge */
+  --fp-gold:      #E4B95B; /* review stars (approved) */
+  --fp-coral:     #D98A82; /* error — desaturated, never fire-engine red */
+
+  /* ---------------------------------------------------------
+     3. SEMANTIC aliases
+     --------------------------------------------------------- */
+  --fp-bg:            var(--fp-snow);
+  --fp-bg-alt:        var(--fp-frost-50);
+  --fp-surface:       var(--fp-snow);
+  --fp-surface-sunk:  var(--fp-frost-100);
+  --fp-text:          var(--fp-ink);
+  --fp-text-secondary:var(--fp-grey-400);
+  --fp-text-invert:   var(--fp-snow);
+  --fp-border:        var(--fp-grey-200);
+  --fp-border-strong: var(--fp-ice-300);
+  --fp-action:        var(--fp-navy-700);
+  --fp-action-hover:  #234a72; /* navy lightened ~6% toward glacier */
+  --fp-link:          var(--fp-glacier-500);
+  --fp-focus:         var(--fp-cyan-400);
+  --fp-success:       var(--fp-mint);
+  --fp-star:          var(--fp-gold);
+
+  /* ---------------------------------------------------------
+     4. GRADIENTS — "cold air" (whisper-quiet, atmospheric)
+     --------------------------------------------------------- */
+  --fp-grad-frost-air:  linear-gradient(160deg, #FBFDFE 0%, #EFF6FB 45%, #DCEAF3 100%);
+  --fp-grad-glacier:    linear-gradient(180deg, #1B3A5B 0%, #0E2338 100%);
+  --fp-grad-cyan-halo:  radial-gradient(closest-side, rgba(143,203,221,0.55) 0%, rgba(143,203,221,0.18) 55%, rgba(143,203,221,0) 100%);
+  --fp-grad-ice-sheen:  linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.22) 48%, rgba(255,255,255,0) 60%);
+
+  /* ---------------------------------------------------------
+     5. TYPOGRAPHY
+     --------------------------------------------------------- */
+  --fp-font-display: 'General Sans', 'Satoshi', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fp-font-body:    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* fluid scale: clamp(min, preferred, max) — mobile -> desktop */
+  --fp-fs-display: clamp(2.5rem, 6vw + 1rem, 4.5rem);   /* 40 -> 72 */
+  --fp-fs-h1:      clamp(2rem, 4vw + 0.75rem, 3.25rem);  /* 32 -> 52 */
+  --fp-fs-h2:      clamp(1.625rem, 2.5vw + 0.75rem, 2.375rem); /* 26 -> 38 */
+  --fp-fs-h3:      clamp(1.25rem, 1vw + 0.9rem, 1.5rem);  /* 20 -> 24 */
+  --fp-fs-body-lg: clamp(1.125rem, 0.5vw + 1rem, 1.25rem);/* 18 -> 20 */
+  --fp-fs-body:    1rem;      /* 16 */
+  --fp-fs-caption: 0.8125rem; /* 13 -> 14 */
+  --fp-fs-overline:0.75rem;   /* 12 -> 13 */
+
+  --fp-fw-regular: 400;
+  --fp-fw-medium:  500;
+  --fp-fw-semi:    600;
+
+  --fp-lh-tight:   1.05;
+  --fp-lh-heading: 1.15;
+  --fp-lh-body:    1.65;
+
+  --fp-tr-display: -0.02em;   /* -2% */
+  --fp-tr-heading: -0.01em;
+  --fp-tr-overline: 0.08em;   /* +8% uppercase kicker */
+  --fp-tr-caption:  0.02em;
+
+  --fp-measure: 66ch; /* max readable line length */
+
+  /* ---------------------------------------------------------
+     6. SPACING — 4px base scale
+     --------------------------------------------------------- */
+  --fp-space-1:  0.25rem;  /* 4  */
+  --fp-space-2:  0.5rem;   /* 8  */
+  --fp-space-3:  0.75rem;  /* 12 */
+  --fp-space-4:  1rem;     /* 16 */
+  --fp-space-6:  1.5rem;   /* 24 */
+  --fp-space-8:  2rem;     /* 32 */
+  --fp-space-12: 3rem;     /* 48 */
+  --fp-space-16: 4rem;     /* 64 */
+  --fp-space-24: 6rem;     /* 96 */
+  --fp-space-32: 8rem;     /* 128 */
+
+  /* section rhythm + page gutters */
+  --fp-section-y:   clamp(4rem, 8vw, 8rem);   /* 64 -> 128 */
+  --fp-gutter:      clamp(1.25rem, 4vw, 4rem); /* 20 -> 64 */
+  --fp-container:   1200px;
+
+  /* ---------------------------------------------------------
+     7. RADIUS
+     --------------------------------------------------------- */
+  --fp-r-sm:   10px;
+  --fp-r-md:   16px;
+  --fp-r-lg:   24px;
+  --fp-r-xl:   32px;
+  --fp-r-pill: 999px;
+  --fp-r-full: 50%;
+
+  /* ---------------------------------------------------------
+     8. SHADOWS — navy-tinted, diffuse, never harsh
+     --------------------------------------------------------- */
+  --fp-sh-xs:   0 1px 2px rgba(27,58,91,0.05);
+  --fp-sh-sm:   0 4px 12px rgba(27,58,91,0.06);
+  --fp-sh-md:   0 12px 32px rgba(27,58,91,0.10);
+  --fp-sh-lg:   0 24px 60px rgba(27,58,91,0.12);
+  --fp-sh-glow: 0 0 40px rgba(143,203,221,0.35);
+
+  /* ---------------------------------------------------------
+     9. MOTION — cold, calm, expensive
+     --------------------------------------------------------- */
+  --fp-ease:        cubic-bezier(0.22, 1, 0.36, 1); /* gentle settle */
+  --fp-dur-micro:   140ms;
+  --fp-dur-base:    300ms;
+  --fp-dur-reveal:  600ms;
+
+  /* ---------------------------------------------------------
+     10. GLASS — frosted acrylic (garnish only)
+     --------------------------------------------------------- */
+  --fp-glass-bg:     rgba(251,253,254,0.72);
+  --fp-glass-blur:   saturate(140%) blur(20px);
+  --fp-glass-edge:   inset 0 1px 0 rgba(255,255,255,0.55);
+
+  /* layout helpers */
+  --fp-z-nav: 100;
+  --fp-z-cta: 90;
+}
+
+/* Optional future "Night" mode scaffold — not primary */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="night"] {
+    --fp-bg:      var(--fp-navy-900);
+    --fp-bg-alt:  #12293f;
+    --fp-surface: #12293f;
+    --fp-text:    var(--fp-snow);
+    --fp-text-secondary: var(--fp-ice-300);
+    --fp-border:  rgba(191,217,232,0.14);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --fp-dur-micro: 1ms;
+    --fp-dur-base:  1ms;
+    --fp-dur-reveal:1ms;
+  }
+}
