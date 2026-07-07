@@ -1,0 +1,76 @@
+{%- comment -%} FrostPaws™ — FAQ (accordion + SEO FAQ schema) {%- endcomment -%}
+<section class="fp-section {{ section.settings.bg_class }}" id="{{ section.settings.anchor | default: 'faq' }}">
+  <div class="fp-container">
+    <div class="fp-section__head fp-reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="fp-overline">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="fp-h2" style="margin-top:var(--fp-space-3)">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="fp-faq fp-reveal">
+      {%- for block in section.blocks -%}
+        <details {% if forloop.first and section.settings.open_first %}open{% endif %} {{ block.shopify_attributes }}>
+          <summary>
+            <span>{{ block.settings.question }}</span>
+            <svg class="fp-faq__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="fp-faq__a">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} FAQPage structured data for SEO {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for block in section.blocks -%}
+    {
+      "@type": "Question",
+      "name": {{ block.settings.question | json }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} }
+    }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "faq" },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "fp-section--alt",
+      "options": [ { "value": "", "label": "Snow" }, { "value": "fp-section--alt", "label": "Frost" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Questions, answered" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Everything you're wondering" },
+    { "type": "checkbox", "id": "open_first", "label": "Open first question", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How does it work?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Add your answer here.</p>" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "qa", "settings": { "question": "How does the cooling actually work?", "answer": "<p>A pressure-activated cooling gel absorbs and disperses your pet's body heat the moment they lie down — no water, no refrigeration, no electricity. Step away for a few minutes and it recharges itself, ready for the next nap.</p>" } },
+      { "type": "qa", "settings": { "question": "Do I need to freeze it or add water?", "answer": "<p>Never. FrostPaws works straight out of the box and recharges on its own. No freezer, no plugs, no refills — just lay it down and let it do the work.</p>" } },
+      { "type": "qa", "settings": { "question": "Is the gel safe if my pet chews it?", "answer": "<p>The cooling gel is non-toxic and the cover is reinforced and tear-tested. Like any mat it isn't a chew toy, but it's built to withstand real pets. Care guidance is included in every box.</p>" } },
+      { "type": "qa", "settings": { "question": "Which size should I choose?", "answer": "<p>Use the interactive size guide above — each size lists the ideal breed and weight range. Between two sizes? Go up; pets love room to stretch out and cool down.</p>" } },
+      { "type": "qa", "settings": { "question": "How do I clean it?", "answer": "<p>Wipe the surface with a damp cloth for everyday freshness, or unzip and machine-wash the cover on a gentle cycle. It's dry and ready again in no time.</p>" } },
+      { "type": "qa", "settings": { "question": "What if my pet doesn't like it?", "answer": "<p>Every FrostPaws comes with a 30-night trial and a 2-year guarantee. If it's not right, we'll make it right — no drama.</p>" } }
+    ]
+  },
+  "presets": [ { "name": "FAQ" } ]
+}
+{% endschema %}

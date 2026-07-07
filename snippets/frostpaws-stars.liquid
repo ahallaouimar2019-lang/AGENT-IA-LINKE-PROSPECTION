@@ -1,0 +1,10 @@
+{%- comment -%}
+  Gold star rating. Params: rating (0-5, default 5), count (optional label).
+{%- endcomment -%}
+{%- assign _r = rating | default: 5 -%}
+<span class="fp-stars" role="img" aria-label="{{ _r }} out of 5 stars">
+  {%- for i in (1..5) -%}
+    {%- render 'frostpaws-icon', name: 'star' -%}
+  {%- endfor -%}
+</span>
+{%- if count != blank -%}<span class="fp-caption" style="margin-left:6px">{{ count }}</span>{%- endif -%}

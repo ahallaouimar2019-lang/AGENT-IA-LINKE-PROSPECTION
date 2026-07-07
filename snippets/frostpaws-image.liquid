@@ -1,0 +1,51 @@
+{%- comment -%}
+  FrostPaws™ editable image container.
+  Renders an uploaded image (perfectly filling the card via object-fit: cover)
+  or, when empty, a premium branded placeholder that names its slot ID so the
+  merchant knows exactly which Theme Editor field fills it.
+
+  Params:
+    image   - an image object (section/block setting). Optional.
+    ratio   - aspect-ratio string, e.g. '4/5', '1/1', '16/10'. Default '4/5'.
+    slot    - the slot ID shown in the placeholder, e.g. 'SIZE_XS_IMAGE'.
+    alt     - accessible alt text (falls back to image.alt).
+    sizes   - responsive sizes attribute. Default '100vw'.
+    eager   - true to load eagerly (above-the-fold). Default lazy.
+    class   - extra classes on the .fp-media wrapper.
+{%- endcomment -%}
+{%- liquid
+  assign _ratio = ratio | default: '4/5'
+  assign _sizes = sizes | default: '100vw'
+  assign _loading = 'lazy'
+  if eager
+    assign _loading = 'eager'
+  endif
+  assign _fetch = 'auto'
+  if eager
+    assign _fetch = 'high'
+  endif
+  assign _alt = alt | default: image.alt | default: 'FrostPaws cooling mat'
+-%}
+<div class="fp-media {{ class }}" style="aspect-ratio: {{ _ratio }};">
+  {%- if image != blank -%}
+    {{
+      image
+      | image_url: width: 1600
+      | image_tag:
+        class: 'fp-media__img',
+        loading: _loading,
+        fetchpriority: _fetch,
+        widths: '200,300,400,600,800,1000,1200,1600',
+        sizes: _sizes,
+        alt: _alt
+    }}
+  {%- else -%}
+    <div class="fp-media__ph" role="img" aria-label="{{ _alt | escape }} — image placeholder">
+      <div class="fp-media__ph-inner">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M6.3 6.3l11.4 11.4M17.7 6.3L6.3 17.7"/><circle cx="12" cy="12" r="2.4"/></svg>
+        {%- if slot != blank -%}<span class="fp-media__ph-id">{{ slot }}</span>{%- endif -%}
+        <span class="fp-media__ph-note">Upload in Theme Editor</span>
+      </div>
+    </div>
+  {%- endif -%}
+</div>

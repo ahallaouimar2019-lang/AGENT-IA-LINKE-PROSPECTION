@@ -1,0 +1,48 @@
+{%- comment -%} FrostPaws™ — Announcement Bar {%- endcomment -%}
+<div class="fp-announce" style="background:{{ section.settings.bg_color }};color:{{ section.settings.text_color }};">
+  <div class="fp-announce__inner">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if forloop.index0 > 0 -%}<span class="fp-announce__sep" aria-hidden="true">·</span>{%- endif -%}
+        <span {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
+          {%- else -%}
+            {{ block.settings.text }}
+          {%- endif -%}
+        </span>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "tag": "section",
+  "class": "fp-announce-section",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#0E2338" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#FBFDFE" }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free express shipping over $60" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "message", "settings": { "text": "Free express shipping over $60" } },
+      { "type": "message", "settings": { "text": "30-night cool-sleep trial" } },
+      { "type": "message", "settings": { "text": "Loved by 40,000+ pets" } }
+    ]
+  }
+}
+{% endschema %}

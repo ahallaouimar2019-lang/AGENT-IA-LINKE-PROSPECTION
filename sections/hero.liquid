@@ -1,0 +1,132 @@
+{%- comment -%} FrostPaws™ — Hero with 4-image auto slider {%- endcomment -%}
+<section class="fp-hero" id="{{ section.settings.anchor | default: 'hero' }}">
+  <div class="fp-container">
+    <div class="fp-hero__inner">
+      <div class="fp-stack-lg fp-reveal">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="fp-overline">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+        <h1 class="fp-display">{{ section.settings.heading }}</h1>
+        {%- if section.settings.subheading != blank -%}
+          <p class="fp-body-lg fp-muted">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+        <div class="fp-hero__rating">
+          {% render 'frostpaws-stars', rating: 5 %}
+          <span class="fp-caption">{{ section.settings.rating_text }}</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--fp-space-4);align-items:center;">
+          <a class="fp-btn fp-btn--primary" href="{{ section.settings.primary_link | default: '#size-guide' }}">
+            <span>{{ section.settings.primary_label }}</span>
+          </a>
+          {%- if section.settings.secondary_label != blank -%}
+            <a class="fp-btn fp-btn--text" href="{{ section.settings.secondary_link | default: '#how' }}">
+              <span class="fp-btn__label">{{ section.settings.secondary_label }}</span>
+              <span class="fp-btn__arrow">→</span>
+            </a>
+          {%- endif -%}
+        </div>
+        <div class="fp-trust">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'trust' -%}
+              <span class="fp-trust__item" {{ block.shopify_attributes }}>
+                {% render 'frostpaws-icon', name: block.settings.icon %} {{ block.settings.text }}
+              </span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="fp-hero__visual fp-reveal">
+        <div class="fp-hero__slider" data-fp-hero-slider data-interval="{{ section.settings.interval }}"
+             role="group" aria-roledescription="carousel" aria-label="{{ section.settings.heading | escape }} gallery">
+          <div class="fp-hero__halo" aria-hidden="true"></div>
+          {%- assign slide_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'slide' -%}
+              {%- assign is_first = false -%}
+              {%- if slide_index == 0 -%}{%- assign is_first = true -%}{%- endif -%}
+              <div class="fp-slide {% if is_first %}is-active{% endif %}" {{ block.shopify_attributes }}
+                   role="group" aria-roledescription="slide" aria-label="{{ forloop.index }}">
+                {% render 'frostpaws-image',
+                   image: block.settings.image,
+                   ratio: '4/5',
+                   slot: block.settings.slot_id,
+                   alt: block.settings.alt,
+                   sizes: '(min-width:900px) 50vw, 100vw',
+                   eager: is_first %}
+              </div>
+              {%- assign slide_index = slide_index | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if slide_index > 1 -%}
+            <div class="fp-hero__dots" role="tablist" aria-label="Choose slide">
+              {%- for i in (1..slide_index) -%}
+                <button class="fp-hero__dot {% if forloop.first %}is-active{% endif %}" role="tab"
+                        aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                        aria-label="Slide {{ forloop.index }}" type="button"></button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "fp-hero-wrap",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "hero" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Pressure-activated cooling" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Keep them cool. All summer." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "A premium self-cooling mat that stays 3–5°C below room temperature — no water, no power, no fuss. Comfort your pet feels the moment they lie down." },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "4.9 / 5 from 2,140 happy pet parents" },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "primary_label", "label": "Primary label", "default": "Find your size" },
+    { "type": "url", "id": "primary_link", "label": "Primary link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary label", "default": "See how it works" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary link" },
+    { "type": "header", "content": "Slider" },
+    { "type": "range", "id": "interval", "label": "Auto-advance (ms)", "min": 3000, "max": 8000, "step": 500, "default": 5000 }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "slot_id", "label": "Placeholder ID", "default": "HERO_IMAGE" },
+        { "type": "text", "id": "alt", "label": "Alt text", "default": "Dog resting on FrostPaws cooling mat" }
+      ]
+    },
+    {
+      "type": "trust",
+      "name": "Trust item",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck",
+          "options": [
+            { "value": "truck", "label": "Truck" }, { "value": "return", "label": "Return" },
+            { "value": "shield", "label": "Shield" }, { "value": "wash", "label": "Wash" },
+            { "value": "leaf", "label": "Leaf" }, { "value": "snowflake", "label": "Snowflake" }
+          ] },
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping" }
+      ]
+    }
+  ],
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "slide", "settings": { "slot_id": "HERO_IMAGE_1", "alt": "Golden retriever resting on FrostPaws mat" } },
+      { "type": "slide", "settings": { "slot_id": "HERO_IMAGE_2", "alt": "Cat cooling on FrostPaws mat" } },
+      { "type": "slide", "settings": { "slot_id": "HERO_IMAGE_3", "alt": "FrostPaws mat product detail" } },
+      { "type": "slide", "settings": { "slot_id": "HERO_IMAGE_4", "alt": "FrostPaws mat in a modern home" } },
+      { "type": "trust", "settings": { "icon": "truck", "text": "Free express shipping" } },
+      { "type": "trust", "settings": { "icon": "return", "text": "30-night trial" } },
+      { "type": "trust", "settings": { "icon": "shield", "text": "2-year guarantee" } }
+    ]
+  }
+}
+{% endschema %}

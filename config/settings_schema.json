@@ -1,0 +1,22 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "FrostPaws",
+    "theme_version": "1.0.0",
+    "theme_author": "FrostPaws",
+    "theme_documentation_url": "https://frostpaws.com",
+    "theme_support_url": "https://frostpaws.com"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "paragraph", "content": "FrostPaws uses a fixed cooling palette defined in the design system (Snow, Ice Blue, Soft Cyan, Deep Navy, Midnight Navy). Section backgrounds can be toggled between Snow and Frost per-section." }
+    ]
+  }
+]

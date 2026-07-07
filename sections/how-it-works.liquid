@@ -1,0 +1,76 @@
+{%- comment -%} FrostPaws™ — How It Works (numbered steps + supporting image) {%- endcomment -%}
+<section class="fp-section {{ section.settings.bg_class }}" id="{{ section.settings.anchor | default: 'how' }}">
+  <div class="fp-container">
+    <div class="fp-section__head fp-reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="fp-overline">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="fp-h2" style="margin-top:var(--fp-space-3)">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}<p class="fp-body-lg fp-muted" style="margin-top:var(--fp-space-4)">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+
+    <div class="fp-grid" style="grid-template-columns:1fr;gap:var(--fp-space-12);align-items:center;">
+      <div class="fp-grid fp-steps" style="gap:var(--fp-space-8);">
+        {%- assign n = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign n = n | plus: 1 -%}
+          <div class="fp-step fp-reveal" {{ block.shopify_attributes }}>
+            <div class="fp-step__num">{{ n }}</div>
+            <h3 class="fp-h3">{{ block.settings.title }}</h3>
+            <p class="fp-body fp-muted" style="margin-top:var(--fp-space-2)">{{ block.settings.text }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="fp-reveal">
+        {% render 'frostpaws-image',
+           image: section.settings.image,
+           ratio: '16/10',
+           slot: 'HOW_IT_WORKS_IMAGE',
+           alt: section.settings.image_alt,
+           sizes: '(min-width:1024px) 1120px, 100vw' %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media(min-width:900px){
+    #{{ section.settings.anchor | default: 'how' }} .fp-steps{grid-template-columns:repeat(3,1fr)}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "How it works",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor ID", "default": "how" },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "fp-section--alt",
+      "options": [ { "value": "", "label": "Snow" }, { "value": "fp-section--alt", "label": "Frost" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Cooling that just works" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "No plugs, no freezer, no refills. Three quiet steps between you and a cooler, calmer pet." },
+    { "type": "header", "content": "Supporting image" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_alt", "label": "Alt text", "default": "Close-up of FrostPaws cooling gel technology" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Lay it down" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Place the mat wherever your pet loves to rest." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "step", "settings": { "title": "Lay it down", "text": "Unroll FrostPaws on the floor, in the crate or on their favorite couch spot. It's ready straight out of the box." } },
+      { "type": "step", "settings": { "title": "They lie down", "text": "Body weight activates the cooling gel instantly — heat is drawn away and the surface turns refreshingly cool." } },
+      { "type": "step", "settings": { "title": "It recharges itself", "text": "Step away for a few minutes and the gel resets automatically, cool and ready for the next nap. All day." } }
+    ]
+  },
+  "presets": [ { "name": "How it works" } ]
+}
+{% endschema %}
