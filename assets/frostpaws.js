@@ -8,16 +8,22 @@
 
   /* ---------- Scroll reveal ---------- */
   function initReveals(root) {
-    var els = (root || document).querySelectorAll('.fp-reveal:not(.is-in)');
-    if (!('IntersectionObserver' in window)) {
+    var els = Array.prototype.slice.call((root || document).querySelectorAll('.fp-reveal:not(.is-in)'));
+    if (reduceMotion || !('IntersectionObserver' in window)) {
       els.forEach(function (el) { el.classList.add('is-in'); });
       return;
     }
+    // subtle stagger for siblings that reveal together
+    els.forEach(function (el) {
+      var i = 0, sib = el;
+      while ((sib = sib.previousElementSibling)) { if (sib.classList && sib.classList.contains('fp-reveal')) i++; }
+      if (i > 0) el.style.transitionDelay = Math.min(i * 60, 240) + 'ms';
+    });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     els.forEach(function (el) { io.observe(el); });
   }
 
@@ -124,6 +130,23 @@
     });
   }
 
+  /* ---------- Sticky header scroll state ---------- */
+  function initHeaderScroll() {
+    var header = document.querySelector('.fp-header');
+    if (!header) return;
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        header.classList.toggle('is-scrolled', window.scrollY > 8);
+        ticking = false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
   function initAll(root) {
     initReveals(root);
     initHeroSliders(root);
@@ -133,8 +156,8 @@
     initMenu(root);
   }
 
-  if (document.readyState !== 'loading') initAll(document);
-  else document.addEventListener('DOMContentLoaded', function () { initAll(document); });
+  if (document.readyState !== 'loading') { initAll(document); initHeaderScroll(); }
+  else document.addEventListener('DOMContentLoaded', function () { initAll(document); initHeaderScroll(); });
 
   /* Re-init sections edited in the Shopify Theme Editor */
   document.addEventListener('shopify:section:load', function (e) { initAll(e.target); });

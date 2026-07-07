@@ -32,7 +32,7 @@
           {% render 'frostpaws-icon', name: 'user' %}
         </a>
       {%- endif -%}
-      <a class="fp-icon-btn fp-cart-toggle" href="{{ routes.cart_url }}" data-fp-cart-open aria-label="Cart">
+      <a class="fp-icon-btn fp-cart-toggle" href="{{ routes.cart_url }}" {% if settings.cart_type == 'drawer' %}data-fp-cart-open{% endif %} aria-label="Cart">
         {% render 'frostpaws-icon', name: 'cart' %}
         <span class="fp-cart-count fp-tabular" data-fp-cart-bubble {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
       </a>

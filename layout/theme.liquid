@@ -1,11 +1,25 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}">
+<html lang="{{ request.locale.iso_code }}" class="no-js">
 <head>
   <meta charset="utf-8">
+  <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme-color" content="#0E2338">
   <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- comment -%} Open Graph / Twitter for premium social sharing {%- endcomment -%}
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:type" content="{% if request.page_type == 'product' %}product{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if page_description -%}<meta property="og:description" content="{{ page_description | escape }}">{%- endif -%}
+  {%- if request.page_type == 'product' and product.featured_media -%}
+    <meta property="og:image" content="https:{{ product.featured_media | image_url: width: 1200 }}">
+  {%- elsif settings.logo -%}
+    <meta property="og:image" content="https:{{ settings.logo | image_url: width: 1200 }}">
+  {%- endif -%}
+  <meta name="twitter:card" content="summary_large_image">
   {%- if settings.favicon != blank -%}
     <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
   {%- endif -%}
@@ -34,7 +48,9 @@
         predictive: "{{ routes.predictive_search_url }}"
       },
       currency: "{{ shop.currency }}",
-      moneyFormat: {{ shop.money_format | json }}
+      moneyFormat: {{ shop.money_format | json }},
+      predictiveEnabled: {% if settings.predictive_search_enabled == false %}false{% else %}true{% endif %},
+      freeShippingThreshold: {{ settings.free_shipping_threshold | default: 0 }}
     };
   </script>
   <script src="{{ 'frostpaws.js' | asset_url }}" defer></script>
@@ -64,7 +80,7 @@
 
   {%- sections 'footer-group' -%}
 
-  {%- section 'cart-drawer' -%}
+  {%- if settings.cart_type == 'drawer' -%}{% section 'cart-drawer' %}{%- endif -%}
   {% render 'frostpaws-search-drawer' %}
 </body>
 </html>

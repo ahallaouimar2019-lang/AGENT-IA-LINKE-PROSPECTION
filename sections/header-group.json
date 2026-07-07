@@ -14,10 +14,10 @@
     "header": {
       "type": "header",
       "blocks": {
-        "l1": { "type": "link", "settings": { "label": "Why FrostPaws", "link": "#why" } },
-        "l2": { "type": "link", "settings": { "label": "How it works", "link": "#how" } },
-        "l3": { "type": "link", "settings": { "label": "Reviews", "link": "#reviews" } },
-        "l4": { "type": "link", "settings": { "label": "Size guide", "link": "#size-guide" } }
+        "l1": { "type": "link", "settings": { "label": "Why FrostPaws", "link": "/#why" } },
+        "l2": { "type": "link", "settings": { "label": "How it works", "link": "/#how" } },
+        "l3": { "type": "link", "settings": { "label": "Reviews", "link": "/#reviews" } },
+        "l4": { "type": "link", "settings": { "label": "Size guide", "link": "/#size-guide" } }
       },
       "block_order": ["l1", "l2", "l3", "l4"]
     }

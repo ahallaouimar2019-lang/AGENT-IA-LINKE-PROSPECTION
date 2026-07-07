@@ -32,8 +32,20 @@
         if (fresh && current) current.innerHTML = fresh.innerHTML;
       }
       document.dispatchEvent(new CustomEvent('fp:cart:updated', { detail: cart }));
+      if ($('[data-fp-cart-page]')) updateCartPage();
       return cart;
     });
+  }
+
+  function updateCartPage() {
+    fetch(routes.cart, { headers: { 'Accept': 'text/html' } })
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var fresh = doc.querySelector('[data-fp-cart-page]');
+        var cur = $('[data-fp-cart-page]');
+        if (fresh && cur) cur.replaceWith(fresh);
+      }).catch(function () {});
   }
 
   function updateBubble(count) {
@@ -74,13 +86,15 @@
     }).then(function () { return refreshCartUI(); });
   }
 
-  /* ---------------- Drawers ---------------- */
+  /* ---------------- Drawers (with focus return) ---------------- */
+  var lastFocused = null;
   function openDrawer(el) {
     if (!el) return;
+    lastFocused = document.activeElement;
     el.classList.add('is-open');
     el.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('fp-no-scroll');
-    var focusable = el.querySelector('input, button, a, [tabindex]');
+    var focusable = el.querySelector('input, button:not([tabindex="-1"]), a[href], [tabindex]:not([tabindex="-1"])');
     if (focusable) focusable.focus();
   }
   function closeDrawer(el) {
@@ -88,6 +102,7 @@
     el.classList.remove('is-open');
     el.setAttribute('aria-hidden', 'true');
     if (!document.querySelector('.fp-drawer.is-open')) document.documentElement.classList.remove('fp-no-scroll');
+    if (lastFocused && typeof lastFocused.focus === 'function') { lastFocused.focus(); lastFocused = null; }
   }
   function openCartDrawer() { openDrawer($('[data-fp-cart-drawer]')); }
 
@@ -186,6 +201,7 @@
     var input = $('[data-fp-predictive-input]', root);
     var results = $('[data-fp-predictive-results]', root);
     if (!input || !results) return;
+    if (FP.predictiveEnabled === false) return; // form still submits to /search
     var t, controller;
     input.addEventListener('input', function () {
       var q = input.value.trim();
@@ -194,6 +210,7 @@
       t = setTimeout(function () {
         if (controller) controller.abort();
         controller = new AbortController();
+        results.setAttribute('aria-busy', 'true');
         var url = routes.predictive + '?q=' + encodeURIComponent(q) +
           '&section_id=predictive-search&resources[type]=product,collection,query&resources[limit]=6';
         fetch(url, { signal: controller.signal, headers: { 'Accept': 'text/html' } })
@@ -203,7 +220,8 @@
             var content = doc.querySelector('.fp-predictive') || doc.body;
             results.innerHTML = content ? content.outerHTML : html;
             input.setAttribute('aria-expanded', 'true');
-          }).catch(function () {});
+          }).catch(function () {})
+          .finally(function () { results.setAttribute('aria-busy', 'false'); });
       }, 220);
     });
   }

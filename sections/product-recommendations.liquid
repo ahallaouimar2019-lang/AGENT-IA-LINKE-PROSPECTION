@@ -16,7 +16,7 @@
     {%- else -%}
       <div class="fp-product-grid" aria-hidden="true">
         {%- for i in (1..section.settings.limit) -%}
-          <div class="fp-card"><div class="fp-media" style="aspect-ratio:1/1"></div></div>
+          <div class="fp-card"><div class="fp-media fp-skeleton" style="aspect-ratio:1/1"></div></div>
         {%- endfor -%}
       </div>
     {%- endif -%}

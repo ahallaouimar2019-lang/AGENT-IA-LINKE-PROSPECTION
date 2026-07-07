@@ -7,7 +7,11 @@
 {%- liquid
   assign p = product
   assign _sizes = sizes | default: '(min-width:1024px) 25vw, (min-width:600px) 33vw, 50vw'
-  assign show_wishlist = show_wishlist | default: true, allow_false: true
+  assign _setting_wish = settings.card_show_wishlist
+  if _setting_wish == nil
+    assign _setting_wish = true
+  endif
+  assign show_wishlist = show_wishlist | default: _setting_wish, allow_false: true
 -%}
 {%- if p and p != empty -%}
 <article class="fp-product fp-card fp-card--interactive" data-fp-product-card>
@@ -37,11 +41,13 @@
   {%- endif -%}
   <div class="fp-product__info">
     <h3 class="fp-product__title"><a href="{{ p.url }}">{{ p.title }}</a></h3>
-    {%- if p.metafields.reviews.rating -%}
-      {% render 'frostpaws-stars', rating: p.metafields.reviews.rating.value, count: p.metafields.reviews.rating_count %}
-    {%- else -%}
-      {% render 'frostpaws-stars', rating: 5, count: '4.9' %}
-    {%- endif -%}
+    {%- unless settings.card_show_rating == false -%}
+      {%- if p.metafields.reviews.rating -%}
+        {% render 'frostpaws-stars', rating: p.metafields.reviews.rating.value, count: p.metafields.reviews.rating_count %}
+      {%- else -%}
+        {% render 'frostpaws-stars', rating: 5, count: '4.9' %}
+      {%- endif -%}
+    {%- endunless -%}
     <div class="fp-product__row">
       {% render 'frostpaws-price', product: p %}
       {%- if p.available -%}

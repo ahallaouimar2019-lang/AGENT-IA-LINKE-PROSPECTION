@@ -9,7 +9,7 @@
       <button type="button" class="fp-icon-btn" data-fp-drawer-close aria-label="Close cart">{% render 'frostpaws-icon', name: 'close' %}</button>
     </header>
 
-    {%- if threshold > 0 -%}
+    {%- if settings.cart_show_free_shipping and threshold > 0 -%}
       <div class="fp-ship-progress" data-fp-ship-progress>
         {%- if remaining > 0 -%}
           <p class="fp-caption">You're <strong class="fp-tabular">{{ remaining | money }}</strong> away from <strong>free shipping</strong> {% render 'frostpaws-icon', name: 'truck' %}</p>

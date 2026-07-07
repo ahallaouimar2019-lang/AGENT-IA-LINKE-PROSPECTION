@@ -1,0 +1,31 @@
+# FrostPaws™ — Theme Check configuration
+# https://shopify.dev/docs/themes/tools/theme-check
+root: .
+
+extends: :theme_app_extension
+
+ignore:
+  - node_modules/
+  - design-system/**   # design-system reference files, not theme runtime
+  - styleguide.html
+  - workflow-n8n-riadsdusoleil.json
+
+# The store loads General Sans + Inter from a CDN by design (brand fonts).
+RemoteAsset:
+  enabled: false
+
+# Section-heavy landing pages legitimately grow; keep a generous ceiling.
+LiquidTag:
+  enabled: true
+
+TemplateLength:
+  enabled: true
+  max_length: 700
+
+AssetSizeCSS:
+  enabled: true
+  threshold_in_bytes: 120000
+
+AssetSizeJavaScript:
+  enabled: true
+  threshold_in_bytes: 60000
