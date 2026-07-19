@@ -1,4 +1,9 @@
-{%- comment -%} WLD — Puffy Landing — self-contained section (hero + 7 products + photo reviews + FAQ) {%- endcomment -%}
+{%- comment -%}
+  WLD — Puffy Landing (v3 · Luxe Dark Noir/Doré/Blanc)
+  Section Shopify 100% autonome — aucune dépendance au thème.
+  Nav (sans logo) + Hero moody + Trust bar 5 icônes + Stats + 7 produits
+  + Bénéfices + Avis photo + Garantie + FAQ + CTA final.
+{%- endcomment -%}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -8,58 +13,132 @@
 
   {%- if section.settings.deal_text != blank -%}
   <div class="wld-puffy__deal">
+    <span class="wld-puffy__deal-dot"></span>
     <span>{{ section.settings.deal_text }}</span>
   </div>
   {%- endif -%}
 
+  {%- comment -%} ============ NAV (sans logo) ============ {%- endcomment -%}
+  {%- if section.settings.show_nav -%}
+  <nav class="wld-puffy__nav">
+    <div class="wld-puffy__nav-inner">
+      <span class="wld-puffy__nav-spacer" aria-hidden="true"></span>
+      <ul class="wld-puffy__nav-links">
+        {%- for i in (1..5) -%}
+          {%- assign lbl = 'nav_' | append: i | append: '_label' -%}
+          {%- assign lnk = 'nav_' | append: i | append: '_link' -%}
+          {%- assign label = section.settings[lbl] -%}
+          {%- if label != blank -%}
+            <li{% if i == 1 %} class="is-active"{% endif %}><a href="{{ section.settings[lnk] | default: '#' }}">{{ label }}</a></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <div class="wld-puffy__nav-icons">
+        <a href="{{ routes.search_url | default: '#' }}" aria-label="Recherche">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+        </a>
+        <a href="{{ routes.account_url | default: '#' }}" aria-label="Compte">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke-linecap="round"/></svg>
+        </a>
+        <a href="{{ routes.cart_url | default: '#' }}" aria-label="Panier">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0" stroke-linecap="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+  {%- endif -%}
+
   {%- comment -%} ============ HERO ============ {%- endcomment -%}
-  <section class="wld-puffy__hero" style="--wld-hero-bg: {{ section.settings.hero_bg }};">
+  <section class="wld-puffy__hero">
+    <div class="wld-puffy__hero-glow" aria-hidden="true"></div>
     <div class="wld-puffy__hero-inner">
-      <div class="wld-puffy__hero-copy">
+      <div class="wld-puffy__hero-copy wld-r">
         {%- if section.settings.hero_eyebrow != blank -%}
-          <p class="wld-puffy__eyebrow">{{ section.settings.hero_eyebrow }}</p>
+          <p class="wld-puffy__eyebrow wld-puffy__eyebrow--spark">{{ section.settings.hero_eyebrow }}</p>
         {%- endif -%}
         <h1 class="wld-puffy__hero-title">{{ section.settings.hero_title }}</h1>
         <p class="wld-puffy__hero-sub">{{ section.settings.hero_subtitle }}</p>
 
-        <div class="wld-puffy__hero-stars">
-          <span class="wld-puffy__stars" aria-hidden="true">★★★★★</span>
-          <span class="wld-puffy__stars-text">{{ section.settings.hero_reviews_text }}</span>
+        <div class="wld-puffy__hero-actions">
+          <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--gold wld-puffy__btn--xl">
+            {{ section.settings.hero_cta_label }}
+          </a>
         </div>
 
-        <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--xl">
-          {{ section.settings.hero_cta_label }}
-        </a>
-
-        {%- if section.settings.hero_reassurance != blank -%}
-          <p class="wld-puffy__reassurance">{{ section.settings.hero_reassurance }}</p>
-        {%- endif -%}
+        <div class="wld-puffy__social">
+          <div class="wld-puffy__avatars">
+            {%- for i in (1..3) -%}
+              {%- assign av = 'hero_avatar_' | append: i -%}
+              <span class="wld-puffy__avatar">
+                {%- if section.settings[av] != blank -%}
+                  <img src="{{ section.settings[av] | image_url: width: 96 }}" alt="Client" loading="lazy" width="48" height="48">
+                {%- else -%}<span class="wld-puffy__avatar-ph">🐱</span>{%- endif -%}
+              </span>
+            {%- endfor -%}
+          </div>
+          <div class="wld-puffy__social-copy">
+            <span class="wld-puffy__stars">★★★★★</span>
+            <span class="wld-puffy__social-text">{{ section.settings.hero_social_text }}</span>
+          </div>
+        </div>
       </div>
 
-      <div class="wld-puffy__hero-media">
-        {%- if section.settings.hero_image != blank -%}
-          <img src="{{ section.settings.hero_image | image_url: width: 900 }}"
-               alt="{{ section.settings.hero_title | escape }}"
-               loading="eager" width="900" height="900">
-        {%- else -%}
-          <div class="wld-puffy__ph wld-puffy__ph--hero">🐱<span>Hero image</span></div>
+      <div class="wld-puffy__hero-media wld-r">
+        <div class="wld-puffy__hero-frame">
+          {%- if section.settings.hero_image != blank -%}
+            <img src="{{ section.settings.hero_image | image_url: width: 1100 }}"
+                 alt="{{ section.settings.hero_title | escape }}" loading="eager" width="1100" height="1100">
+          {%- else -%}
+            <div class="wld-puffy__ph wld-puffy__ph--hero">🐱<span>Image hero (photo moody)</span></div>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.hero_pill != blank -%}
+          <div class="wld-puffy__hero-pill">{{ section.settings.hero_pill }}</div>
         {%- endif -%}
-        <div class="wld-puffy__hero-badge">{{ section.settings.hero_badge }}</div>
       </div>
     </div>
   </section>
 
-  {%- comment -%} ============ TRUST STRIP ============ {%- endcomment -%}
+  {%- comment -%} ============ TRUST BAR (5 icônes dorées) ============ {%- endcomment -%}
   <section class="wld-puffy__trust">
-    <div class="wld-puffy__trust-item"><span>💝</span>{{ section.settings.trust_1 }}</div>
-    <div class="wld-puffy__trust-item"><span>🧸</span>{{ section.settings.trust_2 }}</div>
-    <div class="wld-puffy__trust-item"><span>🚚</span>{{ section.settings.trust_3 }}</div>
-    <div class="wld-puffy__trust-item"><span>🔒</span>{{ section.settings.trust_4 }}</div>
+    <div class="wld-puffy__trust-inner">
+      {%- assign icons = 'cloud,shield,gift,globe,refresh' | split: ',' -%}
+      {%- for i in (1..5) -%}
+        {%- assign t = 'trust_' | append: i | append: '_title' -%}
+        {%- assign s = 'trust_' | append: i | append: '_text' -%}
+        {%- if section.settings[t] != blank -%}
+        <div class="wld-puffy__trust-item wld-r">
+          <span class="wld-puffy__trust-ic">
+            {%- assign ic = icons[forloop.index0] -%}
+            {%- case ic -%}
+              {%- when 'cloud' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.5A3.5 3.5 0 0 1 17 18H7z"/><path d="M10.5 13.5c.6.9 1.4.9 2 0" stroke-linecap="round"/></svg>
+              {%- when 'shield' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9.5 12l1.8 1.8L15 10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {%- when 'gift' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 10h16v9H4z"/><path d="M4 10l2-3h12l2 3M12 7v12" stroke-linecap="round"/><path d="M12 7c-2.5-3-5 0-2 2m2-2c2.5-3 5 0 2 2" stroke-linecap="round"/></svg>
+              {%- when 'globe' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13.5 0 16M12 4c-2.5 2.5-2.5 13.5 0 16"/></svg>
+              {%- when 'refresh' -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12a7 7 0 0 1 12-5l2 2M19 12a7 7 0 0 1-12 5l-2-2" stroke-linecap="round"/><path d="M19 4v5h-5M5 20v-5h5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {%- endcase -%}
+          </span>
+          <div class="wld-puffy__trust-copy">
+            <strong>{{ section.settings[t] }}</strong>
+            <span>{{ section.settings[s] }}</span>
+          </div>
+        </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
   </section>
 
-  {%- comment -%} ============ 7 PRODUCTS ============ {%- endcomment -%}
+  {%- comment -%} ============ STAT BAND ============ {%- endcomment -%}
+  <section class="wld-puffy__stats wld-r">
+    <div class="wld-puffy__stat"><strong>{{ section.settings.stat_1_num }}</strong><span>{{ section.settings.stat_1_label }}</span></div>
+    <div class="wld-puffy__stat"><strong>{{ section.settings.stat_2_num }}</strong><span>{{ section.settings.stat_2_label }}</span></div>
+    <div class="wld-puffy__stat"><strong>{{ section.settings.stat_3_num }}</strong><span>{{ section.settings.stat_3_label }}</span></div>
+    <div class="wld-puffy__stat"><strong>{{ section.settings.stat_4_num }}</strong><span>{{ section.settings.stat_4_label }}</span></div>
+  </section>
+
+  {%- comment -%} ============ 7 PRODUITS ============ {%- endcomment -%}
   <section class="wld-puffy__products">
-    <div class="wld-puffy__section-head">
+    <div class="wld-puffy__section-head wld-r">
       <p class="wld-puffy__eyebrow">{{ section.settings.products_eyebrow }}</p>
       <h2 class="wld-puffy__h2">{{ section.settings.products_title }}</h2>
       <p class="wld-puffy__section-sub">{{ section.settings.products_subtitle }}</p>
@@ -68,14 +147,14 @@
     <div class="wld-puffy__grid">
       {%- for block in section.blocks -%}
         {%- if block.type == 'product' -%}
-          <a href="{{ block.settings.link }}" class="wld-puffy__card" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.link }}" class="wld-puffy__card wld-r" {{ block.shopify_attributes }}>
             {%- if block.settings.tag != blank -%}
               <span class="wld-puffy__card-tag">{{ block.settings.tag }}</span>
             {%- endif -%}
             <div class="wld-puffy__card-media">
               {%- if block.settings.image != blank -%}
-                <img src="{{ block.settings.image | image_url: width: 600 }}"
-                     alt="{{ block.settings.name | escape }}" loading="lazy" width="600" height="600">
+                <img src="{{ block.settings.image | image_url: width: 700 }}"
+                     alt="{{ block.settings.name | escape }}" loading="lazy" width="700" height="700">
               {%- else -%}
                 <div class="wld-puffy__ph">🐈<span>{{ block.settings.name }}</span></div>
               {%- endif -%}
@@ -83,9 +162,10 @@
             <div class="wld-puffy__card-body">
               <p class="wld-puffy__card-cat">{{ block.settings.category }}</p>
               <h3 class="wld-puffy__card-name">{{ block.settings.name }}</h3>
+              <div class="wld-puffy__card-rating"><span class="wld-puffy__stars wld-puffy__stars--sm">★★★★★</span></div>
               <div class="wld-puffy__card-foot">
                 <span class="wld-puffy__card-price">{{ block.settings.price }}</span>
-                <span class="wld-puffy__card-cta">{{ block.settings.cta }} →</span>
+                <span class="wld-puffy__card-cta">{{ block.settings.cta }}</span>
               </div>
             </div>
           </a>
@@ -93,29 +173,30 @@
       {%- endfor -%}
     </div>
 
-    <div class="wld-puffy__products-foot">
-      <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--lg">
+    <div class="wld-puffy__products-foot wld-r">
+      <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--gold wld-puffy__btn--lg">
         {{ section.settings.products_button }}
       </a>
     </div>
   </section>
 
-  {%- comment -%} ============ BENEFITS ============ {%- endcomment -%}
-  <section class="wld-puffy__benefits" style="--wld-ben-bg: {{ section.settings.benefits_bg }};">
-    <div class="wld-puffy__section-head">
+  {%- comment -%} ============ BÉNÉFICES ============ {%- endcomment -%}
+  <section class="wld-puffy__benefits">
+    <div class="wld-puffy__section-head wld-r">
+      <p class="wld-puffy__eyebrow wld-puffy__eyebrow--gold">{{ section.settings.benefits_eyebrow }}</p>
       <h2 class="wld-puffy__h2">{{ section.settings.benefits_title }}</h2>
     </div>
     <div class="wld-puffy__ben-grid">
-      <div class="wld-puffy__ben"><span>🌿</span><h4>{{ section.settings.ben_1_title }}</h4><p>{{ section.settings.ben_1_text }}</p></div>
-      <div class="wld-puffy__ben"><span>✋</span><h4>{{ section.settings.ben_2_title }}</h4><p>{{ section.settings.ben_2_text }}</p></div>
-      <div class="wld-puffy__ben"><span>🎁</span><h4>{{ section.settings.ben_3_title }}</h4><p>{{ section.settings.ben_3_text }}</p></div>
-      <div class="wld-puffy__ben"><span>🐾</span><h4>{{ section.settings.ben_4_title }}</h4><p>{{ section.settings.ben_4_text }}</p></div>
+      <div class="wld-puffy__ben wld-r"><span>🌿</span><h4>{{ section.settings.ben_1_title }}</h4><p>{{ section.settings.ben_1_text }}</p></div>
+      <div class="wld-puffy__ben wld-r"><span>🤍</span><h4>{{ section.settings.ben_2_title }}</h4><p>{{ section.settings.ben_2_text }}</p></div>
+      <div class="wld-puffy__ben wld-r"><span>🎁</span><h4>{{ section.settings.ben_3_title }}</h4><p>{{ section.settings.ben_3_text }}</p></div>
+      <div class="wld-puffy__ben wld-r"><span>👑</span><h4>{{ section.settings.ben_4_title }}</h4><p>{{ section.settings.ben_4_text }}</p></div>
     </div>
   </section>
 
-  {%- comment -%} ============ PHOTO REVIEWS ============ {%- endcomment -%}
+  {%- comment -%} ============ AVIS PHOTO ============ {%- endcomment -%}
   <section class="wld-puffy__reviews">
-    <div class="wld-puffy__section-head">
+    <div class="wld-puffy__section-head wld-r">
       <p class="wld-puffy__eyebrow">{{ section.settings.reviews_eyebrow }}</p>
       <h2 class="wld-puffy__h2">{{ section.settings.reviews_title }}</h2>
       <div class="wld-puffy__reviews-score">
@@ -129,17 +210,17 @@
       {%- for block in section.blocks -%}
         {%- if block.type == 'review' -%}
           {%- assign r = block.settings.rating | plus: 0 -%}
-          <figure class="wld-puffy__review" {{ block.shopify_attributes }}>
+          <figure class="wld-puffy__review wld-r" {{ block.shopify_attributes }}>
             <div class="wld-puffy__review-photo">
               {%- if block.settings.photo != blank -%}
-                <img src="{{ block.settings.photo | image_url: width: 500 }}"
-                     alt="{{ block.settings.name | escape }}" loading="lazy" width="500" height="500">
+                <img src="{{ block.settings.photo | image_url: width: 600 }}"
+                     alt="{{ block.settings.name | escape }}" loading="lazy" width="600" height="450">
               {%- else -%}
                 <div class="wld-puffy__ph wld-puffy__ph--sm">📷</div>
               {%- endif -%}
             </div>
             <div class="wld-puffy__review-body">
-              <span class="wld-puffy__stars" aria-label="{{ r }}/5">
+              <span class="wld-puffy__stars wld-puffy__stars--sm" aria-label="{{ r }}/5">
                 {%- for i in (1..5) -%}{%- if i <= r -%}★{%- else -%}☆{%- endif -%}{%- endfor -%}
               </span>
               <blockquote>“{{ block.settings.text }}”</blockquote>
@@ -154,15 +235,28 @@
     </div>
   </section>
 
+  {%- comment -%} ============ GARANTIE ============ {%- endcomment -%}
+  <section class="wld-puffy__guarantee wld-r">
+    <div class="wld-puffy__guar-inner">
+      <div class="wld-puffy__guar-icon">🛡️</div>
+      <div class="wld-puffy__guar-copy">
+        <h3>{{ section.settings.guar_title }}</h3>
+        <p>{{ section.settings.guar_text }}</p>
+      </div>
+      <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--gold">{{ section.settings.guar_button }}</a>
+    </div>
+  </section>
+
   {%- comment -%} ============ FAQ ============ {%- endcomment -%}
   <section class="wld-puffy__faq">
-    <div class="wld-puffy__section-head">
+    <div class="wld-puffy__section-head wld-r">
+      <p class="wld-puffy__eyebrow">{{ section.settings.faq_eyebrow }}</p>
       <h2 class="wld-puffy__h2">{{ section.settings.faq_title }}</h2>
     </div>
     <div class="wld-puffy__faq-list">
       {%- for block in section.blocks -%}
         {%- if block.type == 'faq' -%}
-          <details class="wld-puffy__faq-item" {{ block.shopify_attributes }}>
+          <details class="wld-puffy__faq-item wld-r" {{ block.shopify_attributes }}>
             <summary>{{ block.settings.question }}<span class="wld-puffy__faq-ic">+</span></summary>
             <div class="wld-puffy__faq-a">{{ block.settings.answer }}</div>
           </details>
@@ -171,186 +265,266 @@
     </div>
   </section>
 
-  {%- comment -%} ============ FINAL CTA ============ {%- endcomment -%}
-  <section class="wld-puffy__final" style="--wld-final-bg: {{ section.settings.final_bg }};">
-    <h2 class="wld-puffy__final-title">{{ section.settings.final_title }}</h2>
-    <p class="wld-puffy__final-sub">{{ section.settings.final_subtitle }}</p>
-    <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--xl wld-puffy__btn--light">
-      {{ section.settings.final_button }}
-    </a>
-    <p class="wld-puffy__reassurance">{{ section.settings.final_reassurance }}</p>
+  {%- comment -%} ============ CTA FINAL ============ {%- endcomment -%}
+  <section class="wld-puffy__final">
+    <div class="wld-puffy__final-glow" aria-hidden="true"></div>
+    <div class="wld-puffy__final-inner wld-r">
+      <p class="wld-puffy__eyebrow wld-puffy__eyebrow--gold">{{ section.settings.final_eyebrow }}</p>
+      <h2 class="wld-puffy__final-title">{{ section.settings.final_title }}</h2>
+      <p class="wld-puffy__final-sub">{{ section.settings.final_subtitle }}</p>
+      <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--gold wld-puffy__btn--xl">
+        {{ section.settings.final_button }}
+      </a>
+      <p class="wld-puffy__reassurance">{{ section.settings.final_reassurance }}</p>
+    </div>
   </section>
 
 </div>
 
 {%- style -%}
-  #wld-puffy-{{ section.id }} .wld-puffy,
   #wld-puffy-{{ section.id }} *{ box-sizing:border-box; }
   #wld-puffy-{{ section.id }}{
-    --wld-ink:{{ section.settings.color_ink }};
-    --wld-accent:{{ section.settings.color_accent }};
-    --wld-soft:{{ section.settings.color_soft }};
+    --ink:{{ section.settings.color_ink }};
+    --panel:{{ section.settings.color_panel }};
+    --gold:{{ section.settings.color_gold }};
+    --gold-2:{{ section.settings.color_gold_soft }};
+    --cream:{{ section.settings.color_cream }};
+    --muted:rgba(245,239,227,.66);
+    --line:rgba(201,162,75,.22);
     font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-    color:var(--wld-ink); line-height:1.55; background:#fff;
-    -webkit-font-smoothing:antialiased;
+    color:var(--cream); line-height:1.6; background:var(--ink);
+    -webkit-font-smoothing:antialiased; overflow:hidden;
   }
   #wld-puffy-{{ section.id }} h1,#wld-puffy-{{ section.id }} h2,
   #wld-puffy-{{ section.id }} h3,#wld-puffy-{{ section.id }} h4{ margin:0; font-weight:400; }
   #wld-puffy-{{ section.id }} p{ margin:0; }
   #wld-puffy-{{ section.id }} a{ text-decoration:none; color:inherit; }
   #wld-puffy-{{ section.id }} .wld-puffy__eyebrow{
-    text-transform:uppercase; letter-spacing:.18em; font-size:12px; font-weight:700;
-    color:var(--wld-accent); margin-bottom:14px;
+    text-transform:uppercase; letter-spacing:.3em; font-size:11px; font-weight:700; color:var(--gold); margin-bottom:18px;
   }
+  #wld-puffy-{{ section.id }} .wld-puffy__eyebrow--spark::before{ content:'✦  '; color:var(--gold); }
+  #wld-puffy-{{ section.id }} .wld-puffy__eyebrow--spark::after{ content:'  ✦'; color:var(--gold); }
   #wld-puffy-{{ section.id }} .wld-puffy__h2{
-    font-family:'DM Serif Display',Georgia,serif; font-size:clamp(28px,4vw,44px); line-height:1.1;
+    font-family:'DM Serif Display',Georgia,serif; font-size:clamp(30px,4.2vw,52px); line-height:1.06; letter-spacing:-.01em; color:var(--cream);
   }
-  #wld-puffy-{{ section.id }} .wld-puffy__stars{ color:#ffb400; letter-spacing:2px; font-size:16px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__stars{ color:var(--gold); letter-spacing:3px; font-size:16px; text-shadow:0 0 12px rgba(201,162,75,.4); }
+  #wld-puffy-{{ section.id }} .wld-puffy__stars--sm{ font-size:14px; letter-spacing:2px; }
+
+  /* Reveal */
+  #wld-puffy-{{ section.id }} .wld-r{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s cubic-bezier(.16,.84,.44,1); }
+  #wld-puffy-{{ section.id }} .wld-r.is-in{ opacity:1; transform:none; }
 
   /* Deal bar */
   #wld-puffy-{{ section.id }} .wld-puffy__deal{
-    background:var(--wld-ink); color:#fff; text-align:center; padding:12px 16px;
-    font-size:14px; font-weight:600;
+    background:#000; color:var(--gold-2); text-align:center; padding:11px 16px; font-size:12.5px; font-weight:600;
+    letter-spacing:.08em; text-transform:uppercase; display:flex; gap:10px; align-items:center; justify-content:center;
   }
+  #wld-puffy-{{ section.id }} .wld-puffy__deal-dot{ width:7px;height:7px;border-radius:50%;background:var(--gold);animation:wldPulse 1.8s infinite;}
+  @keyframes wldPulse{0%{box-shadow:0 0 0 0 rgba(201,162,75,.6);}70%{box-shadow:0 0 0 8px rgba(201,162,75,0);}100%{box-shadow:0 0 0 0 rgba(201,162,75,0);}}
+
+  /* Nav */
+  #wld-puffy-{{ section.id }} .wld-puffy__nav{ border-bottom:1px solid var(--line); background:rgba(0,0,0,.25); }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-inner{ max-width:1240px; margin:0 auto; padding:20px 24px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-spacer{ flex:1; }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-links{ display:flex; gap:38px; list-style:none; margin:0; padding:0; flex:2; justify-content:center; }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-links a{ font-size:13px; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--cream); opacity:.85; transition:opacity .2s, color .2s; }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-links a:hover{ color:var(--gold); opacity:1; }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-links .is-active a{ color:var(--gold); opacity:1; position:relative; }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-links .is-active a::after{ content:''; position:absolute; left:0; right:0; bottom:-8px; height:2px; background:var(--gold); }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-icons{ display:flex; gap:20px; flex:1; justify-content:flex-end; }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-icons a{ color:var(--cream); opacity:.85; transition:color .2s, opacity .2s; }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-icons a:hover{ color:var(--gold); opacity:1; }
+  #wld-puffy-{{ section.id }} .wld-puffy__nav-icons svg{ width:21px; height:21px; display:block; }
 
   /* Buttons */
   #wld-puffy-{{ section.id }} .wld-puffy__btn{
-    display:inline-block; background:var(--wld-accent); color:#fff; font-weight:700;
-    border-radius:999px; padding:16px 34px; font-size:16px; transition:transform .15s ease, box-shadow .15s ease;
-    box-shadow:0 10px 24px rgba(0,0,0,.12);
+    display:inline-block; font-weight:700; border-radius:999px; padding:16px 34px; font-size:15px;
+    letter-spacing:.06em; text-transform:uppercase; transition:transform .18s ease, box-shadow .18s ease; border:1px solid transparent; cursor:pointer;
   }
-  #wld-puffy-{{ section.id }} .wld-puffy__btn:hover{ transform:translateY(-2px); box-shadow:0 16px 32px rgba(0,0,0,.18); }
-  #wld-puffy-{{ section.id }} .wld-puffy__btn--xl{ padding:20px 48px; font-size:19px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__btn--lg{ padding:18px 42px; font-size:17px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__btn--light{ background:#fff; color:var(--wld-ink); }
+  #wld-puffy-{{ section.id }} .wld-puffy__btn--gold{
+    background:linear-gradient(135deg,var(--gold-2),var(--gold)); color:#1a1407; box-shadow:0 12px 34px rgba(201,162,75,.4);
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__btn--gold:hover{ transform:translateY(-2px); box-shadow:0 18px 44px rgba(201,162,75,.6); }
+  #wld-puffy-{{ section.id }} .wld-puffy__btn--xl{ padding:19px 46px; font-size:16px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__btn--lg{ padding:17px 40px; font-size:15px; }
 
   /* Hero */
-  #wld-puffy-{{ section.id }} .wld-puffy__hero{ background:var(--wld-hero-bg); }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero{ position:relative; overflow:hidden; }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-glow{
+    position:absolute; width:680px; height:680px; right:-140px; top:-120px; pointer-events:none;
+    background:radial-gradient(closest-side,rgba(201,162,75,.22),transparent 70%);
+  }
   #wld-puffy-{{ section.id }} .wld-puffy__hero-inner{
-    max-width:1200px; margin:0 auto; padding:70px 24px; display:grid;
-    grid-template-columns:1.05fr 1fr; gap:56px; align-items:center;
+    position:relative; max-width:1240px; margin:0 auto; padding:74px 24px 84px; display:grid;
+    grid-template-columns:1.02fr 1fr; gap:56px; align-items:center;
   }
   #wld-puffy-{{ section.id }} .wld-puffy__hero-title{
-    font-family:'DM Serif Display',Georgia,serif; font-size:clamp(38px,6vw,68px); line-height:1.02; margin-bottom:18px;
+    font-family:'DM Serif Display',Georgia,serif; font-size:clamp(42px,6.2vw,78px); line-height:1.0; margin-bottom:22px; letter-spacing:-.02em; color:#fff;
   }
-  #wld-puffy-{{ section.id }} .wld-puffy__hero-sub{ font-size:19px; color:#555; margin-bottom:20px; max-width:520px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__hero-stars{ display:flex; align-items:center; gap:10px; margin-bottom:26px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__stars-text{ font-size:14px; color:#666; font-weight:500; }
-  #wld-puffy-{{ section.id }} .wld-puffy__reassurance{ margin-top:16px; font-size:13px; color:#777; }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-title em{
+    font-style:italic; display:block;
+    background:linear-gradient(120deg,var(--gold-2),var(--gold)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:var(--gold);
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-sub{ font-size:18px; color:var(--muted); margin-bottom:32px; max-width:480px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-actions{ display:flex; flex-wrap:wrap; gap:14px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__social{ display:flex; align-items:center; gap:16px; margin-top:34px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__avatars{ display:flex; }
+  #wld-puffy-{{ section.id }} .wld-puffy__avatar{ width:44px; height:44px; border-radius:50%; overflow:hidden; border:2px solid var(--gold); margin-left:-12px; background:var(--panel); display:flex; align-items:center; justify-content:center; }
+  #wld-puffy-{{ section.id }} .wld-puffy__avatar:first-child{ margin-left:0; }
+  #wld-puffy-{{ section.id }} .wld-puffy__avatar img{ width:100%; height:100%; object-fit:cover; }
+  #wld-puffy-{{ section.id }} .wld-puffy__avatar-ph{ font-size:20px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__social-copy{ display:flex; flex-direction:column; gap:3px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__social-text{ font-size:13.5px; color:var(--muted); font-weight:500; }
   #wld-puffy-{{ section.id }} .wld-puffy__hero-media{ position:relative; }
-  #wld-puffy-{{ section.id }} .wld-puffy__hero-media img{
-    width:100%; height:auto; border-radius:28px; display:block; box-shadow:0 30px 60px rgba(0,0,0,.14);
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-frame{
+    position:relative; border-radius:24px; padding:8px;
+    background:linear-gradient(135deg,var(--gold),transparent 42%,transparent 60%,var(--gold-2));
+    box-shadow:0 50px 100px rgba(0,0,0,.6);
   }
-  #wld-puffy-{{ section.id }} .wld-puffy__hero-badge{
-    position:absolute; top:18px; left:18px; background:var(--wld-accent); color:#fff;
-    font-weight:800; font-size:14px; padding:10px 16px; border-radius:14px; transform:rotate(-6deg);
-    box-shadow:0 8px 18px rgba(0,0,0,.18);
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-frame img{ width:100%; height:auto; border-radius:16px; display:block; }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-pill{
+    position:absolute; bottom:-16px; left:50%; transform:translateX(-50%); background:var(--cream); color:var(--ink);
+    font-weight:700; font-size:13px; white-space:nowrap; padding:11px 22px; border-radius:999px; box-shadow:0 16px 34px rgba(0,0,0,.4);
   }
 
-  /* Trust strip */
-  #wld-puffy-{{ section.id }} .wld-puffy__trust{
-    max-width:1200px; margin:0 auto; padding:22px 24px; display:flex; flex-wrap:wrap; gap:26px;
-    justify-content:center; border-bottom:1px solid #eee;
+  /* Trust bar */
+  #wld-puffy-{{ section.id }} .wld-puffy__trust{ background:#000; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  #wld-puffy-{{ section.id }} .wld-puffy__trust-inner{ max-width:1240px; margin:0 auto; padding:26px 24px; display:grid; grid-template-columns:repeat(5,1fr); gap:0; }
+  #wld-puffy-{{ section.id }} .wld-puffy__trust-item{ display:flex; align-items:center; gap:14px; padding:6px 22px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__trust-item + .wld-puffy__trust-item{ border-left:1px solid var(--line); }
+  #wld-puffy-{{ section.id }} .wld-puffy__trust-ic{
+    flex:0 0 auto; width:46px; height:46px; border-radius:50%; border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center; color:var(--gold);
   }
-  #wld-puffy-{{ section.id }} .wld-puffy__trust-item{ display:flex; align-items:center; gap:9px; font-weight:600; font-size:15px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__trust-item span{ font-size:20px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__trust-ic svg{ width:24px; height:24px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__trust-copy strong{ display:block; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--cream); font-weight:700; }
+  #wld-puffy-{{ section.id }} .wld-puffy__trust-copy span{ display:block; font-size:12.5px; color:var(--muted); margin-top:3px; }
+
+  /* Stats */
+  #wld-puffy-{{ section.id }} .wld-puffy__stats{ max-width:1000px; margin:0 auto; padding:56px 24px; display:grid; grid-template-columns:repeat(4,1fr); gap:20px; text-align:center; }
+  #wld-puffy-{{ section.id }} .wld-puffy__stat + .wld-puffy__stat{ border-left:1px solid var(--line); }
+  #wld-puffy-{{ section.id }} .wld-puffy__stat strong{ display:block; font-family:'DM Serif Display',serif; font-size:clamp(30px,4vw,46px); color:var(--gold); line-height:1; }
+  #wld-puffy-{{ section.id }} .wld-puffy__stat span{ display:block; margin-top:9px; font-size:12.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.12em; }
 
   /* Section head */
-  #wld-puffy-{{ section.id }} .wld-puffy__section-head{ text-align:center; max-width:720px; margin:0 auto 44px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__section-sub{ margin-top:14px; font-size:17px; color:#666; }
+  #wld-puffy-{{ section.id }} .wld-puffy__section-head{ text-align:center; max-width:720px; margin:0 auto 46px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__section-sub{ margin-top:16px; font-size:17px; color:var(--muted); }
 
-  /* Products grid */
-  #wld-puffy-{{ section.id }} .wld-puffy__products{ max-width:1200px; margin:0 auto; padding:70px 24px 40px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__grid{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:22px;
-  }
-  /* 7 cards: first row 4, second row 3 centered feel via auto flow */
+  /* Produits */
+  #wld-puffy-{{ section.id }} .wld-puffy__products{ max-width:1240px; margin:0 auto; padding:80px 24px 50px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
   #wld-puffy-{{ section.id }} .wld-puffy__card{
-    background:#fff; border:1px solid #eee; border-radius:20px; overflow:hidden; position:relative;
-    display:flex; flex-direction:column; transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    background:var(--panel); border:1px solid var(--line); border-radius:20px; overflow:hidden; position:relative;
+    display:flex; flex-direction:column; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
   }
-  #wld-puffy-{{ section.id }} .wld-puffy__card:hover{ transform:translateY(-6px); box-shadow:0 22px 40px rgba(0,0,0,.12); border-color:var(--wld-accent); }
+  #wld-puffy-{{ section.id }} .wld-puffy__card:hover{ transform:translateY(-8px); box-shadow:0 30px 56px rgba(0,0,0,.5); border-color:var(--gold); }
   #wld-puffy-{{ section.id }} .wld-puffy__card-tag{
-    position:absolute; top:12px; left:12px; z-index:2; background:var(--wld-ink); color:#fff;
-    font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:6px 11px; border-radius:999px;
+    position:absolute; top:12px; left:12px; z-index:2; background:#000; color:var(--gold-2);
+    font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:6px 12px; border-radius:999px; border:1px solid var(--line);
   }
-  #wld-puffy-{{ section.id }} .wld-puffy__card-media{ aspect-ratio:1/1; background:var(--wld-soft); }
-  #wld-puffy-{{ section.id }} .wld-puffy__card-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-media{ aspect-ratio:1/1; background:#0f0f0f; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-media img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card:hover .wld-puffy__card-media img{ transform:scale(1.05); }
   #wld-puffy-{{ section.id }} .wld-puffy__card-body{ padding:18px 18px 20px; display:flex; flex-direction:column; gap:6px; flex:1; }
-  #wld-puffy-{{ section.id }} .wld-puffy__card-cat{ font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--wld-accent); font-weight:700; }
-  #wld-puffy-{{ section.id }} .wld-puffy__card-name{ font-family:'DM Serif Display',Georgia,serif; font-size:20px; line-height:1.15; }
-  #wld-puffy-{{ section.id }} .wld-puffy__card-foot{ margin-top:auto; padding-top:10px; display:flex; align-items:center; justify-content:space-between; }
-  #wld-puffy-{{ section.id }} .wld-puffy__card-price{ font-weight:800; font-size:18px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__card-cta{ font-weight:700; font-size:14px; color:var(--wld-accent); }
-  #wld-puffy-{{ section.id }} .wld-puffy__products-foot{ text-align:center; margin-top:44px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-cat{ font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--gold); font-weight:700; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-name{ font-family:'DM Serif Display',Georgia,serif; font-size:21px; line-height:1.15; color:var(--cream); }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-rating{ margin:2px 0 4px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-foot{ margin-top:auto; padding-top:12px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--line); }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-price{ font-weight:800; font-size:19px; color:var(--cream); }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-cta{ font-weight:700; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:#1a1407; background:var(--gold); padding:8px 15px; border-radius:999px; transition:filter .18s ease; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card:hover .wld-puffy__card-cta{ filter:brightness(1.08); }
+  #wld-puffy-{{ section.id }} .wld-puffy__products-foot{ text-align:center; margin-top:48px; }
 
-  /* Benefits */
-  #wld-puffy-{{ section.id }} .wld-puffy__benefits{ background:var(--wld-ben-bg); padding:70px 24px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__ben-grid{ max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__ben{ text-align:center; background:#fff; border-radius:20px; padding:30px 22px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__ben span{ font-size:34px; display:block; margin-bottom:14px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__ben h4{ font-size:18px; font-weight:700; margin-bottom:8px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__ben p{ font-size:14px; color:#666; }
+  /* Bénéfices */
+  #wld-puffy-{{ section.id }} .wld-puffy__benefits{ background:#000; padding:82px 24px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben-grid{ max-width:1120px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben{ text-align:center; padding:34px 22px; border:1px solid var(--line); border-radius:20px; background:rgba(201,162,75,.03); }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben span{ font-size:34px; display:inline-block; margin-bottom:16px; filter:drop-shadow(0 0 14px rgba(201,162,75,.4)); }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben h4{ font-size:18px; font-weight:700; margin-bottom:10px; color:var(--gold-2); }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben p{ font-size:14px; color:var(--muted); }
 
-  /* Reviews */
-  #wld-puffy-{{ section.id }} .wld-puffy__reviews{ max-width:1200px; margin:0 auto; padding:72px 24px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__reviews-score{ display:flex; align-items:center; justify-content:center; gap:10px; margin-top:14px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__reviews-score strong{ font-size:20px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__reviews-score span{ color:#666; font-size:14px; }
+  /* Avis */
+  #wld-puffy-{{ section.id }} .wld-puffy__reviews{ max-width:1240px; margin:0 auto; padding:82px 24px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__reviews-score{ display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__reviews-score strong{ font-size:20px; color:var(--cream); }
+  #wld-puffy-{{ section.id }} .wld-puffy__reviews-score span{ color:var(--muted); font-size:14px; }
   #wld-puffy-{{ section.id }} .wld-puffy__reviews-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__review{ margin:0; border:1px solid #eee; border-radius:20px; overflow:hidden; background:#fff; display:flex; flex-direction:column; }
-  #wld-puffy-{{ section.id }} .wld-puffy__review-photo{ aspect-ratio:4/3; background:var(--wld-soft); }
+  #wld-puffy-{{ section.id }} .wld-puffy__review{ margin:0; border:1px solid var(--line); border-radius:20px; overflow:hidden; background:var(--panel); display:flex; flex-direction:column; }
+  #wld-puffy-{{ section.id }} .wld-puffy__review-photo{ aspect-ratio:4/3; background:#0f0f0f; }
   #wld-puffy-{{ section.id }} .wld-puffy__review-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
   #wld-puffy-{{ section.id }} .wld-puffy__review-body{ padding:18px 20px 22px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__review-body blockquote{ margin:10px 0 14px; font-size:15px; color:#333; }
-  #wld-puffy-{{ section.id }} .wld-puffy__review-body figcaption{ display:flex; align-items:center; gap:10px; font-size:14px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__verified{ color:#1a9e5f; font-weight:600; font-size:12px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__review-body blockquote{ margin:12px 0 14px; font-size:15px; color:var(--cream); line-height:1.55; }
+  #wld-puffy-{{ section.id }} .wld-puffy__review-body figcaption{ display:flex; align-items:center; gap:10px; font-size:14px; flex-wrap:wrap; color:var(--cream); }
+  #wld-puffy-{{ section.id }} .wld-puffy__verified{ color:#57c98a; font-weight:600; font-size:12px; }
+
+  /* Garantie */
+  #wld-puffy-{{ section.id }} .wld-puffy__guarantee{ max-width:1120px; margin:0 auto 30px; padding:0 24px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__guar-inner{
+    background:linear-gradient(135deg,#141210,#000); border:1px solid var(--gold); border-radius:24px;
+    padding:38px 42px; display:flex; align-items:center; gap:26px; flex-wrap:wrap;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__guar-icon{ font-size:44px; filter:drop-shadow(0 0 16px rgba(201,162,75,.45)); }
+  #wld-puffy-{{ section.id }} .wld-puffy__guar-copy{ flex:1; min-width:240px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__guar-copy h3{ font-family:'DM Serif Display',serif; font-size:27px; color:var(--gold-2); margin-bottom:6px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__guar-copy p{ font-size:15px; color:var(--muted); }
 
   /* FAQ */
-  #wld-puffy-{{ section.id }} .wld-puffy__faq{ max-width:760px; margin:0 auto; padding:20px 24px 80px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__faq-item{ border-bottom:1px solid #e7e7e7; }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq{ max-width:780px; margin:0 auto; padding:70px 24px 88px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq-item{ border-bottom:1px solid var(--line); }
   #wld-puffy-{{ section.id }} .wld-puffy__faq-item summary{
-    list-style:none; cursor:pointer; padding:20px 0; font-weight:600; font-size:17px;
+    list-style:none; cursor:pointer; padding:22px 0; font-weight:600; font-size:17px; color:var(--cream);
     display:flex; align-items:center; justify-content:space-between; gap:16px;
   }
   #wld-puffy-{{ section.id }} .wld-puffy__faq-item summary::-webkit-details-marker{ display:none; }
-  #wld-puffy-{{ section.id }} .wld-puffy__faq-ic{ font-size:24px; color:var(--wld-accent); transition:transform .2s ease; flex:0 0 auto; }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq-ic{ font-size:26px; color:var(--gold); transition:transform .25s ease; flex:0 0 auto; line-height:1; }
   #wld-puffy-{{ section.id }} .wld-puffy__faq-item[open] .wld-puffy__faq-ic{ transform:rotate(45deg); }
-  #wld-puffy-{{ section.id }} .wld-puffy__faq-a{ padding:0 0 22px; color:#555; font-size:15px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq-a{ padding:0 0 24px; color:var(--muted); font-size:15px; line-height:1.6; }
 
-  /* Final CTA */
-  #wld-puffy-{{ section.id }} .wld-puffy__final{ background:var(--wld-final-bg); color:#fff; text-align:center; padding:80px 24px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__final-title{ font-family:'DM Serif Display',Georgia,serif; font-size:clamp(30px,5vw,50px); margin-bottom:14px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__final-sub{ font-size:18px; opacity:.9; margin-bottom:30px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__final .wld-puffy__reassurance{ color:rgba(255,255,255,.75); }
+  /* CTA final */
+  #wld-puffy-{{ section.id }} .wld-puffy__final{ position:relative; text-align:center; padding:96px 24px; overflow:hidden; border-top:1px solid var(--line); }
+  #wld-puffy-{{ section.id }} .wld-puffy__final-glow{ position:absolute; inset:0; margin:auto; width:560px; height:560px; pointer-events:none; background:radial-gradient(closest-side,rgba(201,162,75,.22),transparent 70%); }
+  #wld-puffy-{{ section.id }} .wld-puffy__final-inner{ position:relative; max-width:680px; margin:0 auto; }
+  #wld-puffy-{{ section.id }} .wld-puffy__final-title{ font-family:'DM Serif Display',Georgia,serif; font-size:clamp(32px,5vw,56px); margin-bottom:16px; line-height:1.05; color:#fff; }
+  #wld-puffy-{{ section.id }} .wld-puffy__final-sub{ font-size:18px; color:var(--muted); margin-bottom:32px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__reassurance{ margin-top:18px; font-size:13px; color:rgba(245,239,227,.5); }
 
   /* Placeholders */
-  #wld-puffy-{{ section.id }} .wld-puffy__ph{
-    width:100%; height:100%; min-height:200px; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:8px; font-size:46px; background:var(--wld-soft); color:#999;
-  }
+  #wld-puffy-{{ section.id }} .wld-puffy__ph{ width:100%; height:100%; min-height:200px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; font-size:46px; background:#0f0f0f; color:#6a5c3a; }
   #wld-puffy-{{ section.id }} .wld-puffy__ph span{ font-size:13px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__ph--hero{ min-height:420px; border-radius:28px; }
-  #wld-puffy-{{ section.id }} .wld-puffy__ph--sm{ min-height:160px; font-size:34px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ph--hero{ min-height:440px; border-radius:16px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ph--sm{ min-height:170px; font-size:34px; }
 
-  /* ===== Responsive ===== */
+  /* Responsive */
   @media (max-width:900px){
-    #wld-puffy-{{ section.id }} .wld-puffy__hero-inner{ grid-template-columns:1fr; gap:34px; padding:48px 20px; text-align:center; }
+    #wld-puffy-{{ section.id }} .wld-puffy__nav-links{ display:none; }
+    #wld-puffy-{{ section.id }} .wld-puffy__nav-spacer{ display:none; }
+    #wld-puffy-{{ section.id }} .wld-puffy__hero-inner{ grid-template-columns:1fr; gap:44px; padding:52px 20px 64px; text-align:center; }
     #wld-puffy-{{ section.id }} .wld-puffy__hero-copy{ order:2; }
-    #wld-puffy-{{ section.id }} .wld-puffy__hero-media{ order:1; }
+    #wld-puffy-{{ section.id }} .wld-puffy__hero-media{ order:1; max-width:460px; margin:0 auto; }
     #wld-puffy-{{ section.id }} .wld-puffy__hero-sub{ margin-left:auto; margin-right:auto; }
-    #wld-puffy-{{ section.id }} .wld-puffy__hero-stars{ justify-content:center; }
+    #wld-puffy-{{ section.id }} .wld-puffy__hero-actions,
+    #wld-puffy-{{ section.id }} .wld-puffy__social{ justify-content:center; }
+    #wld-puffy-{{ section.id }} .wld-puffy__trust-inner{ grid-template-columns:repeat(2,1fr); gap:18px 0; }
+    #wld-puffy-{{ section.id }} .wld-puffy__trust-item:nth-child(odd){ border-left:0; }
     #wld-puffy-{{ section.id }} .wld-puffy__grid{ grid-template-columns:repeat(2,1fr); }
     #wld-puffy-{{ section.id }} .wld-puffy__ben-grid{ grid-template-columns:repeat(2,1fr); }
     #wld-puffy-{{ section.id }} .wld-puffy__reviews-grid{ grid-template-columns:repeat(2,1fr); }
+    #wld-puffy-{{ section.id }} .wld-puffy__stats{ grid-template-columns:repeat(2,1fr); gap:30px 20px; }
+    #wld-puffy-{{ section.id }} .wld-puffy__stat:nth-child(3){ border-left:0; }
+    #wld-puffy-{{ section.id }} .wld-puffy__guar-inner{ text-align:center; justify-content:center; }
   }
   @media (max-width:540px){
+    #wld-puffy-{{ section.id }} .wld-puffy__trust-inner{ grid-template-columns:1fr; }
+    #wld-puffy-{{ section.id }} .wld-puffy__trust-item{ border-left:0 !important; }
     #wld-puffy-{{ section.id }} .wld-puffy__grid{ grid-template-columns:1fr; }
     #wld-puffy-{{ section.id }} .wld-puffy__ben-grid{ grid-template-columns:1fr; }
     #wld-puffy-{{ section.id }} .wld-puffy__reviews-grid{ grid-template-columns:1fr; }
-    #wld-puffy-{{ section.id }} .wld-puffy__trust{ gap:14px; }
-    #wld-puffy-{{ section.id }} .wld-puffy__trust-item{ font-size:13px; }
-    #wld-puffy-{{ section.id }} .wld-puffy__btn--xl{ padding:16px 32px; font-size:16px; }
+    #wld-puffy-{{ section.id }} .wld-puffy__hero-actions .wld-puffy__btn{ width:100%; text-align:center; }
+    #wld-puffy-{{ section.id }} .wld-puffy__btn--xl{ padding:17px 32px; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    #wld-puffy-{{ section.id }} .wld-r{ opacity:1; transform:none; transition:none; }
+    #wld-puffy-{{ section.id }} .wld-puffy__deal-dot{ animation:none; }
   }
 {%- endstyle -%}
 
@@ -358,20 +532,24 @@
   (function(){
     function initPuffy(root){
       if(!root) return;
-      // Accordéon FAQ : un seul ouvert à la fois
       var items = root.querySelectorAll('.wld-puffy__faq-item');
       items.forEach(function(d){
         d.addEventListener('toggle', function(){
-          if(d.open){
-            items.forEach(function(o){ if(o!==d) o.open=false; });
-          }
+          if(d.open){ items.forEach(function(o){ if(o!==d) o.open=false; }); }
         });
       });
+      var revs = root.querySelectorAll('.wld-r');
+      if('IntersectionObserver' in window){
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('is-in'); io.unobserve(en.target); } });
+        }, { threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+        revs.forEach(function(el){ io.observe(el); });
+      } else { revs.forEach(function(el){ el.classList.add('is-in'); }); }
     }
     var id = 'wld-puffy-{{ section.id }}';
     initPuffy(document.getElementById(id));
     document.addEventListener('shopify:section:load', function(e){
-      var el = e.target.querySelector('#'+id) || document.getElementById(id);
+      var el = (e.target && e.target.querySelector('#'+id)) || document.getElementById(id);
       initPuffy(el);
     });
   })();
@@ -385,65 +563,103 @@
   "enabled_on": { "templates": ["page", "index", "product"] },
   "settings": [
     { "type": "header", "content": "🎀 Barre promo" },
-    { "type": "text", "id": "deal_text", "label": "Texte promo", "default": "🐾 -30% aujourd'hui sur toute la collection · Offre limitée →" },
+    { "type": "text", "id": "deal_text", "label": "Texte promo", "default": "Offre privée — -30% aujourd'hui + livraison offerte · Stock limité" },
+
+    { "type": "header", "content": "🧭 Navigation (sans logo)" },
+    { "type": "checkbox", "id": "show_nav", "label": "Afficher la barre de navigation", "default": true },
+    { "type": "text", "id": "nav_1_label", "label": "Lien 1", "default": "Accueil" },
+    { "type": "url", "id": "nav_1_link", "label": "URL 1" },
+    { "type": "text", "id": "nav_2_label", "label": "Lien 2", "default": "Boutique" },
+    { "type": "url", "id": "nav_2_link", "label": "URL 2" },
+    { "type": "text", "id": "nav_3_label", "label": "Lien 3", "default": "Notre histoire" },
+    { "type": "url", "id": "nav_3_link", "label": "URL 3" },
+    { "type": "text", "id": "nav_4_label", "label": "Lien 4", "default": "Avis" },
+    { "type": "url", "id": "nav_4_link", "label": "URL 4" },
+    { "type": "text", "id": "nav_5_label", "label": "Lien 5", "default": "FAQ" },
+    { "type": "url", "id": "nav_5_link", "label": "URL 5" },
 
     { "type": "header", "content": "🦸 Hero" },
-    { "type": "color", "id": "hero_bg", "label": "Fond du hero", "default": "#FBF7F2" },
-    { "type": "text", "id": "hero_eyebrow", "label": "Sur-titre", "default": "Puffy · Chats squishy faits main" },
-    { "type": "text", "id": "hero_title", "label": "Titre", "default": "Le chat squishy le plus doux du web" },
-    { "type": "textarea", "id": "hero_subtitle", "label": "Sous-titre", "default": "Des adorables chats squishy en silicone non-toxique, ultra-doux à presser. Le compagnon anti-stress et le cadeau parfait qui fait fondre tout le monde." },
-    { "type": "text", "id": "hero_reviews_text", "label": "Texte avis (étoiles)", "default": "4,9/5 · +12 000 clients conquis" },
-    { "type": "text", "id": "hero_cta_label", "label": "Texte du gros bouton", "default": "Découvrir mes 7 chats →" },
-    { "type": "url", "id": "hero_cta_link", "label": "Lien du gros bouton (page produits)" },
-    { "type": "text", "id": "hero_reassurance", "label": "Réassurance sous le bouton", "default": "Livraison offerte dès 40€ · Satisfait ou remboursé 30 jours" },
-    { "type": "image_picker", "id": "hero_image", "label": "Image hero" },
-    { "type": "text", "id": "hero_badge", "label": "Badge sur l'image", "default": "★ Best-seller viral TikTok" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Sur-titre (entre ✦ ✦ auto)", "default": "SQUISHY · SOFT · IRRÉSISTIBLE" },
+    { "type": "text", "id": "hero_title", "label": "Titre (mets la 2e ligne dorée entre <em>...</em>)", "default": "Un confort tout doux <em>qui reste avec vous.</em>" },
+    { "type": "textarea", "id": "hero_subtitle", "label": "Sous-titre", "default": "Façonné avec amour pour faire fondre les cœurs. Votre nouveau compagnon câlin préféré." },
+    { "type": "text", "id": "hero_cta_label", "label": "Texte gros bouton", "default": "Je découvre 🐾" },
+    { "type": "url", "id": "hero_cta_link", "label": "Lien gros bouton (page produits)" },
+    { "type": "text", "id": "hero_social_text", "label": "Texte preuve sociale", "default": "Adopté par +10 000 clients" },
+    { "type": "image_picker", "id": "hero_avatar_1", "label": "Avatar client 1" },
+    { "type": "image_picker", "id": "hero_avatar_2", "label": "Avatar client 2" },
+    { "type": "image_picker", "id": "hero_avatar_3", "label": "Avatar client 3" },
+    { "type": "image_picker", "id": "hero_image", "label": "Image hero (photo moody)" },
+    { "type": "text", "id": "hero_pill", "label": "Pastille sur l'image (option)", "default": "★ +8M de vues sur TikTok" },
 
-    { "type": "header", "content": "🛡️ Trust strip" },
-    { "type": "text", "id": "trust_1", "label": "Trust 1", "default": "Silicone non-toxique" },
-    { "type": "text", "id": "trust_2", "label": "Trust 2", "default": "Fait main avec amour" },
-    { "type": "text", "id": "trust_3", "label": "Trust 3", "default": "Livraison rapide" },
-    { "type": "text", "id": "trust_4", "label": "Trust 4", "default": "Paiement 100% sécurisé" },
+    { "type": "header", "content": "🛡️ Barre de réassurance (5 icônes)" },
+    { "type": "text", "id": "trust_1_title", "label": "Titre 1", "default": "Ultra doux" },
+    { "type": "text", "id": "trust_1_text", "label": "Texte 1", "default": "Matières premium pour des câlins tout doux" },
+    { "type": "text", "id": "trust_2_title", "label": "Titre 2", "default": "Sûr & non-toxique" },
+    { "type": "text", "id": "trust_2_text", "label": "Texte 2", "default": "Conçu avec des matériaux sans danger" },
+    { "type": "text", "id": "trust_3_title", "label": "Titre 3", "default": "Cadeau parfait" },
+    { "type": "text", "id": "trust_3_text", "label": "Texte 3", "default": "Emballage soigné pour vos proches" },
+    { "type": "text", "id": "trust_4_title", "label": "Titre 4", "default": "Livraison mondiale" },
+    { "type": "text", "id": "trust_4_text", "label": "Texte 4", "default": "Expédition rapide et suivie" },
+    { "type": "text", "id": "trust_5_title", "label": "Titre 5", "default": "Retours 30 jours" },
+    { "type": "text", "id": "trust_5_text", "label": "Texte 5", "default": "Satisfait ou remboursé" },
 
-    { "type": "header", "content": "🐈 Section produits (ajoute 7 blocs « Produit »)" },
-    { "type": "text", "id": "products_eyebrow", "label": "Sur-titre", "default": "La collection" },
-    { "type": "text", "id": "products_title", "label": "Titre", "default": "Choisis ton chat squishy" },
-    { "type": "textarea", "id": "products_subtitle", "label": "Sous-titre", "default": "7 personnalités, 7 modèles à collectionner. Lequel va rejoindre ta maison ?" },
-    { "type": "text", "id": "products_button", "label": "Bouton bas de section", "default": "Voir toute la collection →" },
+    { "type": "header", "content": "📊 Chiffres clés" },
+    { "type": "text", "id": "stat_1_num", "label": "Chiffre 1", "default": "10 000+" },
+    { "type": "text", "id": "stat_1_label", "label": "Label 1", "default": "clients conquis" },
+    { "type": "text", "id": "stat_2_num", "label": "Chiffre 2", "default": "4,9/5" },
+    { "type": "text", "id": "stat_2_label", "label": "Label 2", "default": "note moyenne" },
+    { "type": "text", "id": "stat_3_num", "label": "Chiffre 3", "default": "8M+" },
+    { "type": "text", "id": "stat_3_label", "label": "Label 3", "default": "vues TikTok" },
+    { "type": "text", "id": "stat_4_num", "label": "Chiffre 4", "default": "7" },
+    { "type": "text", "id": "stat_4_label", "label": "Label 4", "default": "modèles à collectionner" },
+
+    { "type": "header", "content": "🐈 Produits (ajoute 7 blocs « Produit »)" },
+    { "type": "text", "id": "products_eyebrow", "label": "Sur-titre", "default": "LA COLLECTION" },
+    { "type": "text", "id": "products_title", "label": "Titre", "default": "Choisissez votre compagnon" },
+    { "type": "textarea", "id": "products_subtitle", "label": "Sous-titre", "default": "7 personnalités, 7 modèles à collectionner. Lequel va rejoindre votre maison ?" },
+    { "type": "text", "id": "products_button", "label": "Bouton bas de section", "default": "Voir toute la collection" },
 
     { "type": "header", "content": "✨ Bénéfices" },
-    { "type": "color", "id": "benefits_bg", "label": "Fond", "default": "#F4F1FB" },
-    { "type": "text", "id": "benefits_title", "label": "Titre", "default": "Pourquoi on craque pour Puffy" },
+    { "type": "text", "id": "benefits_eyebrow", "label": "Sur-titre", "default": "L'EXPÉRIENCE PUFFY" },
+    { "type": "text", "id": "benefits_title", "label": "Titre", "default": "Pourquoi on ne peut plus s'en passer" },
     { "type": "text", "id": "ben_1_title", "label": "Bénéfice 1 titre", "default": "Matière saine" },
     { "type": "textarea", "id": "ben_1_text", "label": "Bénéfice 1 texte", "default": "Silicone alimentaire non-toxique, sans danger pour petits et grands." },
     { "type": "text", "id": "ben_2_title", "label": "Bénéfice 2 titre", "default": "Anti-stress" },
     { "type": "textarea", "id": "ben_2_text", "label": "Bénéfice 2 texte", "default": "Une texture ultra-douce à presser qui apaise en quelques secondes." },
     { "type": "text", "id": "ben_3_title", "label": "Bénéfice 3 titre", "default": "Cadeau parfait" },
-    { "type": "textarea", "id": "ben_3_text", "label": "Bénéfice 3 texte", "default": "Emballé comme un vrai cadeau : effet waouh garanti à l'ouverture." },
-    { "type": "text", "id": "ben_4_title", "label": "Bénéfice 4 titre", "default": "À collectionner" },
-    { "type": "textarea", "id": "ben_4_text", "label": "Bénéfice 4 texte", "default": "7 races différentes, tous plus mignons les uns que les autres." },
+    { "type": "textarea", "id": "ben_3_text", "label": "Bénéfice 3 texte", "default": "Emballage soigné façon écrin : l'effet waouh garanti à l'ouverture." },
+    { "type": "text", "id": "ben_4_title", "label": "Bénéfice 4 titre", "default": "Pièce d'exception" },
+    { "type": "textarea", "id": "ben_4_text", "label": "Bénéfice 4 texte", "default": "7 modèles faits main, tous plus mignons les uns que les autres." },
 
-    { "type": "header", "content": "⭐ Avis clients (ajoute 6 blocs « Avis »)" },
-    { "type": "text", "id": "reviews_eyebrow", "label": "Sur-titre", "default": "Ils ont adopté un Puffy" },
-    { "type": "text", "id": "reviews_title", "label": "Titre", "default": "+12 000 clients ronronnent de plaisir" },
+    { "type": "header", "content": "⭐ Avis (ajoute 6 blocs « Avis »)" },
+    { "type": "text", "id": "reviews_eyebrow", "label": "Sur-titre", "default": "ILS ONT ADOPTÉ UN PUFFY" },
+    { "type": "text", "id": "reviews_title", "label": "Titre", "default": "+10 000 clients ronronnent de plaisir" },
     { "type": "text", "id": "reviews_score", "label": "Note affichée", "default": "4,9/5" },
     { "type": "text", "id": "reviews_count", "label": "Nombre d'avis", "default": "basé sur 3 218 avis vérifiés" },
     { "type": "text", "id": "verified_label", "label": "Label vérifié", "default": "Achat vérifié" },
 
+    { "type": "header", "content": "🛡️ Garantie" },
+    { "type": "text", "id": "guar_title", "label": "Titre", "default": "Essayez sans aucun risque" },
+    { "type": "textarea", "id": "guar_text", "label": "Texte", "default": "Vous avez 30 jours pour tomber amoureux de votre Puffy. Sinon, on vous rembourse — sans question." },
+    { "type": "text", "id": "guar_button", "label": "Bouton", "default": "J'en profite" },
+
     { "type": "header", "content": "❓ FAQ (ajoute 8 blocs « FAQ »)" },
+    { "type": "text", "id": "faq_eyebrow", "label": "Sur-titre", "default": "BESOIN D'AIDE ?" },
     { "type": "text", "id": "faq_title", "label": "Titre FAQ", "default": "Questions fréquentes" },
 
     { "type": "header", "content": "🚀 CTA final" },
-    { "type": "color", "id": "final_bg", "label": "Fond", "default": "#7C5CFC" },
-    { "type": "text", "id": "final_title", "label": "Titre", "default": "Prêt à adopter ton chat squishy ?" },
-    { "type": "text", "id": "final_subtitle", "label": "Sous-titre", "default": "Stock limité — nos modèles viraux partent vite." },
-    { "type": "text", "id": "final_button", "label": "Bouton", "default": "J'adopte mon Puffy →" },
+    { "type": "text", "id": "final_eyebrow", "label": "Sur-titre", "default": "DERNIÈRE ÉTAPE" },
+    { "type": "text", "id": "final_title", "label": "Titre", "default": "Adoptez votre chat squishy dès aujourd'hui" },
+    { "type": "text", "id": "final_subtitle", "label": "Sous-titre", "default": "Stock limité — nos modèles viraux partent très vite." },
+    { "type": "text", "id": "final_button", "label": "Bouton", "default": "J'adopte mon Puffy 🐾" },
     { "type": "text", "id": "final_reassurance", "label": "Réassurance", "default": "Paiement sécurisé · Livraison suivie · Retours gratuits 30 jours" },
 
-    { "type": "header", "content": "🎨 Couleurs de marque" },
-    { "type": "color", "id": "color_ink", "label": "Couleur texte / foncée", "default": "#1C1C1C" },
-    { "type": "color", "id": "color_accent", "label": "Couleur accent (boutons)", "default": "#7C5CFC" },
-    { "type": "color", "id": "color_soft", "label": "Couleur douce (fonds cartes)", "default": "#F1EEF9" }
+    { "type": "header", "content": "🎨 Palette (Noir / Doré / Blanc)" },
+    { "type": "color", "id": "color_ink", "label": "Noir (fond principal)", "default": "#0B0B0B" },
+    { "type": "color", "id": "color_panel", "label": "Noir cartes (légèrement chaud)", "default": "#151310" },
+    { "type": "color", "id": "color_gold", "label": "Doré principal", "default": "#C9A24B" },
+    { "type": "color", "id": "color_gold_soft", "label": "Doré clair (dégradés)", "default": "#E8C87E" },
+    { "type": "color", "id": "color_cream", "label": "Blanc crème (texte)", "default": "#F5EFE3" }
   ],
   "blocks": [
     {
@@ -486,8 +702,8 @@
         { "type": "product", "settings": { "category": "Chat siamois", "name": "Puffy Siamois", "tag": "Best-seller", "price": "34,90 €", "cta": "Voir" } },
         { "type": "product", "settings": { "category": "Chat British", "name": "Puffy British Gris", "tag": "Nouveau", "price": "34,90 €", "cta": "Voir" } },
         { "type": "product", "settings": { "category": "Chat roux", "name": "Puffy Roux Câlin", "tag": "Viral", "price": "34,90 €", "cta": "Voir" } },
-        { "type": "product", "settings": { "category": "Chat noir", "name": "Puffy Panthère", "tag": "Édition", "price": "36,90 €", "cta": "Voir" } },
-        { "type": "product", "settings": { "category": "Chat blanc", "name": "Puffy Nuage Blanc", "tag": "Coup de coeur", "price": "34,90 €", "cta": "Voir" } },
+        { "type": "product", "settings": { "category": "Chat noir", "name": "Puffy Panthère", "tag": "Édition limitée", "price": "36,90 €", "cta": "Voir" } },
+        { "type": "product", "settings": { "category": "Chat blanc", "name": "Puffy Nuage Blanc", "tag": "Coup de cœur", "price": "34,90 €", "cta": "Voir" } },
         { "type": "product", "settings": { "category": "Chat tigré", "name": "Puffy Tigré Malin", "tag": "Populaire", "price": "34,90 €", "cta": "Voir" } },
         { "type": "product", "settings": { "category": "Chat calico", "name": "Puffy Calico Trio", "tag": "Rare", "price": "38,90 €", "cta": "Voir" } },
         { "type": "review", "settings": { "rating": 5, "name": "Camille D.", "text": "Trop mignon et tellement doux, je craque complètement. Livré super vite !" } },
