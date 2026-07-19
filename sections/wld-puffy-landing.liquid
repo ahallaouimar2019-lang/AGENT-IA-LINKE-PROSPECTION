@@ -1,0 +1,511 @@
+{%- comment -%} WLD — Puffy Landing — self-contained section (hero + 7 products + photo reviews + FAQ) {%- endcomment -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<div id="wld-puffy-{{ section.id }}" class="wld-puffy">
+
+  {%- if section.settings.deal_text != blank -%}
+  <div class="wld-puffy__deal">
+    <span>{{ section.settings.deal_text }}</span>
+  </div>
+  {%- endif -%}
+
+  {%- comment -%} ============ HERO ============ {%- endcomment -%}
+  <section class="wld-puffy__hero" style="--wld-hero-bg: {{ section.settings.hero_bg }};">
+    <div class="wld-puffy__hero-inner">
+      <div class="wld-puffy__hero-copy">
+        {%- if section.settings.hero_eyebrow != blank -%}
+          <p class="wld-puffy__eyebrow">{{ section.settings.hero_eyebrow }}</p>
+        {%- endif -%}
+        <h1 class="wld-puffy__hero-title">{{ section.settings.hero_title }}</h1>
+        <p class="wld-puffy__hero-sub">{{ section.settings.hero_subtitle }}</p>
+
+        <div class="wld-puffy__hero-stars">
+          <span class="wld-puffy__stars" aria-hidden="true">★★★★★</span>
+          <span class="wld-puffy__stars-text">{{ section.settings.hero_reviews_text }}</span>
+        </div>
+
+        <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--xl">
+          {{ section.settings.hero_cta_label }}
+        </a>
+
+        {%- if section.settings.hero_reassurance != blank -%}
+          <p class="wld-puffy__reassurance">{{ section.settings.hero_reassurance }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="wld-puffy__hero-media">
+        {%- if section.settings.hero_image != blank -%}
+          <img src="{{ section.settings.hero_image | image_url: width: 900 }}"
+               alt="{{ section.settings.hero_title | escape }}"
+               loading="eager" width="900" height="900">
+        {%- else -%}
+          <div class="wld-puffy__ph wld-puffy__ph--hero">🐱<span>Hero image</span></div>
+        {%- endif -%}
+        <div class="wld-puffy__hero-badge">{{ section.settings.hero_badge }}</div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ============ TRUST STRIP ============ {%- endcomment -%}
+  <section class="wld-puffy__trust">
+    <div class="wld-puffy__trust-item"><span>💝</span>{{ section.settings.trust_1 }}</div>
+    <div class="wld-puffy__trust-item"><span>🧸</span>{{ section.settings.trust_2 }}</div>
+    <div class="wld-puffy__trust-item"><span>🚚</span>{{ section.settings.trust_3 }}</div>
+    <div class="wld-puffy__trust-item"><span>🔒</span>{{ section.settings.trust_4 }}</div>
+  </section>
+
+  {%- comment -%} ============ 7 PRODUCTS ============ {%- endcomment -%}
+  <section class="wld-puffy__products">
+    <div class="wld-puffy__section-head">
+      <p class="wld-puffy__eyebrow">{{ section.settings.products_eyebrow }}</p>
+      <h2 class="wld-puffy__h2">{{ section.settings.products_title }}</h2>
+      <p class="wld-puffy__section-sub">{{ section.settings.products_subtitle }}</p>
+    </div>
+
+    <div class="wld-puffy__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'product' -%}
+          <a href="{{ block.settings.link }}" class="wld-puffy__card" {{ block.shopify_attributes }}>
+            {%- if block.settings.tag != blank -%}
+              <span class="wld-puffy__card-tag">{{ block.settings.tag }}</span>
+            {%- endif -%}
+            <div class="wld-puffy__card-media">
+              {%- if block.settings.image != blank -%}
+                <img src="{{ block.settings.image | image_url: width: 600 }}"
+                     alt="{{ block.settings.name | escape }}" loading="lazy" width="600" height="600">
+              {%- else -%}
+                <div class="wld-puffy__ph">🐈<span>{{ block.settings.name }}</span></div>
+              {%- endif -%}
+            </div>
+            <div class="wld-puffy__card-body">
+              <p class="wld-puffy__card-cat">{{ block.settings.category }}</p>
+              <h3 class="wld-puffy__card-name">{{ block.settings.name }}</h3>
+              <div class="wld-puffy__card-foot">
+                <span class="wld-puffy__card-price">{{ block.settings.price }}</span>
+                <span class="wld-puffy__card-cta">{{ block.settings.cta }} →</span>
+              </div>
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="wld-puffy__products-foot">
+      <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--lg">
+        {{ section.settings.products_button }}
+      </a>
+    </div>
+  </section>
+
+  {%- comment -%} ============ BENEFITS ============ {%- endcomment -%}
+  <section class="wld-puffy__benefits" style="--wld-ben-bg: {{ section.settings.benefits_bg }};">
+    <div class="wld-puffy__section-head">
+      <h2 class="wld-puffy__h2">{{ section.settings.benefits_title }}</h2>
+    </div>
+    <div class="wld-puffy__ben-grid">
+      <div class="wld-puffy__ben"><span>🌿</span><h4>{{ section.settings.ben_1_title }}</h4><p>{{ section.settings.ben_1_text }}</p></div>
+      <div class="wld-puffy__ben"><span>✋</span><h4>{{ section.settings.ben_2_title }}</h4><p>{{ section.settings.ben_2_text }}</p></div>
+      <div class="wld-puffy__ben"><span>🎁</span><h4>{{ section.settings.ben_3_title }}</h4><p>{{ section.settings.ben_3_text }}</p></div>
+      <div class="wld-puffy__ben"><span>🐾</span><h4>{{ section.settings.ben_4_title }}</h4><p>{{ section.settings.ben_4_text }}</p></div>
+    </div>
+  </section>
+
+  {%- comment -%} ============ PHOTO REVIEWS ============ {%- endcomment -%}
+  <section class="wld-puffy__reviews">
+    <div class="wld-puffy__section-head">
+      <p class="wld-puffy__eyebrow">{{ section.settings.reviews_eyebrow }}</p>
+      <h2 class="wld-puffy__h2">{{ section.settings.reviews_title }}</h2>
+      <div class="wld-puffy__reviews-score">
+        <span class="wld-puffy__stars">★★★★★</span>
+        <strong>{{ section.settings.reviews_score }}</strong>
+        <span>{{ section.settings.reviews_count }}</span>
+      </div>
+    </div>
+
+    <div class="wld-puffy__reviews-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'review' -%}
+          {%- assign r = block.settings.rating | plus: 0 -%}
+          <figure class="wld-puffy__review" {{ block.shopify_attributes }}>
+            <div class="wld-puffy__review-photo">
+              {%- if block.settings.photo != blank -%}
+                <img src="{{ block.settings.photo | image_url: width: 500 }}"
+                     alt="{{ block.settings.name | escape }}" loading="lazy" width="500" height="500">
+              {%- else -%}
+                <div class="wld-puffy__ph wld-puffy__ph--sm">📷</div>
+              {%- endif -%}
+            </div>
+            <div class="wld-puffy__review-body">
+              <span class="wld-puffy__stars" aria-label="{{ r }}/5">
+                {%- for i in (1..5) -%}{%- if i <= r -%}★{%- else -%}☆{%- endif -%}{%- endfor -%}
+              </span>
+              <blockquote>“{{ block.settings.text }}”</blockquote>
+              <figcaption>
+                <strong>{{ block.settings.name }}</strong>
+                {%- if block.settings.verified -%}<span class="wld-puffy__verified">✔ {{ section.settings.verified_label }}</span>{%- endif -%}
+              </figcaption>
+            </div>
+          </figure>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+
+  {%- comment -%} ============ FAQ ============ {%- endcomment -%}
+  <section class="wld-puffy__faq">
+    <div class="wld-puffy__section-head">
+      <h2 class="wld-puffy__h2">{{ section.settings.faq_title }}</h2>
+    </div>
+    <div class="wld-puffy__faq-list">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq' -%}
+          <details class="wld-puffy__faq-item" {{ block.shopify_attributes }}>
+            <summary>{{ block.settings.question }}<span class="wld-puffy__faq-ic">+</span></summary>
+            <div class="wld-puffy__faq-a">{{ block.settings.answer }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+
+  {%- comment -%} ============ FINAL CTA ============ {%- endcomment -%}
+  <section class="wld-puffy__final" style="--wld-final-bg: {{ section.settings.final_bg }};">
+    <h2 class="wld-puffy__final-title">{{ section.settings.final_title }}</h2>
+    <p class="wld-puffy__final-sub">{{ section.settings.final_subtitle }}</p>
+    <a href="{{ section.settings.hero_cta_link }}" class="wld-puffy__btn wld-puffy__btn--xl wld-puffy__btn--light">
+      {{ section.settings.final_button }}
+    </a>
+    <p class="wld-puffy__reassurance">{{ section.settings.final_reassurance }}</p>
+  </section>
+
+</div>
+
+{%- style -%}
+  #wld-puffy-{{ section.id }} .wld-puffy,
+  #wld-puffy-{{ section.id }} *{ box-sizing:border-box; }
+  #wld-puffy-{{ section.id }}{
+    --wld-ink:{{ section.settings.color_ink }};
+    --wld-accent:{{ section.settings.color_accent }};
+    --wld-soft:{{ section.settings.color_soft }};
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--wld-ink); line-height:1.55; background:#fff;
+    -webkit-font-smoothing:antialiased;
+  }
+  #wld-puffy-{{ section.id }} h1,#wld-puffy-{{ section.id }} h2,
+  #wld-puffy-{{ section.id }} h3,#wld-puffy-{{ section.id }} h4{ margin:0; font-weight:400; }
+  #wld-puffy-{{ section.id }} p{ margin:0; }
+  #wld-puffy-{{ section.id }} a{ text-decoration:none; color:inherit; }
+  #wld-puffy-{{ section.id }} .wld-puffy__eyebrow{
+    text-transform:uppercase; letter-spacing:.18em; font-size:12px; font-weight:700;
+    color:var(--wld-accent); margin-bottom:14px;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__h2{
+    font-family:'DM Serif Display',Georgia,serif; font-size:clamp(28px,4vw,44px); line-height:1.1;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__stars{ color:#ffb400; letter-spacing:2px; font-size:16px; }
+
+  /* Deal bar */
+  #wld-puffy-{{ section.id }} .wld-puffy__deal{
+    background:var(--wld-ink); color:#fff; text-align:center; padding:12px 16px;
+    font-size:14px; font-weight:600;
+  }
+
+  /* Buttons */
+  #wld-puffy-{{ section.id }} .wld-puffy__btn{
+    display:inline-block; background:var(--wld-accent); color:#fff; font-weight:700;
+    border-radius:999px; padding:16px 34px; font-size:16px; transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow:0 10px 24px rgba(0,0,0,.12);
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__btn:hover{ transform:translateY(-2px); box-shadow:0 16px 32px rgba(0,0,0,.18); }
+  #wld-puffy-{{ section.id }} .wld-puffy__btn--xl{ padding:20px 48px; font-size:19px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__btn--lg{ padding:18px 42px; font-size:17px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__btn--light{ background:#fff; color:var(--wld-ink); }
+
+  /* Hero */
+  #wld-puffy-{{ section.id }} .wld-puffy__hero{ background:var(--wld-hero-bg); }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-inner{
+    max-width:1200px; margin:0 auto; padding:70px 24px; display:grid;
+    grid-template-columns:1.05fr 1fr; gap:56px; align-items:center;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-title{
+    font-family:'DM Serif Display',Georgia,serif; font-size:clamp(38px,6vw,68px); line-height:1.02; margin-bottom:18px;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-sub{ font-size:19px; color:#555; margin-bottom:20px; max-width:520px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-stars{ display:flex; align-items:center; gap:10px; margin-bottom:26px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__stars-text{ font-size:14px; color:#666; font-weight:500; }
+  #wld-puffy-{{ section.id }} .wld-puffy__reassurance{ margin-top:16px; font-size:13px; color:#777; }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-media{ position:relative; }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-media img{
+    width:100%; height:auto; border-radius:28px; display:block; box-shadow:0 30px 60px rgba(0,0,0,.14);
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__hero-badge{
+    position:absolute; top:18px; left:18px; background:var(--wld-accent); color:#fff;
+    font-weight:800; font-size:14px; padding:10px 16px; border-radius:14px; transform:rotate(-6deg);
+    box-shadow:0 8px 18px rgba(0,0,0,.18);
+  }
+
+  /* Trust strip */
+  #wld-puffy-{{ section.id }} .wld-puffy__trust{
+    max-width:1200px; margin:0 auto; padding:22px 24px; display:flex; flex-wrap:wrap; gap:26px;
+    justify-content:center; border-bottom:1px solid #eee;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__trust-item{ display:flex; align-items:center; gap:9px; font-weight:600; font-size:15px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__trust-item span{ font-size:20px; }
+
+  /* Section head */
+  #wld-puffy-{{ section.id }} .wld-puffy__section-head{ text-align:center; max-width:720px; margin:0 auto 44px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__section-sub{ margin-top:14px; font-size:17px; color:#666; }
+
+  /* Products grid */
+  #wld-puffy-{{ section.id }} .wld-puffy__products{ max-width:1200px; margin:0 auto; padding:70px 24px 40px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:22px;
+  }
+  /* 7 cards: first row 4, second row 3 centered feel via auto flow */
+  #wld-puffy-{{ section.id }} .wld-puffy__card{
+    background:#fff; border:1px solid #eee; border-radius:20px; overflow:hidden; position:relative;
+    display:flex; flex-direction:column; transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__card:hover{ transform:translateY(-6px); box-shadow:0 22px 40px rgba(0,0,0,.12); border-color:var(--wld-accent); }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-tag{
+    position:absolute; top:12px; left:12px; z-index:2; background:var(--wld-ink); color:#fff;
+    font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:6px 11px; border-radius:999px;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-media{ aspect-ratio:1/1; background:var(--wld-soft); }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-body{ padding:18px 18px 20px; display:flex; flex-direction:column; gap:6px; flex:1; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-cat{ font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--wld-accent); font-weight:700; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-name{ font-family:'DM Serif Display',Georgia,serif; font-size:20px; line-height:1.15; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-foot{ margin-top:auto; padding-top:10px; display:flex; align-items:center; justify-content:space-between; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-price{ font-weight:800; font-size:18px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__card-cta{ font-weight:700; font-size:14px; color:var(--wld-accent); }
+  #wld-puffy-{{ section.id }} .wld-puffy__products-foot{ text-align:center; margin-top:44px; }
+
+  /* Benefits */
+  #wld-puffy-{{ section.id }} .wld-puffy__benefits{ background:var(--wld-ben-bg); padding:70px 24px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben-grid{ max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben{ text-align:center; background:#fff; border-radius:20px; padding:30px 22px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben span{ font-size:34px; display:block; margin-bottom:14px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben h4{ font-size:18px; font-weight:700; margin-bottom:8px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ben p{ font-size:14px; color:#666; }
+
+  /* Reviews */
+  #wld-puffy-{{ section.id }} .wld-puffy__reviews{ max-width:1200px; margin:0 auto; padding:72px 24px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__reviews-score{ display:flex; align-items:center; justify-content:center; gap:10px; margin-top:14px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__reviews-score strong{ font-size:20px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__reviews-score span{ color:#666; font-size:14px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__reviews-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__review{ margin:0; border:1px solid #eee; border-radius:20px; overflow:hidden; background:#fff; display:flex; flex-direction:column; }
+  #wld-puffy-{{ section.id }} .wld-puffy__review-photo{ aspect-ratio:4/3; background:var(--wld-soft); }
+  #wld-puffy-{{ section.id }} .wld-puffy__review-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  #wld-puffy-{{ section.id }} .wld-puffy__review-body{ padding:18px 20px 22px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__review-body blockquote{ margin:10px 0 14px; font-size:15px; color:#333; }
+  #wld-puffy-{{ section.id }} .wld-puffy__review-body figcaption{ display:flex; align-items:center; gap:10px; font-size:14px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__verified{ color:#1a9e5f; font-weight:600; font-size:12px; }
+
+  /* FAQ */
+  #wld-puffy-{{ section.id }} .wld-puffy__faq{ max-width:760px; margin:0 auto; padding:20px 24px 80px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq-item{ border-bottom:1px solid #e7e7e7; }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq-item summary{
+    list-style:none; cursor:pointer; padding:20px 0; font-weight:600; font-size:17px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq-item summary::-webkit-details-marker{ display:none; }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq-ic{ font-size:24px; color:var(--wld-accent); transition:transform .2s ease; flex:0 0 auto; }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq-item[open] .wld-puffy__faq-ic{ transform:rotate(45deg); }
+  #wld-puffy-{{ section.id }} .wld-puffy__faq-a{ padding:0 0 22px; color:#555; font-size:15px; }
+
+  /* Final CTA */
+  #wld-puffy-{{ section.id }} .wld-puffy__final{ background:var(--wld-final-bg); color:#fff; text-align:center; padding:80px 24px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__final-title{ font-family:'DM Serif Display',Georgia,serif; font-size:clamp(30px,5vw,50px); margin-bottom:14px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__final-sub{ font-size:18px; opacity:.9; margin-bottom:30px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__final .wld-puffy__reassurance{ color:rgba(255,255,255,.75); }
+
+  /* Placeholders */
+  #wld-puffy-{{ section.id }} .wld-puffy__ph{
+    width:100%; height:100%; min-height:200px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px; font-size:46px; background:var(--wld-soft); color:#999;
+  }
+  #wld-puffy-{{ section.id }} .wld-puffy__ph span{ font-size:13px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ph--hero{ min-height:420px; border-radius:28px; }
+  #wld-puffy-{{ section.id }} .wld-puffy__ph--sm{ min-height:160px; font-size:34px; }
+
+  /* ===== Responsive ===== */
+  @media (max-width:900px){
+    #wld-puffy-{{ section.id }} .wld-puffy__hero-inner{ grid-template-columns:1fr; gap:34px; padding:48px 20px; text-align:center; }
+    #wld-puffy-{{ section.id }} .wld-puffy__hero-copy{ order:2; }
+    #wld-puffy-{{ section.id }} .wld-puffy__hero-media{ order:1; }
+    #wld-puffy-{{ section.id }} .wld-puffy__hero-sub{ margin-left:auto; margin-right:auto; }
+    #wld-puffy-{{ section.id }} .wld-puffy__hero-stars{ justify-content:center; }
+    #wld-puffy-{{ section.id }} .wld-puffy__grid{ grid-template-columns:repeat(2,1fr); }
+    #wld-puffy-{{ section.id }} .wld-puffy__ben-grid{ grid-template-columns:repeat(2,1fr); }
+    #wld-puffy-{{ section.id }} .wld-puffy__reviews-grid{ grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width:540px){
+    #wld-puffy-{{ section.id }} .wld-puffy__grid{ grid-template-columns:1fr; }
+    #wld-puffy-{{ section.id }} .wld-puffy__ben-grid{ grid-template-columns:1fr; }
+    #wld-puffy-{{ section.id }} .wld-puffy__reviews-grid{ grid-template-columns:1fr; }
+    #wld-puffy-{{ section.id }} .wld-puffy__trust{ gap:14px; }
+    #wld-puffy-{{ section.id }} .wld-puffy__trust-item{ font-size:13px; }
+    #wld-puffy-{{ section.id }} .wld-puffy__btn--xl{ padding:16px 32px; font-size:16px; }
+  }
+{%- endstyle -%}
+
+<script>
+  (function(){
+    function initPuffy(root){
+      if(!root) return;
+      // Accordéon FAQ : un seul ouvert à la fois
+      var items = root.querySelectorAll('.wld-puffy__faq-item');
+      items.forEach(function(d){
+        d.addEventListener('toggle', function(){
+          if(d.open){
+            items.forEach(function(o){ if(o!==d) o.open=false; });
+          }
+        });
+      });
+    }
+    var id = 'wld-puffy-{{ section.id }}';
+    initPuffy(document.getElementById(id));
+    document.addEventListener('shopify:section:load', function(e){
+      var el = e.target.querySelector('#'+id) || document.getElementById(id);
+      initPuffy(el);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "WLD — Puffy Landing",
+  "tag": "section",
+  "class": "wld-puffy-section",
+  "enabled_on": { "templates": ["page", "index", "product"] },
+  "settings": [
+    { "type": "header", "content": "🎀 Barre promo" },
+    { "type": "text", "id": "deal_text", "label": "Texte promo", "default": "🐾 -30% aujourd'hui sur toute la collection · Offre limitée →" },
+
+    { "type": "header", "content": "🦸 Hero" },
+    { "type": "color", "id": "hero_bg", "label": "Fond du hero", "default": "#FBF7F2" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Sur-titre", "default": "Puffy · Chats squishy faits main" },
+    { "type": "text", "id": "hero_title", "label": "Titre", "default": "Le chat squishy le plus doux du web" },
+    { "type": "textarea", "id": "hero_subtitle", "label": "Sous-titre", "default": "Des adorables chats squishy en silicone non-toxique, ultra-doux à presser. Le compagnon anti-stress et le cadeau parfait qui fait fondre tout le monde." },
+    { "type": "text", "id": "hero_reviews_text", "label": "Texte avis (étoiles)", "default": "4,9/5 · +12 000 clients conquis" },
+    { "type": "text", "id": "hero_cta_label", "label": "Texte du gros bouton", "default": "Découvrir mes 7 chats →" },
+    { "type": "url", "id": "hero_cta_link", "label": "Lien du gros bouton (page produits)" },
+    { "type": "text", "id": "hero_reassurance", "label": "Réassurance sous le bouton", "default": "Livraison offerte dès 40€ · Satisfait ou remboursé 30 jours" },
+    { "type": "image_picker", "id": "hero_image", "label": "Image hero" },
+    { "type": "text", "id": "hero_badge", "label": "Badge sur l'image", "default": "★ Best-seller viral TikTok" },
+
+    { "type": "header", "content": "🛡️ Trust strip" },
+    { "type": "text", "id": "trust_1", "label": "Trust 1", "default": "Silicone non-toxique" },
+    { "type": "text", "id": "trust_2", "label": "Trust 2", "default": "Fait main avec amour" },
+    { "type": "text", "id": "trust_3", "label": "Trust 3", "default": "Livraison rapide" },
+    { "type": "text", "id": "trust_4", "label": "Trust 4", "default": "Paiement 100% sécurisé" },
+
+    { "type": "header", "content": "🐈 Section produits (ajoute 7 blocs « Produit »)" },
+    { "type": "text", "id": "products_eyebrow", "label": "Sur-titre", "default": "La collection" },
+    { "type": "text", "id": "products_title", "label": "Titre", "default": "Choisis ton chat squishy" },
+    { "type": "textarea", "id": "products_subtitle", "label": "Sous-titre", "default": "7 personnalités, 7 modèles à collectionner. Lequel va rejoindre ta maison ?" },
+    { "type": "text", "id": "products_button", "label": "Bouton bas de section", "default": "Voir toute la collection →" },
+
+    { "type": "header", "content": "✨ Bénéfices" },
+    { "type": "color", "id": "benefits_bg", "label": "Fond", "default": "#F4F1FB" },
+    { "type": "text", "id": "benefits_title", "label": "Titre", "default": "Pourquoi on craque pour Puffy" },
+    { "type": "text", "id": "ben_1_title", "label": "Bénéfice 1 titre", "default": "Matière saine" },
+    { "type": "textarea", "id": "ben_1_text", "label": "Bénéfice 1 texte", "default": "Silicone alimentaire non-toxique, sans danger pour petits et grands." },
+    { "type": "text", "id": "ben_2_title", "label": "Bénéfice 2 titre", "default": "Anti-stress" },
+    { "type": "textarea", "id": "ben_2_text", "label": "Bénéfice 2 texte", "default": "Une texture ultra-douce à presser qui apaise en quelques secondes." },
+    { "type": "text", "id": "ben_3_title", "label": "Bénéfice 3 titre", "default": "Cadeau parfait" },
+    { "type": "textarea", "id": "ben_3_text", "label": "Bénéfice 3 texte", "default": "Emballé comme un vrai cadeau : effet waouh garanti à l'ouverture." },
+    { "type": "text", "id": "ben_4_title", "label": "Bénéfice 4 titre", "default": "À collectionner" },
+    { "type": "textarea", "id": "ben_4_text", "label": "Bénéfice 4 texte", "default": "7 races différentes, tous plus mignons les uns que les autres." },
+
+    { "type": "header", "content": "⭐ Avis clients (ajoute 6 blocs « Avis »)" },
+    { "type": "text", "id": "reviews_eyebrow", "label": "Sur-titre", "default": "Ils ont adopté un Puffy" },
+    { "type": "text", "id": "reviews_title", "label": "Titre", "default": "+12 000 clients ronronnent de plaisir" },
+    { "type": "text", "id": "reviews_score", "label": "Note affichée", "default": "4,9/5" },
+    { "type": "text", "id": "reviews_count", "label": "Nombre d'avis", "default": "basé sur 3 218 avis vérifiés" },
+    { "type": "text", "id": "verified_label", "label": "Label vérifié", "default": "Achat vérifié" },
+
+    { "type": "header", "content": "❓ FAQ (ajoute 8 blocs « FAQ »)" },
+    { "type": "text", "id": "faq_title", "label": "Titre FAQ", "default": "Questions fréquentes" },
+
+    { "type": "header", "content": "🚀 CTA final" },
+    { "type": "color", "id": "final_bg", "label": "Fond", "default": "#7C5CFC" },
+    { "type": "text", "id": "final_title", "label": "Titre", "default": "Prêt à adopter ton chat squishy ?" },
+    { "type": "text", "id": "final_subtitle", "label": "Sous-titre", "default": "Stock limité — nos modèles viraux partent vite." },
+    { "type": "text", "id": "final_button", "label": "Bouton", "default": "J'adopte mon Puffy →" },
+    { "type": "text", "id": "final_reassurance", "label": "Réassurance", "default": "Paiement sécurisé · Livraison suivie · Retours gratuits 30 jours" },
+
+    { "type": "header", "content": "🎨 Couleurs de marque" },
+    { "type": "color", "id": "color_ink", "label": "Couleur texte / foncée", "default": "#1C1C1C" },
+    { "type": "color", "id": "color_accent", "label": "Couleur accent (boutons)", "default": "#7C5CFC" },
+    { "type": "color", "id": "color_soft", "label": "Couleur douce (fonds cartes)", "default": "#F1EEF9" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "🐈 Produit",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo du chat" },
+        { "type": "text", "id": "tag", "label": "Badge (ex: Best-seller)", "default": "Best-seller" },
+        { "type": "text", "id": "category", "label": "Catégorie", "default": "Chat siamois" },
+        { "type": "text", "id": "name", "label": "Nom du produit", "default": "Puffy Siamois" },
+        { "type": "text", "id": "price", "label": "Prix (texte libre)", "default": "34,90 €" },
+        { "type": "text", "id": "cta", "label": "Texte CTA carte", "default": "Voir" },
+        { "type": "url", "id": "link", "label": "Lien vers la page produit" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "⭐ Avis",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Photo client" },
+        { "type": "range", "id": "rating", "label": "Note", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "text", "label": "Avis", "default": "Trop mignon et tellement doux, je ne peux plus m'en passer !" },
+        { "type": "text", "id": "name", "label": "Nom client", "default": "Camille D." },
+        { "type": "checkbox", "id": "verified", "label": "Achat vérifié", "default": true }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "❓ FAQ",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "De quoi est fait le chat squishy ?" },
+        { "type": "textarea", "id": "answer", "label": "Réponse", "default": "En silicone alimentaire non-toxique, doux et sans danger." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WLD — Puffy Landing",
+      "blocks": [
+        { "type": "product", "settings": { "category": "Chat siamois", "name": "Puffy Siamois", "tag": "Best-seller", "price": "34,90 €", "cta": "Voir" } },
+        { "type": "product", "settings": { "category": "Chat British", "name": "Puffy British Gris", "tag": "Nouveau", "price": "34,90 €", "cta": "Voir" } },
+        { "type": "product", "settings": { "category": "Chat roux", "name": "Puffy Roux Câlin", "tag": "Viral", "price": "34,90 €", "cta": "Voir" } },
+        { "type": "product", "settings": { "category": "Chat noir", "name": "Puffy Panthère", "tag": "Édition", "price": "36,90 €", "cta": "Voir" } },
+        { "type": "product", "settings": { "category": "Chat blanc", "name": "Puffy Nuage Blanc", "tag": "Coup de coeur", "price": "34,90 €", "cta": "Voir" } },
+        { "type": "product", "settings": { "category": "Chat tigré", "name": "Puffy Tigré Malin", "tag": "Populaire", "price": "34,90 €", "cta": "Voir" } },
+        { "type": "product", "settings": { "category": "Chat calico", "name": "Puffy Calico Trio", "tag": "Rare", "price": "38,90 €", "cta": "Voir" } },
+        { "type": "review", "settings": { "rating": 5, "name": "Camille D.", "text": "Trop mignon et tellement doux, je craque complètement. Livré super vite !" } },
+        { "type": "review", "settings": { "rating": 5, "name": "Léa M.", "text": "Offert à ma fille pour son anniversaire, elle ne le lâche plus. Qualité au top." } },
+        { "type": "review", "settings": { "rating": 5, "name": "Thomas B.", "text": "Parfait pour déstresser au bureau. La texture est incroyable." } },
+        { "type": "review", "settings": { "rating": 4, "name": "Sophie R.", "text": "Adorable et bien emballé. Encore plus mignon en vrai que sur les photos." } },
+        { "type": "review", "settings": { "rating": 5, "name": "Yanis K.", "text": "Vu sur TikTok, je n'ai pas résisté. Aucune déception, il est parfait." } },
+        { "type": "review", "settings": { "rating": 5, "name": "Manon L.", "text": "J'en ai déjà 3, je les collectionne tous ! Service client adorable." } },
+        { "type": "faq", "settings": { "question": "De quoi est fait le chat squishy Puffy ?", "answer": "Chaque Puffy est fabriqué en silicone alimentaire non-toxique, doux et sans danger pour les enfants comme pour les adultes." } },
+        { "type": "faq", "settings": { "question": "Est-ce adapté aux enfants ?", "answer": "Oui, dès 3 ans. La matière est sans danger, mais une surveillance reste recommandée pour les plus petits." } },
+        { "type": "faq", "settings": { "question": "Combien de temps pour la livraison ?", "answer": "Comptez 2 à 5 jours ouvrés en France métropolitaine. Vous recevez un numéro de suivi dès l'expédition." } },
+        { "type": "faq", "settings": { "question": "La livraison est-elle offerte ?", "answer": "La livraison est offerte dès 40€ d'achat. En dessous, elle reste à petit prix." } },
+        { "type": "faq", "settings": { "question": "Puis-je collectionner plusieurs modèles ?", "answer": "Bien sûr ! Nous proposons 7 modèles différents, parfaits à collectionner ou à offrir." } },
+        { "type": "faq", "settings": { "question": "Comment nettoyer mon Puffy ?", "answer": "Un simple coup d'éponge humide avec un peu de savon doux suffit. Évitez le lave-vaisselle." } },
+        { "type": "faq", "settings": { "question": "Puis-je retourner mon produit ?", "answer": "Oui, vous disposez de 30 jours pour changer d'avis. Retours gratuits et remboursement rapide." } },
+        { "type": "faq", "settings": { "question": "Le paiement est-il sécurisé ?", "answer": "Absolument. Tous les paiements sont chiffrés et sécurisés (CB, Apple Pay, Shop Pay, PayPal…)." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
