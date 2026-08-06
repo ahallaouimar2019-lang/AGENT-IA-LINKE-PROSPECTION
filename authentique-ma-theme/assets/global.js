@@ -204,20 +204,33 @@
     var modal = document.querySelector('[data-lang-modal]');
     if (!modal) return;
     var KEY = 'auth_lang_chosen';
+    var isEditor = window.Shopify && window.Shopify.designMode;
     var chosen;
-    try { chosen = localStorage.getItem(KEY); } catch (e) { chosen = '1'; }
-    // Never show inside the Shopify theme editor
-    if (window.Shopify && window.Shopify.designMode) return;
-    if (chosen) return;
+    try { chosen = localStorage.getItem(KEY); } catch (e) { chosen = null; }
+
+    // In the theme editor: always show so the merchant can preview/style it.
+    // On the live site: show once per visitor, then remember their choice.
+    if (!isEditor && chosen) return;
+
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
+
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+    }
     function remember() { try { localStorage.setItem(KEY, '1'); } catch (e) {} }
+
     modal.querySelectorAll('[data-lang-choose]').forEach(function (btn) {
       btn.addEventListener('click', remember);
     });
+    // Optional close (X or backdrop) also remembers, so it never nags on the live site
+    var closeBtn = modal.querySelector('[data-lang-close]');
+    if (closeBtn) closeBtn.addEventListener('click', function () { remember(); close(); });
     modal.addEventListener('click', function (e) {
-      if (e.target === modal) { remember(); modal.hidden = true; document.body.style.overflow = ''; }
+      if (e.target === modal) { remember(); close(); }
     });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) { remember(); close(); } });
   }
 
   /* ---------- Newsletter / contact success handled by Shopify natively ---------- */

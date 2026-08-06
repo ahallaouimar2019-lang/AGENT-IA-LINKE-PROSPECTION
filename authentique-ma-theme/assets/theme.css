@@ -498,10 +498,16 @@ body.rtl .mobile-nav__panel { transform: translateX(100%); }
 }
 .lang-modal[hidden] { display: none; }
 .lang-modal__box {
+  position: relative;
   background: #fff; border-radius: 24px; padding: clamp(28px, 5vw, 48px); max-width: 460px; width: 100%;
   text-align: center; box-shadow: 0 30px 80px rgba(74, 18, 89, 0.35);
   animation: lm-rise 0.4s cubic-bezier(.2,.8,.2,1) both;
 }
+.lang-modal__close {
+  position: absolute; top: 12px; inset-inline-end: 16px; background: none; border: none;
+  font-size: 1.8rem; line-height: 1; color: #b7a9bf; cursor: pointer; padding: 4px;
+}
+.lang-modal__close:hover { color: var(--color-primary); }
 .lang-modal__brand { margin-bottom: 18px; }
 .lang-modal__name { font-family: var(--heading-font); font-size: 2rem; font-weight: 700; color: var(--color-primary); }
 .lang-modal__brand img { margin-inline: auto; max-height: 70px; width: auto; }

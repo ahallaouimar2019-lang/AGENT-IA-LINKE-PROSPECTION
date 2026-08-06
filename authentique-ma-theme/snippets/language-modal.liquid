@@ -5,6 +5,7 @@
 {%- if settings.show_language_modal and localization.available_languages.size > 1 -%}
   <div class="lang-modal" data-lang-modal hidden>
     <div class="lang-modal__box">
+      <button type="button" class="lang-modal__close" data-lang-close aria-label="Fermer">&times;</button>
       <div class="lang-modal__brand">
         {%- if settings.welcome_logo != blank -%}
           <img src="{{ settings.welcome_logo | image_url: width: 320 }}" alt="{{ shop.name }}" width="180">
