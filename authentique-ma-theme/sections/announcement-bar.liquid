@@ -1,6 +1,8 @@
 <div class="announcement-bar">
   <div class="announcement-bar__inner">
-    <p class="announcement-bar__text">{{ section.settings.text | default: 'header.announcement' | t }}</p>
+    <p class="announcement-bar__text">
+      {%- if section.settings.text != blank -%}{{ section.settings.text }}{%- else -%}{{ 'header.announcement' | t }}{%- endif -%}
+    </p>
     {%- if section.settings.show_language_switcher and localization.available_languages.size > 1 -%}
       {%- form 'localization', class: 'lang-switcher' -%}
         <input type="hidden" name="return_to" value="{{ request.path }}">

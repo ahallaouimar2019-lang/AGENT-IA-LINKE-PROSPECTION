@@ -12,7 +12,6 @@
   <div class="container">
     <div class="product" data-gallery>
 
-      {# ---------------- GALLERY ---------------- #}
       <div class="product-gallery">
         <div class="product-gallery__main" data-gallery-main>
           {%- if current_variant.featured_media -%}
@@ -37,7 +36,6 @@
         {%- endif -%}
       </div>
 
-      {# ---------------- INFO ---------------- #}
       <div class="product-info">
         {%- if product.vendor != blank -%}<div class="eyebrow" style="color:var(--color-primary);font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;">{{ product.vendor }}</div>{%- endif -%}
         <h1 class="product-info__title">{{ product.title }}</h1>
@@ -59,7 +57,6 @@
           <div class="product-info__desc">{{ product.description | truncatewords: 40 }}</div>
         {%- endif -%}
 
-        {# Stock badge #}
         {%- if current_variant.available -%}
           {%- if current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 10 -%}
             <div class="stock-badge stock-badge--low">{{ 'products.product.low_stock' | t }} ({{ current_variant.inventory_quantity }})</div>
@@ -70,13 +67,11 @@
           <div class="stock-badge stock-badge--low">{{ 'products.product.sold_out' | t }}</div>
         {%- endif -%}
 
-        {# ---------------- MAIN FORM (COD + Add to cart) ---------------- #}
         <form data-cod-form data-add-form
               data-error-required="{{ 'products.product.cod.error_required' | t }}"
               data-error-phone="{{ 'products.product.cod.error_phone' | t }}"
               data-success="{{ 'products.product.cod.success' | t }}">
 
-          {# Variant selector #}
           {%- if product.variants.size > 1 -%}
             <div class="variant-option" style="margin-bottom:16px;">
               <label class="variant-option__label" for="variant-select">{{ product.options | join: ' / ' }}</label>
@@ -94,7 +89,6 @@
             <input type="hidden" name="id" value="{{ current_variant.id }}">
           {%- endif -%}
 
-          {# Quantity #}
           <div class="variant-option" style="margin-bottom:18px;">
             <label class="variant-option__label">{{ 'products.product.quantity' | t }}</label>
             <div class="qty-selector" data-qty>
@@ -105,7 +99,6 @@
           </div>
 
           {%- if current_variant.available -%}
-            {# COD form fields #}
             <div class="cod-form">
               <h3 class="cod-form__title">📦 {{ 'products.product.cod.title' | t }}</h3>
               <p class="cod-form__subtitle">{{ 'products.product.cod.subtitle' | t }}</p>
@@ -148,7 +141,6 @@
           {%- endif -%}
         </form>
 
-        {# Trust row #}
         <div class="trust-row">
           <div class="trust-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="1" y="6" width="15" height="11" rx="1"/><path d="M16 9h4l3 3v5h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
@@ -167,7 +159,6 @@
 
     </div>
 
-    {# ---------------- TABS ---------------- #}
     <div class="product-tabs" data-tabs>
       <div class="product-tabs__nav">
         <button class="product-tabs__tab is-active" data-tab="desc">{{ 'products.product.description' | t }}</button>

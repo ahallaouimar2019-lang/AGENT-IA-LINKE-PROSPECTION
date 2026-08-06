@@ -1,7 +1,7 @@
 <section class="section newsletter">
   <div class="container">
-    <h2>{{ section.settings.title | default: 'general.newsletter.title' | t }}</h2>
-    <p>{{ section.settings.subtitle | default: 'general.newsletter.subtitle' | t }}</p>
+    <h2>{% if section.settings.title != blank %}{{ section.settings.title }}{% else %}{{ 'general.newsletter.title' | t }}{% endif %}</h2>
+    <p>{% if section.settings.subtitle != blank %}{{ section.settings.subtitle }}{% else %}{{ 'general.newsletter.subtitle' | t }}{% endif %}</p>
     {%- form 'customer', class: 'newsletter__form' -%}
       <input type="hidden" name="contact[tags]" value="newsletter">
       {%- if form.posted_successfully? -%}

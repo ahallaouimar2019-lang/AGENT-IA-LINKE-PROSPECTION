@@ -1,7 +1,7 @@
 <section class="section">
   <div class="container">
     <div class="section-heading">
-      <h1 style="margin:0;">{{ collection.title | default: 'collections.general.title' | t }}</h1>
+      <h1 style="margin:0;">{{ collection.title }}</h1>
       {%- if collection.description != blank -%}<p>{{ collection.description }}</p>{%- endif -%}
     </div>
 

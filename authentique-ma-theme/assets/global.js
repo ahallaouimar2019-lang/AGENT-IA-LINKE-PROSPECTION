@@ -33,18 +33,18 @@
     drawer.addEventListener('click', function (e) { if (e.target === drawer) shut(); });
   }
 
-  /* ---------- Product gallery ---------- */
+  /* ---------- Product gallery (supports multiple on a page) ---------- */
   function initGallery() {
-    var gallery = document.querySelector('[data-gallery]');
-    if (!gallery) return;
-    var mainImg = gallery.querySelector('[data-gallery-main] img');
-    var thumbs = gallery.querySelectorAll('[data-gallery-thumb]');
-    thumbs.forEach(function (thumb) {
-      thumb.addEventListener('click', function () {
-        var full = thumb.getAttribute('data-full');
-        if (mainImg && full) { mainImg.src = full; mainImg.srcset = ''; }
-        thumbs.forEach(function (t) { t.classList.remove('is-active'); });
-        thumb.classList.add('is-active');
+    document.querySelectorAll('[data-gallery]').forEach(function (gallery) {
+      var mainImg = gallery.querySelector('[data-gallery-main] img');
+      var thumbs = gallery.querySelectorAll('[data-gallery-thumb]');
+      thumbs.forEach(function (thumb) {
+        thumb.addEventListener('click', function () {
+          var full = thumb.getAttribute('data-full');
+          if (mainImg && full) { mainImg.src = full; mainImg.srcset = ''; }
+          thumbs.forEach(function (t) { t.classList.remove('is-active'); });
+          thumb.classList.add('is-active');
+        });
       });
     });
   }

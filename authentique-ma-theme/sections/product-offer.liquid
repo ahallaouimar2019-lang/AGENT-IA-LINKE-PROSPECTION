@@ -1,0 +1,151 @@
+{%- comment -%}
+  Authentique MA — Featured product offer with 6-image gallery + promo price.
+  Marketing showcase for the homepage. Image slots are editable blocks.
+{%- endcomment -%}
+
+<section class="section{% if section.settings.soft_bg %} section--soft{% endif %}">
+  <div class="container">
+    {%- if section.settings.section_title != blank -%}
+      <div class="section-heading">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2>{{ section.settings.section_title }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="product offer" data-gallery>
+
+      {%- comment -%} GALLERY {%- endcomment -%}
+      <div class="product-gallery">
+        <div class="product-gallery__main" data-gallery-main>
+          {%- assign first_block = section.blocks.first -%}
+          {%- if first_block.settings.image != blank -%}
+            <img src="{{ first_block.settings.image | image_url: width: 900 }}" alt="{{ section.settings.title | escape }}" width="900" height="900">
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: '' }}
+          {%- endif -%}
+        </div>
+        {%- if section.blocks.size > 1 -%}
+          <div class="product-gallery__thumbs">
+            {%- for block in section.blocks -%}
+              <button type="button" class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}" data-gallery-thumb
+                {% if block.settings.image != blank %}data-full="{{ block.settings.image | image_url: width: 900 }}"{% endif %} aria-label="Image {{ forloop.index }}" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 160 }}" alt="Image {{ forloop.index }}" loading="lazy" width="160" height="160">
+                {%- else -%}
+                  {{ 'product-2' | placeholder_svg_tag: '' }}
+                {%- endif -%}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} OFFER INFO {%- endcomment -%}
+      <div class="product-info">
+        {%- if section.settings.badge != blank -%}<span class="offer-badge">{{ section.settings.badge }}</span>{%- endif -%}
+        <h1 class="product-info__title">{{ section.settings.title }}</h1>
+
+        {%- if section.settings.rating != blank -%}
+          <div class="offer-rating"><span>★★★★★</span> {{ section.settings.rating }}</div>
+        {%- endif -%}
+
+        <div class="offer-price">
+          <span class="offer-price__new">{{ section.settings.price_new }} {{ section.settings.currency }}</span>
+          {%- if section.settings.price_old != blank -%}
+            <span class="offer-price__old">{{ section.settings.price_old }} {{ section.settings.currency }}</span>
+            {%- assign saved = section.settings.price_old | minus: section.settings.price_new -%}
+            {%- if saved > 0 -%}<span class="offer-price__save">-{{ saved }} {{ section.settings.currency }}</span>{%- endif -%}
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.description != blank -%}
+          <div class="product-info__desc">{{ section.settings.description }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.urgency != blank -%}
+          <div class="offer-urgency">🔥 {{ section.settings.urgency }}</div>
+        {%- endif -%}
+
+        <div class="product-actions">
+          {%- if section.settings.button_link != blank -%}
+            <a href="{{ section.settings.button_link }}" class="btn btn--primary btn--block btn--lg">{{ section.settings.button_label }}</a>
+          {%- endif -%}
+          {%- if settings.whatsapp_number != blank -%}
+            {%- capture wa -%}Bonjour, je veux profiter de l'offre : {{ section.settings.title }} à {{ section.settings.price_new }} {{ section.settings.currency }}{%- endcapture -%}
+            <a href="https://wa.me/{{ settings.whatsapp_number }}?text={{ wa | url_encode }}" target="_blank" rel="noopener" class="btn btn--outline btn--block">💬 Commander sur WhatsApp</a>
+          {%- endif -%}
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="1" y="6" width="15" height="11" rx="1"/><path d="M16 9h4l3 3v5h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            <span>Livraison 24-72h</span>
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <span>Paiement à la livraison</span>
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 0 8h-1"/></svg>
+            <span>Retour facile</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% style %}
+  .offer-badge { display:inline-block; background:#d6336c; color:#fff; font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:6px 14px; border-radius:100px; margin-bottom:14px; }
+  .offer-rating { color:#9a8aa2; font-size:0.9rem; margin-bottom:12px; }
+  .offer-rating span { color:#f5b301; letter-spacing:2px; }
+  .offer-price { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
+  .offer-price__new { font-size:2.4rem; font-weight:700; color:var(--color-primary); line-height:1; }
+  .offer-price__old { font-size:1.4rem; color:#b7a9bf; text-decoration:line-through; }
+  .offer-price__save { background:#fce4ef; color:#d6336c; font-weight:700; font-size:0.85rem; padding:5px 12px; border-radius:100px; }
+  .offer-urgency { background:#fff4e6; color:#e8590c; font-weight:600; font-size:0.9rem; padding:10px 16px; border-radius:12px; margin-bottom:20px; display:inline-block; }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Offre produit (6 images)",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre de section", "default": "OFFRE EXCLUSIVE" },
+    { "type": "text", "id": "section_title", "label": "Titre de section", "default": "Le best-seller Authentique" },
+    { "type": "checkbox", "id": "soft_bg", "label": "Fond lilas doux", "default": true },
+    { "type": "header", "content": "Produit" },
+    { "type": "text", "id": "badge", "label": "Badge promo", "default": "PROMO -29%" },
+    { "type": "text", "id": "title", "label": "Nom du produit", "default": "Wrinkle Repair Eyecream 20ml" },
+    { "type": "text", "id": "rating", "label": "Texte avis", "default": "+1200 clientes satisfaites" },
+    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Un contour des yeux anti-âge puissant, enrichi en cellules souches végétales Hibiskin Vita. Lisse les rides, réduit les cernes et illumine le regard.</p>" },
+    { "type": "header", "content": "Prix" },
+    { "type": "text", "id": "price_old", "label": "Ancien prix (barré)", "default": "699" },
+    { "type": "text", "id": "price_new", "label": "Prix promo", "default": "499" },
+    { "type": "text", "id": "currency", "label": "Devise", "default": "dh" },
+    { "type": "text", "id": "urgency", "label": "Message d'urgence", "default": "Stock limité — offre valable cette semaine seulement" },
+    { "type": "header", "content": "Bouton" },
+    { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Commander maintenant 🛍️" },
+    { "type": "url", "id": "button_link", "label": "Lien (page produit)" }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image produit",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Offre produit (6 images)",
+      "blocks": [
+        { "type": "image" }, { "type": "image" }, { "type": "image" },
+        { "type": "image" }, { "type": "image" }, { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}
