@@ -1,0 +1,20 @@
+<section class="section">
+  <div class="container" style="max-width:460px;">
+    <div class="page-header"><h1>Créer un compte</h1></div>
+
+    {%- form 'create_customer' -%}
+      {{ form.errors | default_errors }}
+      <div class="cod-form__row">
+        <div class="cod-field"><label>Prénom</label><input type="text" name="customer[first_name]"></div>
+        <div class="cod-field"><label>Nom</label><input type="text" name="customer[last_name]"></div>
+      </div>
+      <div class="cod-field"><label>Email</label><input type="email" name="customer[email]" required></div>
+      <div class="cod-field"><label>Mot de passe</label><input type="password" name="customer[password]" required></div>
+      <button type="submit" class="btn btn--primary btn--block btn--lg">Créer mon compte</button>
+    {%- endform -%}
+
+    <p style="text-align:center; margin-top:18px;">
+      Déjà cliente ? <a href="{{ routes.account_login_url }}">Se connecter</a>
+    </p>
+  </div>
+</section>

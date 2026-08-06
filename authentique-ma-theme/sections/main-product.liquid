@@ -1,0 +1,207 @@
+<div class="container">
+  <nav class="breadcrumb" aria-label="Fil d'ariane">
+    <a href="{{ routes.root_url }}">Accueil</a> /
+    {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a> / {%- endif -%}
+    <span>{{ product.title }}</span>
+  </nav>
+</div>
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="product" data-gallery>
+
+      <div class="product-gallery">
+        <div class="product-gallery__main" data-gallery-main>
+          {%- if current_variant.featured_media -%}
+            {%- assign main_media = current_variant.featured_media -%}
+          {%- else -%}
+            {%- assign main_media = product.featured_media -%}
+          {%- endif -%}
+          {%- if main_media -%}
+            <img src="{{ main_media | image_url: width: 900 }}" alt="{{ product.title | escape }}" width="900" height="900" fetchpriority="high">
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: '' }}
+          {%- endif -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="product-gallery__thumbs">
+            {%- for media in product.media -%}
+              <button type="button" class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}" data-gallery-thumb data-full="{{ media | image_url: width: 900 }}" aria-label="Image {{ forloop.index }}">
+                <img src="{{ media | image_url: width: 150 }}" alt="{{ product.title | escape }} {{ forloop.index }}" loading="lazy" width="150" height="150">
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="product-info">
+        {%- if product.vendor != blank -%}<div class="eyebrow" style="color:var(--color-primary);font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;">{{ product.vendor }}</div>{%- endif -%}
+        <h1 class="product-info__title">{{ product.title }}</h1>
+
+        {%- assign on_sale = false -%}
+        {%- if current_variant.compare_at_price > current_variant.price -%}{%- assign on_sale = true -%}{%- endif -%}
+        <div class="product-info__price" data-price>
+          {{ current_variant.price | money }}
+          {%- if on_sale -%}<span class="compare">{{ current_variant.compare_at_price | money }}</span>{%- endif -%}
+        </div>
+        {%- if on_sale -%}
+          {%- assign saved = current_variant.compare_at_price | minus: current_variant.price -%}
+          <span class="product-info__save">{{ 'products.product.save' | t }} {{ saved | money }}</span>
+        {%- endif -%}
+
+        {%- if product.description contains '<' -%}
+          <div class="product-info__desc">{{ product.description | strip_html | truncatewords: 40 }}</div>
+        {%- elsif product.description != blank -%}
+          <div class="product-info__desc">{{ product.description | truncatewords: 40 }}</div>
+        {%- endif -%}
+
+        {%- if current_variant.available -%}
+          {%- if current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 10 -%}
+            <div class="stock-badge stock-badge--low">{{ 'products.product.low_stock' | t }} ({{ current_variant.inventory_quantity }})</div>
+          {%- else -%}
+            <div class="stock-badge">{{ 'products.product.in_stock' | t }}</div>
+          {%- endif -%}
+        {%- else -%}
+          <div class="stock-badge stock-badge--low">{{ 'products.product.sold_out' | t }}</div>
+        {%- endif -%}
+
+        <form data-cod-form data-add-form
+              data-error-required="{{ 'products.product.cod.error_required' | t }}"
+              data-error-phone="{{ 'products.product.cod.error_phone' | t }}"
+              data-success="{{ 'products.product.cod.success' | t }}">
+
+          {%- if product.variants.size > 1 -%}
+            <div class="variant-option" style="margin-bottom:16px;">
+              <label class="variant-option__label" for="variant-select">{{ product.options | join: ' / ' }}</label>
+              <select name="id" id="variant-select" data-variant-select>
+                {%- for variant in product.variants -%}
+                  <option value="{{ variant.id }}" data-price="{{ variant.price | money }}"
+                    {% if variant == current_variant %}selected{% endif %}
+                    {% unless variant.available %}disabled{% endunless %}>
+                    {{ variant.title }} — {{ variant.price | money }}{% unless variant.available %} ({{ 'products.product.sold_out' | t }}){% endunless %}
+                  </option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- else -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {%- endif -%}
+
+          <div class="variant-option" style="margin-bottom:18px;">
+            <label class="variant-option__label">{{ 'products.product.quantity' | t }}</label>
+            <div class="qty-selector" data-qty>
+              <button type="button" data-qty-btn="-1" aria-label="-">−</button>
+              <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
+              <button type="button" data-qty-btn="1" aria-label="+">+</button>
+            </div>
+          </div>
+
+          {%- if current_variant.available -%}
+            <div class="cod-form">
+              <h3 class="cod-form__title">📦 {{ 'products.product.cod.title' | t }}</h3>
+              <p class="cod-form__subtitle">{{ 'products.product.cod.subtitle' | t }}</p>
+
+              <div class="cod-field">
+                <label>{{ 'products.product.cod.full_name' | t }}</label>
+                <input type="text" name="properties[Nom]" placeholder="{{ 'products.product.cod.full_name_ph' | t }}" autocomplete="name">
+              </div>
+              <div class="cod-form__row">
+                <div class="cod-field">
+                  <label>{{ 'products.product.cod.phone' | t }}</label>
+                  <input type="tel" name="properties[Téléphone]" placeholder="{{ 'products.product.cod.phone_ph' | t }}" autocomplete="tel">
+                </div>
+                <div class="cod-field">
+                  <label>{{ 'products.product.cod.city' | t }}</label>
+                  <input type="text" name="properties[Ville]" placeholder="{{ 'products.product.cod.city_ph' | t }}">
+                </div>
+              </div>
+              <div class="cod-field">
+                <label>{{ 'products.product.cod.address' | t }}</label>
+                <textarea name="properties[Adresse]" placeholder="{{ 'products.product.cod.address_ph' | t }}"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn--primary btn--block btn--lg">{{ 'products.product.cod.submit' | t }}</button>
+              <div class="cod-form__error" data-cod-error></div>
+
+              {%- if settings.whatsapp_number != blank -%}
+                {%- capture wa_text -%}Bonjour, je veux commander : {{ product.title }} ({{ current_variant.price | money }}){%- endcapture -%}
+                <p class="cod-form__whatsapp">
+                  <a href="https://wa.me/{{ settings.whatsapp_number }}?text={{ wa_text | url_encode }}" target="_blank" rel="noopener">💬 {{ 'products.product.cod.or_whatsapp' | t }}</a>
+                </p>
+              {%- endif -%}
+            </div>
+
+            <div class="product-actions">
+              <button type="button" class="btn btn--outline btn--block" data-add-to-cart>{{ 'products.product.add_to_cart' | t }}</button>
+            </div>
+          {%- else -%}
+            <button type="button" class="btn btn--primary btn--block btn--lg" disabled>{{ 'products.product.sold_out' | t }}</button>
+          {%- endif -%}
+        </form>
+
+        <div class="trust-row">
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="1" y="6" width="15" height="11" rx="1"/><path d="M16 9h4l3 3v5h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            <span>{{ 'products.product.cod.trust_delivery' | t }}</span>
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <span>{{ 'products.product.cod.trust_payment' | t }}</span>
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 0 8h-1"/></svg>
+            <span>{{ 'products.product.cod.trust_return' | t }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="product-tabs" data-tabs>
+      <div class="product-tabs__nav">
+        <button class="product-tabs__tab is-active" data-tab="desc">{{ 'products.product.description' | t }}</button>
+        {%- for block in section.blocks -%}
+          <button class="product-tabs__tab" data-tab="b{{ block.id }}" {{ block.shopify_attributes }}>{{ block.settings.title }}</button>
+        {%- endfor -%}
+      </div>
+      <div class="product-tabs__panel is-active" data-panel="desc">
+        {%- if product.description != blank -%}{{ product.description }}{%- else -%}<p>—</p>{%- endif -%}
+      </div>
+      {%- for block in section.blocks -%}
+        <div class="product-tabs__panel" data-panel="b{{ block.id }}">{{ block.settings.content }}</div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var sel = document.querySelector('[data-variant-select]');
+    var priceEl = document.querySelector('[data-price]');
+    if (sel && priceEl) {
+      sel.addEventListener('change', function () {
+        var opt = sel.options[sel.selectedIndex];
+        if (opt && opt.dataset.price) priceEl.firstChild.textContent = opt.dataset.price + ' ';
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Page produit",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Onglet",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre de l'onglet", "default": "Livraison & Paiement" },
+        { "type": "richtext", "id": "content", "label": "Contenu", "default": "<p>🚚 Livraison partout au Maroc en 24-72h.<br>💵 Paiement à la livraison (COD) disponible.<br>↩️ Retour facile sous 7 jours.</p>" }
+      ]
+    }
+  ]
+}
+{% endschema %}

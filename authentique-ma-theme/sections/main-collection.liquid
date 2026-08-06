@@ -1,0 +1,45 @@
+<section class="section">
+  <div class="container">
+    <div class="section-heading">
+      <h1 style="margin:0;">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}<p>{{ collection.description }}</p>{%- endif -%}
+    </div>
+
+    {%- if collection.products.size > 0 -%}
+      <form method="get" style="display:flex; justify-content:flex-end; margin-bottom:22px;">
+        <label style="display:flex; align-items:center; gap:10px; font-size:0.88rem;">
+          {{ 'collections.general.sort_by' | t }}
+          <select name="sort_by" onchange="this.form.submit()" style="padding:8px 12px; border-radius:8px; border:1px solid rgba(74,18,89,0.2);">
+            {%- assign sort = collection.sort_by | default: collection.default_sort_by -%}
+            <option value="manual" {% if sort == 'manual' %}selected{% endif %}>En vedette</option>
+            <option value="best-selling" {% if sort == 'best-selling' %}selected{% endif %}>Meilleures ventes</option>
+            <option value="price-ascending" {% if sort == 'price-ascending' %}selected{% endif %}>Prix croissant</option>
+            <option value="price-descending" {% if sort == 'price-descending' %}selected{% endif %}>Prix décroissant</option>
+            <option value="created-descending" {% if sort == 'created-descending' %}selected{% endif %}>Nouveautés</option>
+          </select>
+        </label>
+      </form>
+
+      <div class="product-grid">
+        {%- paginate collection.products by 12 -%}
+          {%- for product in collection.products -%}
+            {%- render 'product-card', product: product, show_add_button: true -%}
+          {%- endfor -%}
+
+          {%- if paginate.pages > 1 -%}
+            <div style="grid-column:1/-1; display:flex; justify-content:center; gap:10px; margin-top:30px;">
+              {%- if paginate.previous -%}<a class="btn btn--outline" href="{{ paginate.previous.url }}">{{ 'general.pagination.previous' | t }}</a>{%- endif -%}
+              {%- if paginate.next -%}<a class="btn btn--outline" href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }}</a>{%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    {%- else -%}
+      <p style="text-align:center; color:#6b5b72;">{{ 'collections.general.no_products' | t }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Grille de collection", "settings": [] }
+{% endschema %}

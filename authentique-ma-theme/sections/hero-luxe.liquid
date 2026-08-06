@@ -1,0 +1,216 @@
+{%- comment -%}
+  Authentique MA — Luxury before/after hero (direct, no phone frame)
+  Big before/after image, shimmering handle inviting the drag, autoplay 25->75->50.
+  Vanilla JS + CSS. Works natively in Shopify.
+{%- endcomment -%}
+
+<section class="lux-hero" data-lux-hero>
+  <div class="lux-hero__grid">
+
+    <div class="lux-hero__copy">
+      <span class="lux-hero__eyebrow">{% if section.settings.eyebrow != blank %}{{ section.settings.eyebrow }}{% else %}{{ shop.name }}{% endif %}</span>
+      <h1 class="lux-hero__headline">{{ section.settings.headline }}</h1>
+      <p class="lux-hero__sub">{{ section.settings.subheadline }}</p>
+
+      <div class="lux-hero__actions">
+        <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="lux-btn">
+          {{ section.settings.cta_label }}
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="lux-hero__trust">
+        <span class="lux-hero__stars">★★★★★</span>
+        <span class="lux-hero__trust-text">{{ section.settings.trust_text }}</span>
+      </div>
+    </div>
+
+    <div class="lux-hero__stage">
+      <div class="lux-compare" data-lux-compare>
+        <div class="lux-compare__img lux-compare__before">
+          {%- if section.settings.before_image != blank -%}
+            <img src="{{ section.settings.before_image | image_url: width: 1100 }}" alt="Avant" width="800" height="1000" draggable="false">
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: '' }}
+          {%- endif -%}
+          <span class="lux-tag lux-tag--before">AVANT</span>
+        </div>
+
+        <div class="lux-compare__img lux-compare__after" data-lux-after>
+          {%- if section.settings.after_image != blank -%}
+            <img src="{{ section.settings.after_image | image_url: width: 1100 }}" alt="Après" width="800" height="1000" draggable="false">
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag: '' }}
+          {%- endif -%}
+          <span class="lux-tag lux-tag--after">APRÈS</span>
+        </div>
+
+        <div class="lux-shine" data-lux-shine></div>
+
+        <div class="lux-divider" data-lux-divider>
+          <span class="lux-handle">
+            <span class="lux-handle__pulse"></span>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6 4 12l5 6M15 6l5 6-5 6"/></svg>
+            <b class="lux-sparkle lux-sparkle--1">✦</b>
+            <b class="lux-sparkle lux-sparkle--2">✦</b>
+          </span>
+          <span class="lux-hint">Glissez</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% style %}
+  .lux-hero { background:#ffffff; padding:clamp(40px,6vw,100px) clamp(20px,5vw,80px); overflow:hidden; }
+  .lux-hero__grid { max-width:1280px; margin-inline:auto; display:grid; grid-template-columns:45% 55%; align-items:center; gap:clamp(24px,4vw,64px); }
+  .lux-hero__copy { max-width:520px; }
+  .lux-hero__eyebrow { display:inline-block; font-family:var(--body-font); font-size:0.72rem; letter-spacing:0.32em; text-transform:uppercase; color:#9a8aa2; margin-bottom:24px; }
+  .lux-hero__headline { font-family:var(--heading-font); font-weight:500; font-size:clamp(2.3rem,4.4vw,4rem); line-height:1.05; letter-spacing:-0.02em; color:#141018; margin:0 0 22px; }
+  .lux-hero__sub { font-size:clamp(1rem,1.2vw,1.15rem); line-height:1.65; color:#5c5c5c; margin:0 0 36px; max-width:44ch; font-weight:300; }
+  .lux-hero__actions { margin-bottom:26px; }
+  .lux-btn { display:inline-flex; align-items:center; gap:10px; background:#141018; color:#fff; font-family:var(--body-font); font-weight:500; font-size:1rem; padding:17px 34px; border-radius:100px; box-shadow:0 10px 30px rgba(0,0,0,0.12); transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s; }
+  .lux-btn:hover { color:#fff; transform:translateY(-2px); box-shadow:0 16px 40px rgba(0,0,0,0.2); }
+  .lux-btn svg { transition:transform .3s; }
+  .lux-btn:hover svg { transform:translateX(4px); }
+  .lux-hero__trust { display:flex; align-items:center; gap:12px; }
+  .lux-hero__stars { color:var(--color-primary); letter-spacing:3px; font-size:0.98rem; }
+  .lux-hero__trust-text { font-size:0.8rem; letter-spacing:0.16em; text-transform:uppercase; color:#9a9a9a; }
+
+  .lux-hero__stage { display:flex; justify-content:center; }
+  .lux-compare {
+    position:relative; width:100%; max-width:560px; aspect-ratio:4/5; border-radius:28px; overflow:hidden;
+    background:#f3eef6; touch-action:none; cursor:ew-resize; user-select:none;
+    box-shadow:0 40px 80px -34px rgba(74,18,89,0.45), 0 8px 24px rgba(0,0,0,0.08);
+    animation:lux-rise .9s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .lux-compare__img { position:absolute; inset:0; }
+  .lux-compare__img img, .lux-compare__img svg { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; }
+  .lux-compare__after { clip-path:inset(0 50% 0 0); will-change:clip-path; }
+  .lux-tag { position:absolute; top:18px; font-size:0.62rem; letter-spacing:0.18em; font-weight:700; padding:6px 12px; border-radius:100px; background:rgba(255,255,255,0.9); color:#333; backdrop-filter:blur(6px); box-shadow:0 2px 10px rgba(0,0,0,0.08); }
+  .lux-tag--before { inset-inline-start:18px; }
+  .lux-tag--after { inset-inline-end:18px; background:rgba(20,16,24,0.82); color:#fff; }
+
+  /* One-time shine sweep to draw the eye */
+  .lux-shine { position:absolute; inset:0; z-index:3; pointer-events:none; opacity:0;
+    background:linear-gradient(115deg, rgba(255,255,255,0) 38%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 62%);
+    background-size:250% 100%; }
+  .lux-shine.is-playing { animation:lux-sweep 1.2s ease-out; }
+
+  .lux-divider { position:absolute; top:0; bottom:0; left:50%; width:2px; background:rgba(255,255,255,0.96); transform:translateX(-50%); box-shadow:0 0 14px rgba(0,0,0,0.28); z-index:5; will-change:left; }
+  .lux-handle {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:52px; height:52px; border-radius:50%; background:#fff; color:var(--color-primary);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 22px rgba(0,0,0,0.28), 0 0 0 6px rgba(255,255,255,0.35);
+  }
+  .lux-handle__pulse { position:absolute; inset:0; border-radius:50%; box-shadow:0 0 0 0 rgba(168,85,199,0.55); animation:lux-pulse 2s infinite; }
+  .lux-compare.is-dragging .lux-handle__pulse { animation:none; }
+  .lux-handle svg { position:relative; z-index:2; opacity:0.85; }
+  .lux-sparkle { position:absolute; font-size:12px; color:#fff; text-shadow:0 0 6px rgba(168,85,199,0.9); z-index:3; }
+  .lux-sparkle--1 { top:-6px; inset-inline-end:-6px; animation:lux-twinkle 1.6s infinite; }
+  .lux-sparkle--2 { bottom:-4px; inset-inline-start:-6px; font-size:9px; animation:lux-twinkle 1.6s infinite .8s; }
+  .lux-hint { position:absolute; top:calc(50% + 40px); left:50%; transform:translateX(-50%); background:rgba(20,16,24,0.78); color:#fff; font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase; padding:5px 11px; border-radius:100px; white-space:nowrap; transition:opacity .4s; }
+  .lux-compare.is-dragging .lux-hint { opacity:0; }
+
+  @keyframes lux-rise { from{ opacity:0; transform:translateY(26px) scale(.98);} to{ opacity:1; transform:none;} }
+  @keyframes lux-sweep { 0%{ opacity:0; background-position:140% 0;} 25%{ opacity:1;} 100%{ opacity:0; background-position:-40% 0;} }
+  @keyframes lux-pulse { 0%{ box-shadow:0 0 0 0 rgba(168,85,199,0.5);} 70%{ box-shadow:0 0 0 18px rgba(168,85,199,0);} 100%{ box-shadow:0 0 0 0 rgba(168,85,199,0);} }
+  @keyframes lux-twinkle { 0%,100%{ opacity:0; transform:scale(.6) rotate(0deg);} 50%{ opacity:1; transform:scale(1.15) rotate(90deg);} }
+
+  @media (max-width:900px) {
+    .lux-hero__grid { grid-template-columns:1fr; text-align:center; gap:40px; }
+    .lux-hero__copy { max-width:none; margin-inline:auto; order:1; }
+    .lux-hero__stage { order:2; }
+    .lux-hero__sub { margin-inline:auto; }
+    .lux-hero__trust { justify-content:center; }
+    .lux-compare { max-width:420px; margin-inline:auto; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    .lux-compare, .lux-handle__pulse, .lux-sparkle, .lux-shine { animation:none !important; }
+  }
+{% endstyle %}
+
+<script>
+  (function () {
+    var section = document.querySelector('[data-lux-hero]');
+    if (!section) return;
+    var compare = section.querySelector('[data-lux-compare]');
+    var after = section.querySelector('[data-lux-after]');
+    var divider = section.querySelector('[data-lux-divider]');
+    var shine = section.querySelector('[data-lux-shine]');
+    if (!compare || !after || !divider) return;
+
+    var pos = 50, raf = null, userInteracted = false;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function render() {
+      after.style.clipPath = 'inset(0 ' + (100 - pos) + '% 0 0)';
+      divider.style.left = pos + '%';
+    }
+    function setPos(p) {
+      pos = p < 3 ? 3 : (p > 97 ? 97 : p);
+      if (!raf) raf = requestAnimationFrame(function () { render(); raf = null; });
+    }
+
+    function fromEvent(e) {
+      var rect = compare.getBoundingClientRect();
+      var cx = e.touches ? e.touches[0].clientX : e.clientX;
+      setPos(((cx - rect.left) / rect.width) * 100);
+    }
+    function move(e) { fromEvent(e); }
+    function up() { compare.classList.remove('is-dragging'); window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); }
+    compare.addEventListener('pointerdown', function (e) {
+      userInteracted = true; compare.classList.add('is-dragging'); fromEvent(e);
+      window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+    });
+
+    function easeInOut(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+    function tween(from, to, dur, done) {
+      var start = null;
+      function step(ts) {
+        if (userInteracted) return;
+        if (!start) start = ts;
+        var t = Math.min((ts - start) / dur, 1);
+        setPos(from + (to - from) * easeInOut(t));
+        if (t < 1) requestAnimationFrame(step); else if (done) done();
+      }
+      requestAnimationFrame(step);
+    }
+
+    function play() {
+      if (reduce) { pos = 50; render(); return; }
+      if (shine) { shine.classList.add('is-playing'); setTimeout(function () { shine.classList.remove('is-playing'); }, 1300); }
+      pos = 25; render();
+      tween(25, 75, 1500, function () { tween(75, 50, 1300); });
+    }
+
+    render();
+    // Start when scrolled into view
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { play(); io.disconnect(); } });
+      }, { threshold: 0.35 });
+      io.observe(compare);
+    } else { setTimeout(play, 400); }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Avant/Après",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "AUTHENTIQUE MA" },
+    { "type": "text", "id": "headline", "label": "Titre", "default": "Reveal Younger Eyes In Seconds." },
+    { "type": "textarea", "id": "subheadline", "label": "Sous-titre", "default": "A revolutionary eye cream that smooths fine lines, reduces dark circles, and restores a naturally fresh look." },
+    { "type": "text", "id": "cta_label", "label": "Bouton — texte", "default": "Shop Now" },
+    { "type": "url", "id": "cta_link", "label": "Bouton — lien" },
+    { "type": "text", "id": "trust_text", "label": "Texte de confiance", "default": "Trusted By Thousands" },
+    { "type": "header", "content": "Images Avant / Après" },
+    { "type": "image_picker", "id": "before_image", "label": "Image AVANT (cernes visibles)" },
+    { "type": "image_picker", "id": "after_image", "label": "Image APRÈS (peau fraîche)" }
+  ],
+  "presets": [ { "name": "Hero Avant/Après" } ]
+}
+{% endschema %}

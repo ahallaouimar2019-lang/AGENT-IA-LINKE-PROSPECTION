@@ -1,0 +1,48 @@
+<section class="section{% if section.settings.soft_bg %} section--soft{% endif %}">
+  <div class="container">
+    <div class="section-heading">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.title }}</h2>
+    </div>
+    <div class="collection-list">
+      {%- for block in section.blocks -%}
+        {%- assign col = collections[block.settings.collection] -%}
+        <a class="collection-tile" href="{{ col.url | default: '#' }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image -%}
+            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | default: col.title }}" loading="lazy" width="500" height="600">
+          {%- elsif col.featured_image -%}
+            <img src="{{ col.featured_image | image_url: width: 600 }}" alt="{{ col.title }}" loading="lazy" width="500" height="600">
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: '' }}
+          {%- endif -%}
+          <span class="collection-tile__label">{{ block.settings.title | default: col.title | default: 'Collection' }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Liste de collections",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "PARCOURIR" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Nos catégories" },
+    { "type": "checkbox", "id": "soft_bg", "label": "Fond lilas doux", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "title", "label": "Titre (optionnel)" },
+        { "type": "image_picker", "id": "image", "label": "Image (optionnel)" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Liste de collections", "blocks": [ { "type": "collection" }, { "type": "collection" }, { "type": "collection" } ] }
+  ]
+}
+{% endschema %}

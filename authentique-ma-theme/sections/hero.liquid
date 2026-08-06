@@ -1,0 +1,41 @@
+<section class="hero{% if section.settings.image %} hero--image{% endif %}{% if section.settings.layout == 'center' %} hero--center{% endif %}">
+  {%- if section.settings.image -%}
+    <div class="hero__media">
+      <img src="{{ section.settings.image | image_url: width: 2000 }}"
+           srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1400 }} 1400w, {{ section.settings.image | image_url: width: 2000 }} 2000w"
+           sizes="100vw" alt="{{ section.settings.image.alt | escape }}" width="2000" height="1000" fetchpriority="high">
+    </div>
+    <div class="hero__overlay"></div>
+  {%- endif -%}
+  <div class="hero__inner">
+    {%- if section.settings.eyebrow != blank -%}<span class="hero__eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+    <h1 class="hero__title">{{ section.settings.title }}</h1>
+    {%- if section.settings.text != blank -%}<p class="hero__text">{{ section.settings.text }}</p>{%- endif -%}
+    <div class="hero__cta">
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="btn btn--primary btn--lg">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.button2_label != blank -%}
+        <a href="{{ section.settings.button2_link }}" class="btn btn--outline btn--lg">{{ section.settings.button2_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bannière Hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image de fond", "info": "Optionnel. Sans image, dégradé violet de la marque." },
+    { "type": "select", "id": "layout", "label": "Alignement", "default": "left", "options": [ { "value": "left", "label": "Gauche" }, { "value": "center", "label": "Centré" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "K-BEAUTY • DIRECT DE SÉOUL" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Révélez l'éclat authentique de votre peau" },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Des soins coréens premium, livrés partout au Maroc. Paiement à la livraison." },
+    { "type": "text", "id": "button_label", "label": "Bouton 1 — texte", "default": "Découvrir la collection" },
+    { "type": "url", "id": "button_link", "label": "Bouton 1 — lien" },
+    { "type": "text", "id": "button2_label", "label": "Bouton 2 — texte", "default": "Notre best-seller" },
+    { "type": "url", "id": "button2_link", "label": "Bouton 2 — lien" }
+  ],
+  "presets": [ { "name": "Bannière Hero" } ]
+}
+{% endschema %}

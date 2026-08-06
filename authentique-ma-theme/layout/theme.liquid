@@ -1,0 +1,73 @@
+<!doctype html>
+{%- liquid
+  assign is_rtl = false
+  if request.locale.iso_code == 'ar'
+    assign is_rtl = true
+  endif
+-%}
+<html lang="{{ request.locale.iso_code }}" dir="{% if is_rtl %}rtl{% else %}ltr{% endif %}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="{{ settings.color_primary }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>{{ page_title }}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {%- render 'meta-tags' -%}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Cairo:wght@300;400;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+    {{ content_for_header }}
+
+    {%- style -%}
+      :root {
+        --color-primary: {{ settings.color_primary }};
+        --color-primary-dark: {{ settings.color_primary_dark }};
+        --color-accent: {{ settings.color_accent }};
+        --color-text: {{ settings.color_text }};
+        --color-body-bg: {{ settings.color_body_bg }};
+        --color-soft-bg: {{ settings.color_soft_bg }};
+        --color-button-text: {{ settings.color_button_text }};
+        --heading-font: {{ settings.heading_font_family }};
+        --heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+        --button-radius: {{ settings.button_radius }}px;
+        --card-radius: {{ settings.card_radius }}px;
+        --gradient-brand: linear-gradient(135deg, {{ settings.color_primary_dark }}, {{ settings.color_primary }} 55%, {{ settings.color_accent }});
+      }
+      {%- if is_rtl -%}
+      body { --heading-font: 'Cairo', 'Tajawal', sans-serif; --body-font: 'Cairo', 'Tajawal', sans-serif; }
+      {%- endif -%}
+    {%- endstyle -%}
+
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+    <script>document.documentElement.className = 'js';</script>
+  </head>
+
+  <body class="template-{{ request.page_type | handle }}{% if is_rtl %} rtl{% endif %}">
+    <a class="skip-link" href="#MainContent">Aller au contenu</a>
+
+    {%- sections 'header-group' -%}
+
+    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {%- sections 'footer-group' -%}
+
+    {%- render 'whatsapp-float' -%}
+    {%- render 'language-modal' -%}
+
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+  </body>
+</html>

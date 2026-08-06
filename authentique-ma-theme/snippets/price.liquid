@@ -1,0 +1,19 @@
+{%- comment -%}
+  Renders a price. Params: product (or variant), (optional) show_compare
+{%- endcomment -%}
+{%- liquid
+  assign target = product
+  if variant
+    assign target = variant
+  endif
+  assign on_sale = false
+  if target.compare_at_price > target.price
+    assign on_sale = true
+  endif
+-%}
+<span class="price">
+  {{ target.price | money }}
+  {%- if on_sale -%}
+    <span class="compare">{{ target.compare_at_price | money }}</span>
+  {%- endif -%}
+</span>

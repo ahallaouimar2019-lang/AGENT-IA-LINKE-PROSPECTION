@@ -1,0 +1,24 @@
+{%- comment -%} Open Graph + Twitter meta tags {%- endcomment -%}
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:type" content="{% if request.page_type == 'product' %}product{% else %}website{% endif %}">
+<meta property="og:title" content="{{ page_title | escape }}">
+<meta property="og:url" content="{{ canonical_url }}">
+{%- if page_description -%}
+  <meta property="og:description" content="{{ page_description | escape }}">
+{%- endif -%}
+{%- if request.page_type == 'product' and product -%}
+  {%- assign og_image = product.featured_media.preview_image -%}
+{%- elsif request.page_type == 'article' and article.image -%}
+  {%- assign og_image = article.image -%}
+{%- else -%}
+  {%- assign og_image = page_image -%}
+{%- endif -%}
+{%- if og_image -%}
+  <meta property="og:image" content="https:{{ og_image | image_url: width: 1200 }}">
+  <meta property="og:image:width" content="1200">
+{%- endif -%}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title | escape }}">
+{%- if page_description -%}
+  <meta name="twitter:description" content="{{ page_description | escape }}">
+{%- endif -%}

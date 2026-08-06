@@ -1,0 +1,23 @@
+<section class="section{% if section.settings.soft_bg %} section--soft{% endif %}">
+  <div class="container">
+    <div class="rte" style="text-align:{{ section.settings.alignment }};">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow" style="color:var(--color-primary);font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;display:block;margin-bottom:10px;">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      {%- if section.settings.title != blank -%}<h2>{{ section.settings.title }}</h2>{%- endif -%}
+      {{ section.settings.text }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Texte enrichi",
+  "settings": [
+    { "type": "select", "id": "alignment", "label": "Alignement", "default": "center", "options": [ { "value": "start", "label": "Gauche" }, { "value": "center", "label": "Centré" } ] },
+    { "type": "checkbox", "id": "soft_bg", "label": "Fond lilas doux", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Notre histoire" },
+    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Authentique est née d'une passion pour la beauté coréenne et d'une conviction : chaque femme mérite des soins premium, accessibles et authentiques.</p>" }
+  ],
+  "presets": [ { "name": "Texte enrichi" } ]
+}
+{% endschema %}

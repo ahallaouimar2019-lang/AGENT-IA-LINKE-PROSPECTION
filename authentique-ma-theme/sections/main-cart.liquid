@@ -1,0 +1,79 @@
+<section class="section">
+  <div class="container">
+    <h1 style="text-align:center; margin-bottom:34px;">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+
+      {%- if settings.show_free_shipping_bar -%}
+        {%- assign threshold = settings.free_shipping_threshold | times: 1 | times: 100 -%}
+        {%- assign remaining = threshold | minus: cart.total_price -%}
+        <div class="free-ship-bar">
+          {%- if remaining > 0 -%}
+            {%- assign remaining_money = remaining | money -%}
+            <div>{{ 'cart.free_shipping_progress' | t: amount: remaining_money }}</div>
+          {%- else -%}
+            <div>{{ 'cart.free_shipping_reached' | t }}</div>
+          {%- endif -%}
+          <div class="free-ship-bar__track">
+            {%- assign pct = cart.total_price | times: 100 | divided_by: threshold -%}
+            <div class="free-ship-bar__fill" style="width: {% if pct > 100 %}100{% else %}{{ pct }}{% endif %}%;"></div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <form action="{{ routes.cart_url }}" method="post">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>{{ 'cart.product' | t }}</th>
+              <th>{{ 'cart.price' | t }}</th>
+              <th>{{ 'cart.quantity' | t }}</th>
+              <th style="text-align:end;">{{ 'cart.total' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for item in cart.items -%}
+              <tr class="cart-item">
+                <td>
+                  <div class="cart-item__product">
+                    {%- if item.image -%}<a href="{{ item.url }}"><img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" width="80" height="80"></a>{%- endif -%}
+                    <div>
+                      <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+                      {%- unless item.variant.title contains 'Default' -%}<div style="font-size:0.85rem; color:#9a8aa2;">{{ item.variant.title }}</div>{%- endunless -%}
+                      <button type="submit" name="updates[{{ item.index | plus: 1 }}]" value="0" class="cart-item__remove">{{ 'cart.remove' | t }}</button>
+                    </div>
+                  </div>
+                </td>
+                <td data-label="{{ 'cart.price' | t }}">{{ item.original_price | money }}</td>
+                <td data-label="{{ 'cart.quantity' | t }}">
+                  <div class="qty-selector">
+                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:52px;" aria-label="{{ 'cart.quantity' | t }}">
+                  </div>
+                </td>
+                <td data-label="{{ 'cart.total' | t }}" style="text-align:end; font-weight:600;">{{ item.final_line_price | money }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+
+        <div class="cart-summary">
+          <button type="submit" name="update" class="btn btn--outline">Mettre à jour</button>
+          <div class="cart-summary__total">{{ 'cart.subtotal' | t }} : {{ cart.total_price | money }}</div>
+          <p style="font-size:0.85rem; color:#9a8aa2; margin:0;">{{ 'cart.taxes_note' | t }}</p>
+          <button type="submit" name="checkout" class="btn btn--primary btn--lg">{{ 'cart.checkout' | t }}</button>
+          <a href="{{ routes.all_products_collection_url }}" style="font-size:0.9rem;">{{ 'cart.continue' | t }}</a>
+        </div>
+      </form>
+
+    {%- else -%}
+      <div class="cart-empty">
+        <p style="font-size:1.2rem; color:#6b5b72;">{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary btn--lg">{{ 'cart.continue' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Panier", "settings": [] }
+{% endschema %}

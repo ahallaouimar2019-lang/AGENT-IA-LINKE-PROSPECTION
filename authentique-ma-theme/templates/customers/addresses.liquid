@@ -1,0 +1,31 @@
+<section class="section">
+  <div class="container" style="max-width:640px;">
+    <div class="page-header"><h1>Mes adresses</h1></div>
+    <p style="text-align:center;"><a href="{{ routes.account_url }}">&larr; Mon compte</a></p>
+
+    {%- form 'customer_address', customer.new_address -%}
+      <h3>Ajouter une adresse</h3>
+      {{ form.errors | default_errors }}
+      <div class="cod-form__row">
+        <div class="cod-field"><label>Prénom</label><input type="text" name="address[first_name]"></div>
+        <div class="cod-field"><label>Nom</label><input type="text" name="address[last_name]"></div>
+      </div>
+      <div class="cod-field"><label>Adresse</label><input type="text" name="address[address1]"></div>
+      <div class="cod-form__row">
+        <div class="cod-field"><label>Ville</label><input type="text" name="address[city]"></div>
+        <div class="cod-field"><label>Téléphone</label><input type="tel" name="address[phone]"></div>
+      </div>
+      <div class="cod-field"><label>Pays</label><input type="text" name="address[country]" value="Morocco"></div>
+      <button type="submit" class="btn btn--primary">Enregistrer</button>
+    {%- endform -%}
+
+    {%- if customer.addresses.size > 0 -%}
+      <h3 style="margin-top:40px;">Adresses enregistrées</h3>
+      {%- for address in customer.addresses -%}
+        <div class="rte" style="border:1px solid rgba(74,18,89,0.12); border-radius:12px; padding:16px; margin-bottom:14px;">
+          {{ address | format_address }}
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>

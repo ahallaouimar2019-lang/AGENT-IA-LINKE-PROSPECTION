@@ -1,0 +1,52 @@
+<section class="section{% if section.settings.soft_bg %} section--soft{% endif %}">
+  <div class="container">
+    <div class="section-heading">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}<p>{{ section.settings.subtitle }}</p>{%- endif -%}
+    </div>
+
+    {%- assign collection = collections[section.settings.collection] -%}
+    <div class="product-grid">
+      {%- if collection.products.size > 0 -%}
+        {%- for product in collection.products limit: section.settings.products_count -%}
+          {%- render 'product-card', product: product, show_add_button: section.settings.show_button -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <div class="product-card">
+            <div class="product-card__media">{{ 'product-1' | placeholder_svg_tag: '' }}</div>
+            <div class="product-card__body">
+              <h3 class="product-card__title">Exemple de produit</h3>
+              <div class="product-card__price">499,00 MAD</div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_view_all and collection != blank -%}
+      <div style="text-align:center; margin-top:36px;">
+        <a href="{{ collection.url }}" class="btn btn--outline btn--lg">{{ section.settings.view_all_label }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection en vedette",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "NOTRE SÉLECTION" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Nos best-sellers" },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "Les soins préférés de nos clientes marocaines." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_count", "label": "Nombre de produits", "min": 2, "max": 12, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_button", "label": "Bouton sur chaque carte", "default": true },
+    { "type": "checkbox", "id": "soft_bg", "label": "Fond lilas doux", "default": false },
+    { "type": "checkbox", "id": "show_view_all", "label": "Afficher « Voir tout »", "default": true },
+    { "type": "text", "id": "view_all_label", "label": "Texte « Voir tout »", "default": "Voir toute la collection" }
+  ],
+  "presets": [ { "name": "Collection en vedette" } ]
+}
+{% endschema %}

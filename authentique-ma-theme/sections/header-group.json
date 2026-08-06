@@ -1,0 +1,22 @@
+{
+  "type": "header",
+  "name": "En-tête",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "Livraison partout au Maroc 🇲🇦 — Paiement à la livraison disponible",
+        "show_language_switcher": true
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_max_width": 200,
+        "menu": "main-menu",
+        "sticky": true
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}
