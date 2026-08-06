@@ -3,8 +3,12 @@
     <div class="site-footer__grid">
 
       <div class="site-footer__brand">
-        <div class="site-footer__brand-name">{{ section.settings.brand_name | default: shop.name }}</div>
-        <p>{{ section.settings.brand_text | default: 'Skincare • Beauty • Confidence. Cosmétiques K-beauty authentiques, livrés partout au Maroc.' }}</p>
+        {%- if section.settings.logo != blank -%}
+          <img class="site-footer__logo" src="{{ section.settings.logo | image_url: width: 320 }}" alt="{{ shop.name }}" width="160">
+        {%- else -%}
+          <div class="site-footer__brand-name">{{ section.settings.brand_name | default: shop.name }}</div>
+        {%- endif -%}
+        <p>{{ section.settings.brand_text | default: 'Skincare • Beauty • Confidence. Cosmétiques K-beauty premium, livrés partout au Maroc.' }}</p>
         <div class="site-footer__social">
           {%- if settings.social_instagram != blank -%}
             <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
@@ -65,7 +69,8 @@
 {
   "name": "Pied de page",
   "settings": [
-    { "type": "text", "id": "brand_name", "label": "Nom de la marque" },
+    { "type": "image_picker", "id": "logo", "label": "Logo (pied de page)" },
+    { "type": "text", "id": "brand_name", "label": "Nom de la marque (si pas de logo)" },
     { "type": "textarea", "id": "brand_text", "label": "Texte de présentation" }
   ],
   "blocks": [

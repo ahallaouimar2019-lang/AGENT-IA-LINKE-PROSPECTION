@@ -199,6 +199,27 @@
     });
   }
 
+  /* ---------- Language welcome modal (once per visitor) ---------- */
+  function initLangModal() {
+    var modal = document.querySelector('[data-lang-modal]');
+    if (!modal) return;
+    var KEY = 'auth_lang_chosen';
+    var chosen;
+    try { chosen = localStorage.getItem(KEY); } catch (e) { chosen = '1'; }
+    // Never show inside the Shopify theme editor
+    if (window.Shopify && window.Shopify.designMode) return;
+    if (chosen) return;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    function remember() { try { localStorage.setItem(KEY, '1'); } catch (e) {} }
+    modal.querySelectorAll('[data-lang-choose]').forEach(function (btn) {
+      btn.addEventListener('click', remember);
+    });
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) { remember(); modal.hidden = true; document.body.style.overflow = ''; }
+    });
+  }
+
   /* ---------- Newsletter / contact success handled by Shopify natively ---------- */
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -209,5 +230,6 @@
     initAddToCart();
     initAddToCartButtons();
     initCodForm();
+    initLangModal();
   });
 })();

@@ -8,9 +8,7 @@
   <div class="lux-hero__grid">
 
     <div class="lux-hero__copy">
-      {%- if section.settings.eyebrow != blank -%}
-        <span class="lux-hero__eyebrow">{{ section.settings.eyebrow }}</span>
-      {%- endif -%}
+      <span class="lux-hero__eyebrow">{% if section.settings.eyebrow != blank %}{{ section.settings.eyebrow }}{% else %}{{ shop.name }}{% endif %}</span>
       <h1 class="lux-hero__headline">{{ section.settings.headline }}</h1>
       <p class="lux-hero__sub">{{ section.settings.subheadline }}</p>
 

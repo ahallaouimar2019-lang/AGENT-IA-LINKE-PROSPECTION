@@ -146,6 +146,7 @@ p { margin: 0 0 1em; }
   padding: 3px 8px; border-radius: 4px; background: none; border: none; cursor: pointer; letter-spacing: 0.05em;
 }
 .lang-switcher button.is-active, .lang-switcher button:hover { opacity: 1; background: rgba(255,255,255,0.18); }
+.lang-switcher__flag { margin-inline-end: 4px; }
 @media (max-width: 749px) { .lang-switcher { position: static; margin-inline-start: auto; } .announcement-bar__inner { gap: 10px; } }
 
 /* -------- Header -------- */
@@ -442,6 +443,7 @@ body.rtl .mobile-nav__panel { transform: translateX(100%); }
 .site-footer a:hover { color: #fff; }
 .site-footer__grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 36px; }
 .site-footer__brand-name { font-family: var(--heading-font); font-size: 1.5rem; color: #fff; margin-bottom: 12px; }
+.site-footer__logo { max-height: 54px; width: auto; margin-bottom: 14px; filter: brightness(0) invert(1); }
 .site-footer__brand p { font-size: 0.9rem; opacity: 0.8; max-width: 34ch; }
 .site-footer h4 { color: #fff; font-family: var(--body-font); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 0.92rem; }
@@ -487,6 +489,35 @@ body.rtl .mobile-nav__panel { transform: translateX(100%); }
   box-shadow: var(--shadow-lg); z-index: 300; transition: transform 0.35s ease; max-width: 90vw; text-align: center;
 }
 .toast.is-visible { transform: translateX(-50%) translateY(0); }
+
+/* -------- Language welcome modal -------- */
+.lang-modal {
+  position: fixed; inset: 0; z-index: 400; display: flex; align-items: center; justify-content: center;
+  padding: 20px; background: rgba(20, 12, 26, 0.55); backdrop-filter: blur(8px);
+  animation: lm-fade 0.35s ease both;
+}
+.lang-modal[hidden] { display: none; }
+.lang-modal__box {
+  background: #fff; border-radius: 24px; padding: clamp(28px, 5vw, 48px); max-width: 460px; width: 100%;
+  text-align: center; box-shadow: 0 30px 80px rgba(74, 18, 89, 0.35);
+  animation: lm-rise 0.4s cubic-bezier(.2,.8,.2,1) both;
+}
+.lang-modal__brand { margin-bottom: 18px; }
+.lang-modal__name { font-family: var(--heading-font); font-size: 2rem; font-weight: 700; color: var(--color-primary); }
+.lang-modal__brand img { margin-inline: auto; max-height: 70px; width: auto; }
+.lang-modal__title { color: #6b5b72; font-size: 0.95rem; line-height: 1.7; margin-bottom: 26px; }
+.lang-modal__options { display: flex; flex-direction: column; gap: 12px; }
+.lang-modal__btn {
+  display: flex; align-items: center; gap: 16px; width: 100%; padding: 16px 22px;
+  border: 1.5px solid rgba(122, 31, 162, 0.18); border-radius: 14px; background: #fff; cursor: pointer;
+  font: inherit; font-weight: 600; color: var(--color-text); transition: all 0.2s;
+}
+.lang-modal__btn:hover { border-color: var(--color-primary); background: var(--color-soft-bg); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.lang-modal__flag { font-size: 1.7rem; line-height: 1; }
+.lang-modal__label { font-size: 1.05rem; }
+
+@keyframes lm-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lm-rise { from { opacity: 0; transform: translateY(20px) scale(0.97); } to { opacity: 1; transform: none; } }
 
 /* -------- Responsive -------- */
 @media (max-width: 990px) {

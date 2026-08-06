@@ -15,6 +15,18 @@
         "id": "favicon",
         "label": "Favicon",
         "info": "Petite icône de l'onglet du navigateur (32x32px recommandé)"
+      },
+      {
+        "type": "image_picker",
+        "id": "welcome_logo",
+        "label": "Logo écran de bienvenue",
+        "info": "Logo affiché sur l'écran de choix de langue à l'arrivée"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_language_modal",
+        "label": "Afficher l'écran de choix de langue à l'arrivée",
+        "default": true
       }
     ]
   },

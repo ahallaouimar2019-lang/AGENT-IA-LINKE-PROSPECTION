@@ -1,0 +1,34 @@
+{%- comment -%}
+  Welcome language chooser — shown once on first visit.
+  Uses Shopify localization form to switch published languages.
+{%- endcomment -%}
+{%- if settings.show_language_modal and localization.available_languages.size > 1 -%}
+  <div class="lang-modal" data-lang-modal hidden>
+    <div class="lang-modal__box">
+      <div class="lang-modal__brand">
+        {%- if settings.welcome_logo != blank -%}
+          <img src="{{ settings.welcome_logo | image_url: width: 320 }}" alt="{{ shop.name }}" width="180">
+        {%- else -%}
+          <span class="lang-modal__name">{{ shop.name }}</span>
+        {%- endif -%}
+      </div>
+      <p class="lang-modal__title">Choisissez votre langue<br><span dir="rtl">اختر لغتك</span> · Choose your language</p>
+      {%- form 'localization', class: 'lang-modal__options' -%}
+        <input type="hidden" name="return_to" value="{{ request.path }}">
+        {%- for language in localization.available_languages -%}
+          {%- assign flag = '🌐' -%}
+          {%- case language.iso_code -%}
+            {%- when 'fr' -%}{%- assign flag = '🇫🇷' -%}
+            {%- when 'en' -%}{%- assign flag = '🇬🇧' -%}
+            {%- when 'ar' -%}{%- assign flag = '🇲🇦' -%}
+            {%- when 'es' -%}{%- assign flag = '🇪🇸' -%}
+          {%- endcase -%}
+          <button type="submit" name="locale_code" value="{{ language.iso_code }}" class="lang-modal__btn" data-lang-choose>
+            <span class="lang-modal__flag">{{ flag }}</span>
+            <span class="lang-modal__label">{{ language.endonym_name | capitalize }}</span>
+          </button>
+        {%- endfor -%}
+      {%- endform -%}
+    </div>
+  </div>
+{%- endif -%}

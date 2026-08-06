@@ -7,9 +7,17 @@
       {%- form 'localization', class: 'lang-switcher' -%}
         <input type="hidden" name="return_to" value="{{ request.path }}">
         {%- for language in localization.available_languages -%}
+          {%- assign flag = '🌐' -%}
+          {%- case language.iso_code -%}
+            {%- when 'fr' -%}{%- assign flag = '🇫🇷' -%}
+            {%- when 'en' -%}{%- assign flag = '🇬🇧' -%}
+            {%- when 'ar' -%}{%- assign flag = '🇲🇦' -%}
+            {%- when 'es' -%}{%- assign flag = '🇪🇸' -%}
+          {%- endcase -%}
           <button type="submit" name="locale_code" value="{{ language.iso_code }}"
-            class="{% if language.iso_code == localization.language.iso_code %}is-active{% endif %}">
-            {{ language.iso_code | upcase }}
+            class="{% if language.iso_code == localization.language.iso_code %}is-active{% endif %}"
+            aria-label="{{ language.endonym_name }}">
+            <span class="lang-switcher__flag">{{ flag }}</span>{{ language.iso_code | upcase }}
           </button>
         {%- endfor -%}
       {%- endform -%}
