@@ -1,0 +1,26 @@
+<div class="announcement-bar">
+  <div class="announcement-bar__inner">
+    <p class="announcement-bar__text">{{ section.settings.text | default: 'header.announcement' | t }}</p>
+    {%- if section.settings.show_language_switcher and localization.available_languages.size > 1 -%}
+      {%- form 'localization', class: 'lang-switcher' -%}
+        <input type="hidden" name="return_to" value="{{ request.path }}">
+        {%- for language in localization.available_languages -%}
+          <button type="submit" name="locale_code" value="{{ language.iso_code }}"
+            class="{% if language.iso_code == localization.language.iso_code %}is-active{% endif %}">
+            {{ language.iso_code | upcase }}
+          </button>
+        {%- endfor -%}
+      {%- endform -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Barre d'annonce",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Texte", "default": "Livraison partout au Maroc 🇲🇦 — Paiement à la livraison disponible" },
+    { "type": "checkbox", "id": "show_language_switcher", "label": "Afficher le sélecteur de langue", "default": true }
+  ]
+}
+{% endschema %}

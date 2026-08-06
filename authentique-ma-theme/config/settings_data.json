@@ -1,0 +1,32 @@
+{
+  "current": {
+    "color_primary": "#7A1FA2",
+    "color_primary_dark": "#4A1259",
+    "color_accent": "#A855C7",
+    "color_text": "#2D1B33",
+    "color_body_bg": "#FFFFFF",
+    "color_soft_bg": "#FAF5FC",
+    "color_button_text": "#FFFFFF",
+    "heading_font_family": "'Playfair Display', Georgia, serif",
+    "heading_scale": 100,
+    "button_radius": 8,
+    "card_radius": 14,
+    "social_instagram": "",
+    "social_facebook": "",
+    "social_tiktok": "",
+    "social_youtube": "",
+    "whatsapp_enabled": true,
+    "whatsapp_number": "212600000000",
+    "whatsapp_message": "Bonjour Authentique MA, je souhaite passer commande 💜",
+    "cart_type": "page",
+    "show_free_shipping_bar": true,
+    "free_shipping_threshold": "500"
+  },
+  "presets": {
+    "Authentique MA": {
+      "color_primary": "#7A1FA2",
+      "color_primary_dark": "#4A1259",
+      "color_accent": "#A855C7"
+    }
+  }
+}

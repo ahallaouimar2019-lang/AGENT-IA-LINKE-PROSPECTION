@@ -1,0 +1,107 @@
+{
+  "general": {
+    "search": {
+      "search": "Search",
+      "placeholder": "Search for a product...",
+      "no_results": "No results for “{{ terms }}”.",
+      "results_for": "Results for “{{ terms }}”"
+    },
+    "newsletter": {
+      "title": "Join the Authentique family",
+      "subtitle": "Exclusive offers, beauty tips and new arrivals straight to your inbox.",
+      "placeholder": "Your email address",
+      "button": "Subscribe",
+      "success": "Thank you! You're subscribed 💜"
+    },
+    "social": { "follow_us": "Follow us" },
+    "pagination": { "previous": "Previous", "next": "Next" },
+    "404": {
+      "title": "Page not found",
+      "subtitle": "The page you're looking for doesn't exist or has moved.",
+      "link": "Back to home"
+    }
+  },
+  "header": {
+    "announcement": "Delivery all over Morocco 🇲🇦 — Cash on delivery available",
+    "menu": "Menu",
+    "cart": "Cart",
+    "search": "Search",
+    "account": "Account"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "buy_now": "Buy now",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "quantity": "Quantity",
+      "in_stock": "In stock",
+      "low_stock": "Low stock — order soon",
+      "sku": "SKU",
+      "vendor": "Brand",
+      "share": "Share",
+      "description": "Description",
+      "save": "Save"
+    },
+    "cod": {
+      "title": "Quick order — Cash on delivery",
+      "subtitle": "Fill in the form, we deliver and you pay on arrival 🚚",
+      "full_name": "Full name",
+      "full_name_ph": "e.g. Salma Bennani",
+      "phone": "Phone",
+      "phone_ph": "e.g. 06 12 34 56 78",
+      "city": "City",
+      "city_ph": "e.g. Casablanca",
+      "address": "Full address",
+      "address_ph": "Neighborhood, street, number...",
+      "quantity": "Quantity",
+      "submit": "Confirm my order 🛍️",
+      "or_whatsapp": "or order via WhatsApp",
+      "trust_payment": "Cash on delivery",
+      "trust_delivery": "Delivery 24-72h",
+      "trust_return": "Easy returns",
+      "error_required": "Please fill in all fields.",
+      "error_phone": "Invalid phone number.",
+      "success": "Order sent! We'll call you to confirm 💜"
+    }
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "continue": "Continue shopping",
+    "product": "Product",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "taxes_note": "Shipping calculated at checkout.",
+    "free_shipping_progress": "Only {{ amount }} away from free shipping!",
+    "free_shipping_reached": "🎉 You've unlocked free shipping!"
+  },
+  "collections": {
+    "general": {
+      "title": "Our products",
+      "no_products": "No products in this collection yet.",
+      "sort_by": "Sort by",
+      "products_count": "{{ count }} products"
+    }
+  },
+  "contact": {
+    "title": "Contact us",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "send": "Send",
+    "success": "Thank you! Your message has been sent."
+  },
+  "footer": {
+    "quick_links": "Quick links",
+    "customer_service": "Customer service",
+    "about": "About",
+    "payment_title": "Secure payment",
+    "rights": "All rights reserved."
+  }
+}

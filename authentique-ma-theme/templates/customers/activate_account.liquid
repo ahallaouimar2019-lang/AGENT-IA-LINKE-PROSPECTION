@@ -1,0 +1,12 @@
+<section class="section">
+  <div class="container" style="max-width:460px;">
+    <div class="page-header"><h1>Activer mon compte</h1></div>
+    {%- form 'activate_customer_password' -%}
+      {{ form.errors | default_errors }}
+      <div class="cod-field"><label>Mot de passe</label><input type="password" name="customer[password]" required></div>
+      <div class="cod-field"><label>Confirmer</label><input type="password" name="customer[password_confirmation]" required></div>
+      <button type="submit" class="btn btn--primary btn--block btn--lg">Activer</button>
+      <button type="submit" name="decline" class="btn btn--outline btn--block" style="margin-top:10px;">Refuser l'invitation</button>
+    {%- endform -%}
+  </div>
+</section>

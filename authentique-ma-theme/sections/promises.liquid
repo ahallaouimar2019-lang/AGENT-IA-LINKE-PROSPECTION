@@ -1,0 +1,52 @@
+<section class="section{% if section.settings.soft_bg %} section--soft{% endif %}">
+  <div class="container">
+    {%- if section.settings.title != blank -%}
+      <div class="section-heading">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2>{{ section.settings.title }}</h2>
+      </div>
+    {%- endif -%}
+    <div class="promises">
+      {%- for block in section.blocks -%}
+        <div class="promise" {{ block.shopify_attributes }}>
+          <div class="promise__icon">{{ block.settings.icon }}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nos promesses",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "POURQUOI NOUS CHOISIR" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Nos promesses Authentique" },
+    { "type": "checkbox", "id": "soft_bg", "label": "Fond lilas doux", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "promise",
+      "name": "Promesse",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Emoji / icône", "default": "🚚" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Livraison partout au Maroc" },
+        { "type": "text", "id": "text", "label": "Texte", "default": "Livraison rapide 24-72h dans toutes les villes." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nos promesses",
+      "blocks": [
+        { "type": "promise", "settings": { "icon": "🚚", "title": "Livraison partout au Maroc", "text": "Rapide 24-72h dans toutes les villes." } },
+        { "type": "promise", "settings": { "icon": "💵", "title": "Paiement à la livraison", "text": "Payez uniquement à la réception de votre colis." } },
+        { "type": "promise", "settings": { "icon": "✨", "title": "Produits authentiques", "text": "100% originaux, importés directement de Séoul." } },
+        { "type": "promise", "settings": { "icon": "💬", "title": "Support 7j/7", "text": "Une question ? On répond sur WhatsApp." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

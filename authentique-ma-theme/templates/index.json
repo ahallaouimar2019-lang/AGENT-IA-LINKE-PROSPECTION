@@ -1,0 +1,69 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-luxe",
+      "settings": {
+        "eyebrow": "AUTHENTIQUE MA",
+        "headline": "Reveal Younger Eyes In Seconds.",
+        "subheadline": "A revolutionary eye cream that smooths fine lines, reduces dark circles, and restores a naturally fresh look.",
+        "cta_label": "Shop Now",
+        "trust_text": "Trusted By Thousands"
+      }
+    },
+    "promises": {
+      "type": "promises",
+      "blocks": {
+        "b1": { "type": "promise", "settings": { "icon": "🚚", "title": "Livraison partout au Maroc", "text": "Rapide 24-72h dans toutes les villes." } },
+        "b2": { "type": "promise", "settings": { "icon": "💵", "title": "Paiement à la livraison", "text": "Payez uniquement à la réception." } },
+        "b3": { "type": "promise", "settings": { "icon": "✨", "title": "Produits authentiques", "text": "100% originaux, direct de Séoul." } },
+        "b4": { "type": "promise", "settings": { "icon": "💬", "title": "Support 7j/7", "text": "On répond sur WhatsApp." } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": { "title": "Nos promesses Authentique", "eyebrow": "POURQUOI NOUS CHOISIR" }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "NOTRE SÉLECTION",
+        "title": "Nos best-sellers",
+        "subtitle": "Les soins préférés de nos clientes marocaines.",
+        "products_count": 4,
+        "show_button": true,
+        "show_view_all": true,
+        "soft_bg": true
+      }
+    },
+    "image_text": {
+      "type": "image-with-text",
+      "settings": {
+        "eyebrow": "DIRECT DE SÉOUL",
+        "title": "La K-beauty, maintenant au Maroc",
+        "text": "<p>Authentique sélectionne pour vous les meilleurs soins coréens, formulés avec des ingrédients actifs puissants comme les cellules souches végétales. Une routine efficace, sensorielle et 100% authentique.</p>",
+        "button_label": "Découvrir",
+        "reverse": false,
+        "soft_bg": false
+      }
+    },
+    "collection_list": {
+      "type": "collection-list",
+      "blocks": {
+        "c1": { "type": "collection", "settings": { "title": "Contour des yeux" } },
+        "c2": { "type": "collection", "settings": { "title": "Soins visage" } },
+        "c3": { "type": "collection", "settings": { "title": "Nouveautés" } }
+      },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": { "title": "Nos catégories", "eyebrow": "PARCOURIR", "soft_bg": true }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "t1": { "type": "review", "settings": { "text": "Produit incroyable, ma peau est visiblement plus lisse en 2 semaines. Livraison rapide et paiement à la livraison, top !", "author": "Salma B.", "city": "Casablanca", "stars": 5 } },
+        "t2": { "type": "review", "settings": { "text": "Enfin des produits coréens authentiques au Maroc ! Le service client est très réactif sur WhatsApp.", "author": "Imane K.", "city": "Rabat", "stars": 5 } },
+        "t3": { "type": "review", "settings": { "text": "J'ai adoré le contour des yeux, texture légère et résultat bluffant. Je recommande à 100%.", "author": "Nada M.", "city": "Marrakech", "stars": 5 } }
+      },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": { "title": "Ce que disent nos clientes", "eyebrow": "ELLES NOUS FONT CONFIANCE" }
+    }
+  },
+  "order": ["hero", "promises", "featured", "image_text", "collection_list", "testimonials"]
+}

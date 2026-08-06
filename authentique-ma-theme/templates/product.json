@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "shipping": {
+          "type": "tab",
+          "settings": {
+            "title": "Livraison & Paiement",
+            "content": "<p>🚚 Livraison partout au Maroc en 24-72h.<br>💵 Paiement à la livraison (COD) disponible.<br>↩️ Retour facile sous 7 jours.</p>"
+          }
+        },
+        "usage": {
+          "type": "tab",
+          "settings": {
+            "title": "Comment l'utiliser",
+            "content": "<p>Appliquez matin et soir sur le contour de l'œil propre. Tapotez délicatement jusqu'à absorption complète.</p>"
+          }
+        }
+      },
+      "block_order": ["shipping", "usage"]
+    }
+  },
+  "order": ["main"]
+}

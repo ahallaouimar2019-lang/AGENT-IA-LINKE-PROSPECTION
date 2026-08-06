@@ -1,0 +1,16 @@
+<article class="section">
+  <div class="container">
+    <div class="page-header">
+      <h1>{{ article.title }}</h1>
+      <p style="color:#9a8aa2; font-size:0.9rem;">{{ article.published_at | date: '%d %B %Y' }}{% if article.author %} — {{ article.author }}{% endif %}</p>
+    </div>
+    {%- if article.image -%}
+      <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title | escape }}" style="border-radius:var(--card-radius); margin:0 auto 30px; max-width:900px; width:100%;" width="1200" height="600">
+    {%- endif -%}
+    <div class="rte">{{ article.content }}</div>
+  </div>
+</article>
+
+{% schema %}
+{ "name": "Article", "settings": [] }
+{% endschema %}

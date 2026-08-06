@@ -1,0 +1,16 @@
+<section class="section">
+  <div class="container" style="max-width:460px;">
+    <div class="page-header"><h1>Connexion</h1></div>
+
+    {%- form 'customer_login' -%}
+      {{ form.errors | default_errors }}
+      <div class="cod-field"><label>Email</label><input type="email" name="customer[email]" required></div>
+      <div class="cod-field"><label>Mot de passe</label><input type="password" name="customer[password]" required></div>
+      <button type="submit" class="btn btn--primary btn--block btn--lg">Se connecter</button>
+    {%- endform -%}
+
+    <p style="text-align:center; margin-top:18px;">
+      Pas encore de compte ? <a href="{{ routes.account_register_url }}">Créer un compte</a>
+    </p>
+  </div>
+</section>

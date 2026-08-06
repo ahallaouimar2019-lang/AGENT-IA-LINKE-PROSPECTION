@@ -1,0 +1,24 @@
+<section class="section">
+  <div class="container">
+    <div class="page-header"><h1>Commande {{ order.name }}</h1><p style="color:#9a8aa2;">{{ order.created_at | date: '%d %B %Y' }}</p></div>
+    <table class="cart-table">
+      <thead><tr><th>Produit</th><th>Prix</th><th>Qté</th><th style="text-align:end;">Total</th></tr></thead>
+      <tbody>
+        {%- for line in order.line_items -%}
+          <tr class="cart-item">
+            <td>{{ line.title }}</td>
+            <td>{{ line.price | money }}</td>
+            <td>{{ line.quantity }}</td>
+            <td style="text-align:end;">{{ line.final_line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+    <div class="cart-summary">
+      <div>Sous-total : {{ order.line_items_subtotal_price | money }}</div>
+      <div>Livraison : {{ order.shipping_price | money }}</div>
+      <div class="cart-summary__total">Total : {{ order.total_price | money }}</div>
+    </div>
+    <p style="margin-top:20px;"><a href="{{ routes.account_url }}">&larr; Retour à mon compte</a></p>
+  </div>
+</section>

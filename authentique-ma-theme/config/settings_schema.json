@@ -1,0 +1,183 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Authentique MA",
+    "theme_version": "1.0.0",
+    "theme_author": "Authentique MA",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/manual/online-store/themes"
+  },
+  {
+    "name": "Général",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Petite icône de l'onglet du navigateur (32x32px recommandé)"
+      }
+    ]
+  },
+  {
+    "name": "Couleurs",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Marque"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Couleur principale (violet)",
+        "default": "#7A1FA2"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_dark",
+        "label": "Violet foncé (dégradé)",
+        "default": "#4A1259"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent",
+        "default": "#A855C7"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Texte",
+        "default": "#2D1B33"
+      },
+      {
+        "type": "color",
+        "id": "color_body_bg",
+        "label": "Fond du site",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_soft_bg",
+        "label": "Fond doux (lilas)",
+        "default": "#FAF5FC"
+      },
+      {
+        "type": "color",
+        "id": "color_button_text",
+        "label": "Texte des boutons",
+        "default": "#FFFFFF"
+      }
+    ]
+  },
+  {
+    "name": "Typographie",
+    "settings": [
+      {
+        "type": "select",
+        "id": "heading_font_family",
+        "label": "Police des titres",
+        "default": "'Playfair Display', Georgia, serif",
+        "options": [
+          { "value": "'Playfair Display', Georgia, serif", "label": "Playfair Display (serif chic)" },
+          { "value": "'Cormorant Garamond', Georgia, serif", "label": "Cormorant Garamond" },
+          { "value": "'Poppins', sans-serif", "label": "Poppins" }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "label": "Taille des titres",
+        "min": 80,
+        "max": 130,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Boutons & coins",
+    "settings": [
+      {
+        "type": "range",
+        "id": "button_radius",
+        "label": "Arrondi des boutons",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "card_radius",
+        "label": "Arrondi des cartes",
+        "min": 0,
+        "max": 30,
+        "step": 2,
+        "unit": "px",
+        "default": 14
+      }
+    ]
+  },
+  {
+    "name": "Réseaux sociaux",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram (URL)", "info": "https://instagram.com/..." },
+      { "type": "text", "id": "social_facebook", "label": "Facebook (URL)" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok (URL)" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube (URL)" }
+    ]
+  },
+  {
+    "name": "WhatsApp",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "whatsapp_enabled",
+        "label": "Afficher le bouton WhatsApp flottant",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "Numéro WhatsApp",
+        "info": "Format international sans + ni espaces. Ex : 2126XXXXXXXX",
+        "default": "212600000000"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "Message pré-rempli",
+        "default": "Bonjour Authentique MA, je souhaite passer commande 💜"
+      }
+    ]
+  },
+  {
+    "name": "Panier",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Type de panier",
+        "default": "page",
+        "options": [
+          { "value": "page", "label": "Page panier" },
+          { "value": "drawer", "label": "Tiroir latéral" }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "show_free_shipping_bar",
+        "label": "Barre de livraison gratuite dans le panier",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_threshold",
+        "label": "Seuil livraison gratuite (MAD)",
+        "default": "500"
+      }
+    ]
+  }
+]

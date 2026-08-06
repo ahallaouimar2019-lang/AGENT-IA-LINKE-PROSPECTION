@@ -1,0 +1,39 @@
+<section class="section">
+  <div class="container">
+    <div class="page-header">
+      <h1>{{ page.title | default: 'contact.title' | t }}</h1>
+    </div>
+    {%- if page.content != blank -%}<div class="rte" style="margin-bottom:30px;">{{ page.content }}</div>{%- endif -%}
+
+    <div class="contact-form">
+      {%- form 'contact' -%}
+        {%- if form.posted_successfully? -%}
+          <p style="text-align:center; color:#2fb344; font-weight:600;">{{ 'contact.success' | t }}</p>
+        {%- endif -%}
+        <div class="cod-field">
+          <label>{{ 'contact.name' | t }}</label>
+          <input type="text" name="contact[name]" required>
+        </div>
+        <div class="cod-form__row">
+          <div class="cod-field">
+            <label>{{ 'contact.email' | t }}</label>
+            <input type="email" name="contact[email]" required>
+          </div>
+          <div class="cod-field">
+            <label>{{ 'contact.phone' | t }}</label>
+            <input type="tel" name="contact[phone]">
+          </div>
+        </div>
+        <div class="cod-field">
+          <label>{{ 'contact.message' | t }}</label>
+          <textarea name="contact[body]" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary btn--lg">{{ 'contact.send' | t }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Contact", "settings": [] }
+{% endschema %}

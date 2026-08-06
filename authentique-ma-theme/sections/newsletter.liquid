@@ -1,0 +1,25 @@
+<section class="section newsletter">
+  <div class="container">
+    <h2>{{ section.settings.title | default: 'general.newsletter.title' | t }}</h2>
+    <p>{{ section.settings.subtitle | default: 'general.newsletter.subtitle' | t }}</p>
+    {%- form 'customer', class: 'newsletter__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      {%- if form.posted_successfully? -%}
+        <p style="width:100%; color:#fff; font-weight:600;">{{ 'general.newsletter.success' | t }}</p>
+      {%- else -%}
+        <input type="email" name="contact[email]" placeholder="{{ 'general.newsletter.placeholder' | t }}" required aria-label="{{ 'general.newsletter.placeholder' | t }}">
+        <button type="submit" class="btn">{{ 'general.newsletter.button' | t }}</button>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Rejoignez la famille Authentique" },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "Offres exclusives, conseils beauté et nouveautés directement dans votre boîte mail." }
+  ]
+}
+{% endschema %}

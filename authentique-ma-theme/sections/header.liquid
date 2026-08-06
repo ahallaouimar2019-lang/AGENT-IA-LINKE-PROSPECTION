@@ -1,0 +1,62 @@
+<header class="site-header{% if section.settings.sticky %} is-sticky{% endif %}">
+  <div class="container">
+    <div class="site-header__inner">
+
+      <button class="header-icon nav-toggle" data-nav-toggle aria-label="{{ 'header.menu' | t }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+      <nav class="site-header__nav" aria-label="Menu principal">
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      </nav>
+
+      <a class="site-header__logo" href="{{ routes.root_url }}">
+        {%- if section.settings.logo != blank -%}
+          <img src="{{ section.settings.logo | image_url: width: 400 }}"
+               alt="{{ shop.name }}"
+               width="{{ section.settings.logo_max_width }}"
+               style="max-width: {{ section.settings.logo_max_width }}px; width: 100%; height: auto;">
+        {%- else -%}
+          {{ shop.name }}
+        {%- endif -%}
+      </a>
+
+      <div class="site-header__actions">
+        <a class="header-icon" href="{{ routes.search_url }}" aria-label="{{ 'header.search' | t }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </a>
+        <a class="header-icon" href="{{ routes.account_url }}" aria-label="{{ 'header.account' | t }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        </a>
+        <a class="header-icon" href="{{ routes.cart_url }}" aria-label="{{ 'header.cart' | t }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-count" data-cart-count{% if cart.item_count == 0 %} style="display:none"{% endif %}>{{ cart.item_count }}</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav" data-mobile-nav>
+  <div class="mobile-nav__panel">
+    <button class="mobile-nav__close" data-nav-close aria-label="Fermer">&times;</button>
+    {%- for link in section.settings.menu.links -%}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "range", "id": "logo_max_width", "label": "Largeur max du logo", "min": 80, "max": 320, "step": 10, "unit": "px", "default": 200 },
+    { "type": "link_list", "id": "menu", "label": "Menu de navigation", "default": "main-menu" },
+    { "type": "checkbox", "id": "sticky", "label": "En-tête collant (reste en haut)", "default": true }
+  ]
+}
+{% endschema %}

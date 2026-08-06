@@ -1,0 +1,38 @@
+<section class="section{% if section.settings.soft_bg %} section--soft{% endif %}">
+  <div class="container">
+    <div class="image-text{% if section.settings.reverse %} image-text--reverse{% endif %}">
+      <div class="image-text__media">
+        {%- if section.settings.image -%}
+          <img src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.image.alt | escape }}" loading="lazy" width="900" height="700">
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: '' }}
+        {%- endif -%}
+      </div>
+      <div class="image-text__content">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow" style="color:var(--color-primary);font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2>{{ section.settings.title }}</h2>
+        <div class="rte">{{ section.settings.text }}</div>
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="btn btn--primary" style="margin-top:16px;">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image avec texte",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "checkbox", "id": "reverse", "label": "Inverser (image à droite)", "default": false },
+    { "type": "checkbox", "id": "soft_bg", "label": "Fond lilas doux", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "DIRECT DE SÉOUL" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "La K-beauty, maintenant au Maroc" },
+    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Authentique sélectionne pour vous les meilleurs soins coréens, formulés avec des ingrédients actifs puissants comme les cellules souches végétales. Une routine efficace, sensorielle et 100% authentique.</p>" },
+    { "type": "text", "id": "button_label", "label": "Bouton — texte", "default": "En savoir plus" },
+    { "type": "url", "id": "button_link", "label": "Bouton — lien" }
+  ],
+  "presets": [ { "name": "Image avec texte" } ]
+}
+{% endschema %}

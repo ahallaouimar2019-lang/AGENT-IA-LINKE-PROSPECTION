@@ -1,0 +1,36 @@
+<section class="section">
+  <div class="container">
+    <div class="page-header"><h1>Mon compte</h1></div>
+    <p style="text-align:center;">Bonjour {{ customer.first_name | default: customer.email }} — <a href="{{ routes.account_logout_url }}">Déconnexion</a></p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:30px;">
+      <div>
+        <h3>Mes commandes</h3>
+        {%- if customer.orders.size > 0 -%}
+          <table class="cart-table">
+            <thead><tr><th>Commande</th><th>Date</th><th>Total</th><th>Statut</th></tr></thead>
+            <tbody>
+              {%- for order in customer.orders -%}
+                <tr class="cart-item">
+                  <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                  <td>{{ order.created_at | date: '%d/%m/%Y' }}</td>
+                  <td>{{ order.total_price | money }}</td>
+                  <td>{{ order.fulfillment_status_label }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        {%- else -%}
+          <p style="color:#6b5b72;">Aucune commande pour le moment.</p>
+        {%- endif -%}
+      </div>
+      <div>
+        <h3>Mon adresse</h3>
+        {%- if customer.default_address -%}
+          <div class="rte">{{ customer.default_address | format_address }}</div>
+        {%- endif -%}
+        <a href="{{ routes.account_addresses_url }}" class="btn btn--outline" style="margin-top:12px;">Gérer mes adresses</a>
+      </div>
+    </div>
+  </div>
+</section>

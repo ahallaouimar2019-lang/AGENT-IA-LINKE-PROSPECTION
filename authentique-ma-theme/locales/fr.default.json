@@ -1,0 +1,107 @@
+{
+  "general": {
+    "search": {
+      "search": "Rechercher",
+      "placeholder": "Rechercher un produit...",
+      "no_results": "Aucun résultat pour « {{ terms }} ».",
+      "results_for": "Résultats pour « {{ terms }} »"
+    },
+    "newsletter": {
+      "title": "Rejoignez la famille Authentique",
+      "subtitle": "Offres exclusives, conseils beauté et nouveautés directement dans votre boîte mail.",
+      "placeholder": "Votre adresse email",
+      "button": "Je m'inscris",
+      "success": "Merci ! Vous êtes bien inscrite 💜"
+    },
+    "social": { "follow_us": "Suivez-nous" },
+    "pagination": { "previous": "Précédent", "next": "Suivant" },
+    "404": {
+      "title": "Page introuvable",
+      "subtitle": "La page que vous cherchez n'existe pas ou a été déplacée.",
+      "link": "Retour à l'accueil"
+    }
+  },
+  "header": {
+    "announcement": "Livraison partout au Maroc 🇲🇦 — Paiement à la livraison disponible",
+    "menu": "Menu",
+    "cart": "Panier",
+    "search": "Rechercher",
+    "account": "Compte"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Ajouter au panier",
+      "buy_now": "Commander maintenant",
+      "sold_out": "Épuisé",
+      "unavailable": "Indisponible",
+      "quantity": "Quantité",
+      "in_stock": "En stock",
+      "low_stock": "Bientôt épuisé — commandez vite",
+      "sku": "Référence",
+      "vendor": "Marque",
+      "share": "Partager",
+      "description": "Description",
+      "save": "Économisez"
+    },
+    "cod": {
+      "title": "Commande rapide — Paiement à la livraison",
+      "subtitle": "Remplissez le formulaire, on vous livre et vous payez à la réception 🚚",
+      "full_name": "Nom complet",
+      "full_name_ph": "Ex : Salma Bennani",
+      "phone": "Téléphone",
+      "phone_ph": "Ex : 06 12 34 56 78",
+      "city": "Ville",
+      "city_ph": "Ex : Casablanca",
+      "address": "Adresse complète",
+      "address_ph": "Quartier, rue, numéro...",
+      "quantity": "Quantité",
+      "submit": "Confirmer ma commande 🛍️",
+      "or_whatsapp": "ou commander via WhatsApp",
+      "trust_payment": "Paiement à la livraison",
+      "trust_delivery": "Livraison 24-72h",
+      "trust_return": "Retour facile",
+      "error_required": "Merci de remplir tous les champs.",
+      "error_phone": "Numéro de téléphone invalide.",
+      "success": "Commande envoyée ! Nous vous appelons pour confirmer 💜"
+    }
+  },
+  "cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide.",
+    "continue": "Continuer mes achats",
+    "product": "Produit",
+    "price": "Prix",
+    "quantity": "Quantité",
+    "total": "Total",
+    "subtotal": "Sous-total",
+    "checkout": "Passer la commande",
+    "remove": "Retirer",
+    "taxes_note": "Frais de livraison calculés à la commande.",
+    "free_shipping_progress": "Plus que {{ amount }} pour la livraison gratuite !",
+    "free_shipping_reached": "🎉 Vous bénéficiez de la livraison gratuite !"
+  },
+  "collections": {
+    "general": {
+      "title": "Nos produits",
+      "no_products": "Aucun produit dans cette collection pour le moment.",
+      "sort_by": "Trier par",
+      "products_count": "{{ count }} produits"
+    }
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "message": "Message",
+    "send": "Envoyer",
+    "success": "Merci ! Votre message a bien été envoyé."
+  },
+  "footer": {
+    "quick_links": "Liens rapides",
+    "customer_service": "Service client",
+    "about": "À propos",
+    "payment_title": "Paiement sécurisé",
+    "rights": "Tous droits réservés."
+  }
+}
