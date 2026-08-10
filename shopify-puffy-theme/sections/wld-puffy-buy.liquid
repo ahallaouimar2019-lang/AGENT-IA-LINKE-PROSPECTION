@@ -28,13 +28,13 @@
               {%- assign img = section.settings[ik] -%}
               {%- if img or forloop.first -%}
               <button type="button" class="pfb-thumb{% if forloop.first %} pfb-on{% endif %}" data-pfb-t="{{ forloop.index0 }}">
-                {%- if img -%}{{ img | image_url: width: 200 | image_tag: loading: 'lazy' }}{%- else -%}<span class="pfb-tph">🐱</span>{%- endif -%}
+                {%- if img -%}{{ img | image_url: width: 180 | image_tag: loading: 'lazy' }}{%- else -%}<span class="pfb-tph">🐱</span>{%- endif -%}
               </button>
               {%- endif -%}
             {%- endfor -%}
           {%- else -%}
             {%- for media in pfb_product.images limit: 6 -%}
-              <button type="button" class="pfb-thumb{% if forloop.first %} pfb-on{% endif %}" data-pfb-t="{{ forloop.index0 }}">{{ media | image_url: width: 200 | image_tag: loading: 'lazy' }}</button>
+              <button type="button" class="pfb-thumb{% if forloop.first %} pfb-on{% endif %}" data-pfb-t="{{ forloop.index0 }}">{{ media | image_url: width: 180 | image_tag: loading: 'lazy' }}</button>
             {%- endfor -%}
           {%- endif -%}
         </div>
@@ -46,14 +46,14 @@
               {%- if img or forloop.first -%}
               {%- if forloop.first -%}{%- assign ld = 'eager' -%}{%- else -%}{%- assign ld = 'lazy' -%}{%- endif -%}
               <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">
-                {%- if img -%}{{ img | image_url: width: 1000 | image_tag: loading: ld, class: 'pfb-img' }}{%- elsif pfb_product.featured_image -%}{{ pfb_product.featured_image | image_url: width: 1000 | image_tag: loading: ld, class: 'pfb-img' }}{%- else -%}<div class="pfb-ph">🐱 Image {{ i }}</div>{%- endif -%}
+                {%- if img -%}{{ img | image_url: width: 900 | image_tag: loading: ld, class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}{%- elsif pfb_product.featured_image -%}{{ pfb_product.featured_image | image_url: width: 900 | image_tag: loading: ld, class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}{%- else -%}<div class="pfb-ph">🐱 Image {{ i }}</div>{%- endif -%}
               </div>
               {%- endif -%}
             {%- endfor -%}
           {%- else -%}
             {%- for media in pfb_product.images limit: 6 -%}
               {%- if forloop.first -%}{%- assign ld = 'eager' -%}{%- else -%}{%- assign ld = 'lazy' -%}{%- endif -%}
-              <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">{{ media | image_url: width: 1000 | image_tag: loading: ld, class: 'pfb-img' }}</div>
+              <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">{{ media | image_url: width: 900 | image_tag: loading: ld, class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}</div>
             {%- endfor -%}
           {%- endif -%}
         </div>
@@ -163,11 +163,13 @@
 #pfb-{{ section.id }} .pfb-thumb.pfb-on{border-color:var(--p);box-shadow:var(--sh)}
 #pfb-{{ section.id }} .pfb-thumb img{width:100%;height:100%;object-fit:cover}
 #pfb-{{ section.id }} .pfb-tph{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:22px;background:var(--lav2)}
-#pfb-{{ section.id }} .pfb-main{position:relative;flex:1;min-width:0;background:#F3F0FD;border-radius:var(--r)}
+#pfb-{{ section.id }} .pfb-main{position:relative;flex:1;min-width:0;background:#F3F0FD;border-radius:var(--r);overflow:hidden}
 #pfb-{{ section.id }} .pfb-slide{display:none}
 #pfb-{{ section.id }} .pfb-slide.pfb-on{display:block}
-#pfb-{{ section.id }} .pfb-img{width:100%;border-radius:var(--r);box-shadow:var(--shl)}
-#pfb-{{ section.id }} .pfb-img{object-fit:contain !important}
+#pfb-{{ section.id }} .pfb-img{width:100%;height:auto;border-radius:var(--r);box-shadow:none;display:block}
+#pfb-{{ section.id }} .pfb-gallery .pfb-main{aspect-ratio:auto !important;height:auto !important}
+#pfb-{{ section.id }} .pfb-gallery .pfb-main .pfb-slide{height:auto !important}
+#pfb-{{ section.id }} .pfb-gallery .pfb-main .pfb-slide .pfb-img{width:100% !important;height:auto !important;object-fit:contain !important;aspect-ratio:auto !important}
 #pfb-{{ section.id }} .pfb-ph{aspect-ratio:1/1;border-radius:var(--r);background:linear-gradient(135deg,var(--lav2),#DDD3F9);display:flex;align-items:center;justify-content:center;font-weight:600;color:rgba(43,37,89,.45);font-size:30px}
 #pfb-{{ section.id }} .pfb-info{min-width:0}
 #pfb-{{ section.id }} .pfb-badge{display:inline-block;background:#fff;color:var(--p);font-weight:700;font-size:12px;padding:6px 14px;border-radius:999px;box-shadow:var(--sh)}
