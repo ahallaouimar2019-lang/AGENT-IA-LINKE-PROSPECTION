@@ -44,16 +44,14 @@
               {%- assign ik = 'image' | append: i -%}
               {%- assign img = section.settings[ik] -%}
               {%- if img or forloop.first -%}
-              {%- if forloop.first -%}{%- assign ld = 'eager' -%}{%- else -%}{%- assign ld = 'lazy' -%}{%- endif -%}
               <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">
-                {%- if img -%}{{ img | image_url: width: 900 | image_tag: loading: ld, class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}{%- elsif pfb_product.featured_image -%}{{ pfb_product.featured_image | image_url: width: 900 | image_tag: loading: ld, class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}{%- else -%}<div class="pfb-ph">🐱 Image {{ i }}</div>{%- endif -%}
+                {%- if img -%}{{ img | image_url: width: 900 | image_tag: loading: 'eager', fetchpriority: 'low', class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}{%- elsif pfb_product.featured_image -%}{{ pfb_product.featured_image | image_url: width: 900 | image_tag: loading: 'eager', fetchpriority: 'low', class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}{%- else -%}<div class="pfb-ph">🐱 Image {{ i }}</div>{%- endif -%}
               </div>
               {%- endif -%}
             {%- endfor -%}
           {%- else -%}
             {%- for media in pfb_product.images limit: 6 -%}
-              {%- if forloop.first -%}{%- assign ld = 'eager' -%}{%- else -%}{%- assign ld = 'lazy' -%}{%- endif -%}
-              <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">{{ media | image_url: width: 900 | image_tag: loading: ld, class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}</div>
+              <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">{{ media | image_url: width: 900 | image_tag: loading: 'eager', fetchpriority: 'low', class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}</div>
             {%- endfor -%}
           {%- endif -%}
           <button type="button" class="pfb-arrow pfb-prev" data-pfb-prev aria-label="Image précédente">‹</button>
@@ -261,19 +259,21 @@
     var sv  = root.querySelector('[data-pfb-sv]');
     var cur = 0;
 
-    function preloadN() {
-      if (slides.length < 2) return;
-      [ (cur + 1) % slides.length, (cur - 1 + slides.length) % slides.length ].forEach(function (n) {
-        var im = slides[n] ? slides[n].querySelector('img') : null;
-        if (im && im.getAttribute('loading') === 'lazy') { im.setAttribute('loading', 'eager'); }
-      });
+    function preloadAll() {
+      for (var k = 0; k < slides.length; k++) {
+        var im = slides[k] ? slides[k].querySelector('img') : null;
+        if (im) {
+          im.setAttribute('loading', 'eager');
+          if (im.decode) { try { im.decode(); } catch (e) {} }
+        }
+      }
     }
+    preloadAll();
 
     function showImg(i) {
       cur = parseInt(i, 10) || 0;
       root.querySelectorAll('[data-pfb-img]').forEach(function (s) { s.classList.toggle('pfb-on', s.getAttribute('data-pfb-img') === String(cur)); });
       root.querySelectorAll('.pfb-thumb').forEach(function (t) { t.classList.toggle('pfb-on', t.getAttribute('data-pfb-t') === String(cur)); });
-      preloadN();
     }
     if (thumbs) thumbs.addEventListener('click', function (e) {
       var b = e.target.closest('.pfb-thumb'); if (b) showImg(b.getAttribute('data-pfb-t'));
@@ -286,7 +286,6 @@
     } else {
       if (prevBtn) prevBtn.addEventListener('click', function () { showImg((cur - 1 + slides.length) % slides.length); });
       if (nextBtn) nextBtn.addEventListener('click', function () { showImg((cur + 1) % slides.length); });
-      preloadN();
     }
 
     function selectBundle(b) {
