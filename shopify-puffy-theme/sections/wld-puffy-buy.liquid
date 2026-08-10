@@ -63,6 +63,8 @@
                 if v.compare_at_price and v.compare_at_price > v.price
                   assign has_comp = true
                 endif
+                assign bimg_key = 'bundle_img' | append: forloop.index
+                assign bimg = section.settings[bimg_key]
               -%}
               <button type="button" class="pfb-bundle{% if forloop.first %} pfb-on{% endif %}{% unless v.available %} pfb-oos{% endunless %}"
                 {% unless v.available %}disabled{% endunless %}
@@ -72,6 +74,7 @@
                 data-pfb-save="{% if has_comp %}{{ section.settings.save_prefix }} {{ v.compare_at_price | minus: v.price | money }} {{ section.settings.save_suffix }}{% endif %}">
                 {%- if forloop.index == 2 -%}<span class="pfb-flag">⭐ MOST POPULAR</span>{%- elsif forloop.index > 2 -%}<span class="pfb-flag pfb-flag2">🏆 BEST VALUE</span>{%- endif -%}
                 <span class="pfb-radio"></span>
+                {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 180 }}" alt="" loading="lazy" width="56" height="56">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 180 }}" alt="" loading="lazy" width="56" height="56">{%- endif -%}
                 <span class="pfb-binfo">{{ v.title }}{% unless v.available %} — {{ section.settings.oos_label }}{% endunless %}</span>
                 <span class="pfb-bprice">{%- if has_comp -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}<b>{{ v.price | money }}</b></span>
               </button>
@@ -82,9 +85,11 @@
               if pfb_first.compare_at_price and pfb_first.compare_at_price > pfb_first.price
                 assign has_comp = true
               endif
+              assign bimg = section.settings.bundle_img1
             -%}
             <button type="button" class="pfb-bundle pfb-on" data-pfb-vid="{{ pfb_first.id }}" data-pfb-price="{{ pfb_first.price | money }}" data-pfb-comp="{% if has_comp %}{{ pfb_first.compare_at_price | money }}{% endif %}" data-pfb-save="{% if has_comp %}{{ section.settings.save_prefix }} {{ pfb_first.compare_at_price | minus: pfb_first.price | money }} {{ section.settings.save_suffix }}{% endif %}">
               <span class="pfb-radio"></span>
+              {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 180 }}" alt="" loading="lazy" width="56" height="56">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 180 }}" alt="" loading="lazy" width="56" height="56">{%- endif -%}
               <span class="pfb-binfo">{{ pfb_product.title }}</span>
               <span class="pfb-bprice">{%- if has_comp -%}<s>{{ pfb_first.compare_at_price | money }}</s>{%- endif -%}<b>{{ pfb_first.price | money }}</b></span>
             </button>
@@ -160,12 +165,14 @@
 @keyframes pfbpulse{0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)}70%{box-shadow:0 0 0 8px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
 #pfb-{{ section.id }} .pfb-choose{font-weight:600;font-size:14px;margin:18px 0 10px}
 #pfb-{{ section.id }} .pfb-bundles{display:flex;flex-direction:column;gap:14px;margin-top:8px}
-#pfb-{{ section.id }} .pfb-bundle{position:relative;display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:2px solid var(--lav2);border-radius:18px;padding:18px 20px;cursor:pointer;transition:.25s;font-family:inherit;font-size:15px;color:var(--ink);box-shadow:0 4px 14px rgba(75,52,160,.06)}
+#pfb-{{ section.id }} .pfb-bundle{position:relative;display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:2px solid var(--lav2);border-radius:18px;padding:16px 20px;cursor:pointer;transition:.25s;font-family:inherit;font-size:15px;color:var(--ink);box-shadow:0 4px 14px rgba(75,52,160,.06)}
 #pfb-{{ section.id }} .pfb-bundle:hover{border-color:var(--p);transform:translateY(-1px)}
 #pfb-{{ section.id }} .pfb-bundle.pfb-on{border-color:var(--p);background:var(--lav);box-shadow:0 14px 34px rgba(139,92,246,.22);transform:translateY(-1px)}
 #pfb-{{ section.id }} .pfb-bundle.pfb-oos{opacity:.45;cursor:not-allowed}
 #pfb-{{ section.id }} .pfb-radio{flex:0 0 20px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--lav2);background:#fff;transition:.25s}
 #pfb-{{ section.id }} .pfb-bundle.pfb-on .pfb-radio{border:6px solid var(--p)}
+#pfb-{{ section.id }} .pfb-bthumb{flex:0 0 56px;width:56px;height:56px;border-radius:12px;object-fit:cover;background:#fff;border:1.5px solid var(--lav2);box-shadow:0 3px 10px rgba(75,52,160,.14)}
+#pfb-{{ section.id }} .pfb-bundle.pfb-on .pfb-bthumb{border-color:var(--p)}
 #pfb-{{ section.id }} .pfb-binfo{flex:1;font-weight:600;font-size:15.5px}
 #pfb-{{ section.id }} .pfb-bprice{text-align:right;display:flex;flex-direction:column;line-height:1.35}
 #pfb-{{ section.id }} .pfb-bprice s{color:rgba(43,37,89,.4);font-size:13px}
@@ -202,6 +209,7 @@
 @media (max-width:540px){
   #pfb-{{ section.id }} .pfb-container{padding:0 16px}
   #pfb-{{ section.id }} .pfb-price{font-size:26px}
+  #pfb-{{ section.id }} .pfb-bthumb{flex:0 0 48px;width:48px;height:48px}
   #pfb-{{ section.id }} .pfb-pay-icons .pfb-picon{height:30px}
 }
 {%- endstyle -%}
@@ -275,12 +283,17 @@
   "settings": [
     { "type": "header", "content": "🛒 Produit" },
     { "type": "product", "id": "product", "label": "Produit" },
-    { "type": "header", "content": "🖼️ Galerie" },
+    { "type": "header", "content": "🖼️ Galerie principale" },
     { "type": "image_picker", "id": "image1", "label": "Image 1" },
     { "type": "image_picker", "id": "image2", "label": "Image 2" },
     { "type": "image_picker", "id": "image3", "label": "Image 3" },
     { "type": "image_picker", "id": "image4", "label": "Image 4" },
     { "type": "image_picker", "id": "image5", "label": "Image 5" },
+    { "type": "header", "content": "📦 Vignettes des packs" },
+    { "type": "paragraph", "content": "Petite image affichée sur chaque pack. Pack 1 = 1 peluche, Pack 2 = 2 peluches, Pack 3 = 3 peluches." },
+    { "type": "image_picker", "id": "bundle_img1", "label": "Pack 1 — 1 peluche" },
+    { "type": "image_picker", "id": "bundle_img2", "label": "Pack 2 — 2 peluches" },
+    { "type": "image_picker", "id": "bundle_img3", "label": "Pack 3 — 3 peluches" },
     { "type": "header", "content": "✍️ Textes" },
     { "type": "text", "id": "badge", "label": "Badge", "default": "💜 SQUISHY. SOFT. IRRESISTIBLE." },
     { "type": "text", "id": "title", "label": "Titre", "default": "The Squishy Viral Cat" },
