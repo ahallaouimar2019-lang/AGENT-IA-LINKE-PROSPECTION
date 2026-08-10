@@ -1,44 +1,7 @@
-{%- comment -%} Puffy Conversion Kit — drives countdown + live viewers, cart free-shipping banner & email popup. Product urgency/trust/payment now live natively in the buy block. {%- endcomment -%}
+{%- comment -%} Puffy Conversion Kit — drives the countdown + live viewers and the cart free-shipping banner. {%- endcomment -%}
 <style>
   .wld-cart-ship { display:flex; align-items:center; gap:10px; background:#EAF7EE; color:#12833B; font-weight:800; border:1px solid #BBE9C9; border-radius:16px; padding:14px 18px; margin-bottom:22px; }
-  .wld-pop-ov { position:fixed; inset:0; background:rgba(43,37,89,.55); display:none; align-items:center; justify-content:center; z-index:99999; padding:20px; }
-  .wld-pop-ov.on { display:flex; }
-  .wld-pop { position:relative; width:100%; max-width:420px; background:#fff; border-radius:24px; padding:34px 30px 30px; text-align:center; box-shadow:0 30px 80px rgba(43,37,89,.35); font-family:'Inter',-apple-system,sans-serif; }
-  .wld-pop h3 { font-family:'Poppins',sans-serif; font-size:25px; color:#2B2559; margin:6px 0; }
-  .wld-pop p { color:rgba(43,37,89,.7); font-size:14.5px; margin:0 0 18px; line-height:1.55; }
-  .wld-pop .emoji { font-size:40px; }
-  .wld-pop input[type=email] { width:100%; border:1.5px solid #E9E3FB; border-radius:14px; padding:14px 16px; font-size:15px; margin-bottom:12px; box-sizing:border-box; }
-  .wld-pop button.sub { width:100%; background:#FF6B35; color:#fff; border:none; font-family:'Poppins',sans-serif; font-weight:700; font-size:15px; padding:15px; border-radius:99px; cursor:pointer; box-shadow:0 16px 40px rgba(255,107,53,.3); }
-  .wld-pop .x { position:absolute; top:12px; right:16px; background:none; border:none; font-size:24px; color:rgba(43,37,89,.4); cursor:pointer; line-height:1; }
-  .wld-pop .fine { font-size:11.5px; color:rgba(43,37,89,.45); margin-top:12px; }
-  .wld-pop-ok { display:none; }
-  .wld-pop-ok.on { display:block; }
-  .wld-code { display:inline-block; background:#F3F0FD; border:1.5px dashed #8B5CF6; color:#6D4AE8; font-weight:800; letter-spacing:.14em; padding:10px 18px; border-radius:12px; font-size:19px; margin:6px 0 4px; }
 </style>
-
-<div class="wld-pop-ov" data-wld-pop>
-  <div class="wld-pop">
-    <button class="x" data-wld-pop-x aria-label="Close">&times;</button>
-    <div class="wld-pop-form">
-      <div class="emoji">🎁</div>
-      <h3>Get 10% Off + a Free Gift</h3>
-      <p>Join 1,839+ happy customers. Drop your email to unlock your instant discount and a surprise gift with your first order.</p>
-      {% form 'customer' %}
-        <input type="hidden" name="contact[tags]" value="newsletter,popup-10off">
-        <input type="email" name="contact[email]" placeholder="Your email address" required>
-        <button type="submit" class="sub">UNLOCK MY 10% OFF &rarr;</button>
-      {% endform %}
-      <div class="fine">No spam. Unsubscribe anytime. 💜</div>
-    </div>
-    <div class="wld-pop-ok">
-      <div class="emoji">🎉</div>
-      <h3>Here is your code!</h3>
-      <p>Use it at checkout for 10% off your entire order:</p>
-      <div class="wld-code">WELCOME10</div>
-      <p style="margin-top:14px"><a href="/collections/all" style="color:#FF6B35;font-weight:700;text-decoration:none">Start Shopping &rarr;</a></p>
-    </div>
-  </div>
-</div>
 
 {% raw %}
 <script>
@@ -79,27 +42,10 @@
     var h1=wrap.querySelector('h1'); if(h1){ h1.insertAdjacentElement('afterend',b); } else { wrap.insertBefore(b,wrap.firstChild); }
   }
 
-  function initPopup(){
-    var ov=document.querySelector('[data-wld-pop]'); if(!ov) return;
-    function close(){ ov.classList.remove('on'); lsSet('wld_pop_seen','1'); }
-    var x=ov.querySelector('[data-wld-pop-x]'); if(x) x.addEventListener('click',close);
-    ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
-    var form=ov.querySelector('form');
-    if(form) form.addEventListener('submit',function(e){
-      e.preventDefault();
-      try{ fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}}); }catch(err){}
-      var f=ov.querySelector('.wld-pop-form'); if(f) f.style.display='none';
-      var ok=ov.querySelector('.wld-pop-ok'); if(ok) ok.classList.add('on');
-      lsSet('wld_pop_seen','1');
-    });
-    if(lsGet('wld_pop_seen')!=='1'){ setTimeout(function(){ ov.classList.add('on'); }, 7000); }
-  }
-
   ready(function(){
     tick(); setInterval(tick,1000);
     startFomo();
     injectCart();
-    initPopup();
   });
 })();
 </script>
