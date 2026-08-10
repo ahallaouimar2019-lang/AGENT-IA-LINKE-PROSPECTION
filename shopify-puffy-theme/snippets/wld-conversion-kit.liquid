@@ -10,7 +10,7 @@
   .wld-stock { background:#FFF1F0; border:1px solid #FFD5D1; border-radius:14px; padding:12px 14px; }
   .wld-stock-top { display:flex; justify-content:space-between; gap:10px; font-size:13px; font-weight:700; color:#C92A2A; margin-bottom:8px; }
   .wld-stock-bar { height:8px; border-radius:99px; background:#FFDAD6; overflow:hidden; }
-  .wld-stock-bar i { display:block; height:100%; width:14%; background:linear-gradient(90deg,#FF6B35,#E03131); border-radius:99px; }
+  .wld-stock-bar i { display:block; height:100%; width:95%; background:linear-gradient(90deg,#FF6B35,#E03131); border-radius:99px; }
   .wld-fomo { display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:600; color:#2B2559; justify-content:center; }
   .wld-fomo .dot { width:9px; height:9px; border-radius:50%; background:#16A34A; animation:wldpulse 1.6s infinite; }
   @keyframes wldpulse { 0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)} 70%{box-shadow:0 0 0 8px rgba(22,163,74,0)} 100%{box-shadow:0 0 0 0 rgba(22,163,74,0)} }
@@ -65,10 +65,11 @@
   function lsSet(k,v){ try{localStorage.setItem(k,v);}catch(e){mem[k]=v;} }
 
   // ---- Evergreen flash-sale countdown (shared by banner + product timers) ----
-  var KEY='wld_flash_end';
+  var KEY='wld_flash_end_15';
+  var DURATION=15*60*1000;
   function getEnd(){
     var e=parseInt(lsGet(KEY),10); var now=Date.now();
-    if(!e || isNaN(e) || e<now){ e=now+(2*3600+47*60+12)*1000; lsSet(KEY,String(e)); }
+    if(!e || isNaN(e) || e<now){ e=now+DURATION; lsSet(KEY,String(e)); }
     return e;
   }
   function two(n){ return (n<10?'0':'')+n; }
@@ -96,7 +97,7 @@
     var guar=block.querySelector('.pfb-guar');
     if(text){ var sub=document.createElement('p'); sub.className='wld-sub'; sub.innerHTML='Transform your stress into smiles. Join 1,839+ happy customers 💜'; text.insertAdjacentElement('afterend',sub); }
     var urg=document.createElement('div'); urg.className='wld-urg';
-    urg.innerHTML='<div class="wld-timer">⏱️ FLASH SALE ENDS IN <b data-wld-countdown>02:47:12</b></div>'+
+    urg.innerHTML='<div class="wld-timer">⏱️ FLASH SALE ENDS IN <b data-wld-countdown>00:15:00</b></div>'+
       '<div class="wld-stock"><div class="wld-stock-top"><span>🔥 Almost gone — selling fast!</span><span>Only 5 left</span></div><div class="wld-stock-bar"><i></i></div></div>'+
       '<div class="wld-fomo"><span class="dot"></span><span><b data-wld-fomo>347</b> people are viewing this right now</span></div>';
     if(form){ form.parentNode.insertBefore(urg,form); } else if(text){ text.insertAdjacentElement('afterend',urg); }
