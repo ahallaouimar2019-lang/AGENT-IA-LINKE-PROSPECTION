@@ -1,0 +1,70 @@
+<div class="pf-coll">
+  <div class="pf-wrap">
+    <div class="pf-coll-head">
+      <h1>{{ collection.title }}</h1>
+      <p class="pf-coll-sub">Meet your squishy companion — trusted by thousands ⭐ · 🚚 Free worldwide shipping</p>
+    </div>
+    {% paginate collection.products by 12 %}
+    <div class="pf-grid">
+      {% for p in collection.products %}
+      {% assign on_sale = false %}
+      {% if p.compare_at_price > p.price %}{% assign on_sale = true %}{% endif %}
+      <div class="pf-card">
+        <a class="pf-card-media" href="{{ p.url }}">
+          <span class="pf-badge-cat">{% cycle 'cat': '🔥 BEST SELLER', '🚀 VIRAL', '⏳ LIMITED', '💜 TRENDING' %}</span>
+          {% if on_sale %}<span class="pf-badge-off">-{{ p.compare_at_price | minus: p.price | times: 100 | divided_by: p.compare_at_price }}%</span>{% endif %}
+          {% if p.featured_image %}
+            <img src="{{ p.featured_image | image_url: width: 700 }}" alt="{{ p.featured_image.alt | escape | default: p.title }}" width="700" height="700" loading="lazy">
+          {% else %}
+            <span class="pf-ph">🐱</span>
+          {% endif %}
+        </a>
+        <div class="pf-card-body">
+          <div class="pf-rate"><span class="pf-stars">★★★★★</span><span class="pf-rcount">({% cycle 'rc': '1,839','1,024','2,411','938' %} reviews)</span></div>
+          <a class="pf-title" href="{{ p.url }}">{{ p.title }}</a>
+          <div class="pf-price">
+            <b>{{ p.price | money }}</b>
+            {% if on_sale %}<s>{{ p.compare_at_price | money }}</s>{% endif %}
+          </div>
+          <a class="pf-quick" href="{{ p.url }}">⚡ Quick Shop</a>
+        </div>
+      </div>
+      {% else %}
+      <p>No products yet.</p>
+      {% endfor %}
+    </div>
+    {% if paginate.pages > 1 %}<div class="pf-pagi">{{ paginate | default_pagination }}</div>{% endif %}
+    {% endpaginate %}
+  </div>
+</div>
+{% style %}
+.pf-coll { padding:48px 0 64px; } .pf-coll .pf-wrap { max-width:1180px; margin:0 auto; padding:0 24px; }
+.pf-coll-head { text-align:center; margin-bottom:6px; }
+.pf-coll h1 { font-family:'Poppins',sans-serif; font-size:clamp(28px,4vw,42px); color:#2B2559; letter-spacing:-.02em; }
+.pf-coll-sub { color:rgba(43,37,89,.65); font-weight:600; font-size:14px; margin-top:8px; }
+.pf-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:22px; margin-top:30px; }
+.pf-card { background:#fff; border:1px solid #F0ECFB; border-radius:22px; overflow:hidden; box-shadow:0 10px 30px rgba(75,52,160,.08); transition:transform .2s, box-shadow .2s; display:flex; flex-direction:column; }
+.pf-card:hover { transform:translateY(-4px); box-shadow:0 18px 44px rgba(75,52,160,.16); }
+.pf-card-media { position:relative; display:block; aspect-ratio:1/1; background:#F3F0FD; overflow:hidden; }
+.pf-card-media img { width:100%; height:100%; object-fit:cover; display:block; }
+.pf-ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:44px; }
+.pf-badge-cat { position:absolute; top:12px; left:12px; background:#2B2559; color:#fff; font-size:10.5px; font-weight:800; letter-spacing:.04em; padding:6px 12px; border-radius:99px; z-index:2; }
+.pf-badge-off { position:absolute; top:12px; right:12px; background:#E03131; color:#fff; font-size:12px; font-weight:800; padding:6px 11px; border-radius:99px; z-index:2; box-shadow:0 6px 16px rgba(224,49,49,.35); }
+.pf-card-body { padding:16px 16px 18px; display:flex; flex-direction:column; gap:8px; }
+.pf-rate { display:flex; align-items:center; gap:7px; }
+.pf-stars { color:#FFB800; letter-spacing:2px; font-size:14px; }
+.pf-rcount { font-size:12px; color:rgba(43,37,89,.55); font-weight:600; }
+.pf-title { font-family:'Poppins',sans-serif; font-weight:600; font-size:15.5px; color:#2B2559; text-decoration:none; line-height:1.3; }
+.pf-title:hover { color:#8B5CF6; }
+.pf-price { display:flex; align-items:baseline; gap:9px; }
+.pf-price b { font-family:'Poppins',sans-serif; font-size:22px; color:#FF6B35; }
+.pf-price s { color:rgba(43,37,89,.4); font-size:14px; }
+.pf-quick { margin-top:6px; text-align:center; background:#8B5CF6; color:#fff; font-family:'Poppins',sans-serif; font-weight:700; font-size:14px; text-decoration:none; padding:12px; border-radius:99px; transition:background .2s; }
+.pf-quick:hover { background:#6D4AE8; }
+.pf-pagi { text-align:center; margin-top:34px; }
+@media (max-width:900px){ .pf-grid { grid-template-columns:repeat(2,1fr); gap:16px; } }
+@media (max-width:540px){ .pf-grid { grid-template-columns:repeat(2,1fr); gap:12px; } .pf-price b { font-size:19px; } .pf-quick { font-size:13px; padding:11px; } .pf-badge-cat { font-size:9.5px; padding:5px 9px; } }
+{% endstyle %}
+{% schema %}
+{ "name": "Collection", "settings": [] }
+{% endschema %}

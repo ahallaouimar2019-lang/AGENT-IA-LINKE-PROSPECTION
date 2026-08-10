@@ -1,0 +1,35 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "header": {
+      "type": "wld-puffy-header",
+      "settings": {
+        "show_announce": true,
+        "announce_text": "🔥 SHOP THE SALE — up to 55% OFF →",
+        "announce_link": "/products/catmallow-big-eyed-plush-cat-grey-tabby",
+        "logo_text": "Puffy",
+        "nav1_text": "Home",
+        "nav1_link": "",
+        "nav2_text": "Shop",
+        "nav2_link": "/products/catmallow-big-eyed-plush-cat-grey-tabby",
+        "nav3_text": "Our Story",
+        "nav3_link": "",
+        "nav4_text": "Reviews",
+        "nav4_link": "",
+        "nav5_text": "FAQ",
+        "nav5_link": ""
+      }
+    }
+  },
+  "order": [ "header" ]
+}

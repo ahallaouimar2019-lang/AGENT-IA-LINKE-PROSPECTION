@@ -1,0 +1,35 @@
+<div id="wldfb-{{ section.id }}" class="wldfb">
+  <div class="wldfb-in">
+    <span class="wldfb-txt">{{ section.settings.text }}</span>
+    <span class="wldfb-timer">{{ section.settings.timer_label }} <b data-wld-countdown>00:15:00</b></span>
+    <a class="wldfb-cta" href="{{ section.settings.link | default: '/collections/all' }}">{{ section.settings.cta }}</a>
+  </div>
+</div>
+{% style %}
+#wldfb-{{ section.id }} { background:linear-gradient(90deg,#FF6B35,#E03131); color:#fff; font-family:'Poppins',sans-serif; }
+#wldfb-{{ section.id }} .wldfb-in { max-width:1180px; margin:0 auto; padding:9px 20px; display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; text-align:center; }
+#wldfb-{{ section.id }} .wldfb-txt { font-weight:800; font-size:13.5px; letter-spacing:.01em; }
+#wldfb-{{ section.id }} .wldfb-timer { font-weight:700; font-size:13px; background:rgba(255,255,255,.2); padding:4px 10px; border-radius:99px; white-space:nowrap; }
+#wldfb-{{ section.id }} .wldfb-timer b { font-variant-numeric:tabular-nums; }
+#wldfb-{{ section.id }} .wldfb-cta { background:#fff; color:#E03131; font-weight:800; font-size:12.5px; text-decoration:none; padding:7px 16px; border-radius:99px; white-space:nowrap; transition:transform .15s; }
+#wldfb-{{ section.id }} .wldfb-cta:hover { transform:translateY(-1px); }
+@media (max-width:640px){
+  #wldfb-{{ section.id }} .wldfb-in { gap:8px; padding:7px 12px; }
+  #wldfb-{{ section.id }} .wldfb-txt { font-size:11.5px; width:100%; }
+  #wldfb-{{ section.id }} .wldfb-timer { font-size:11.5px; padding:3px 9px; }
+  #wldfb-{{ section.id }} .wldfb-cta { font-size:11.5px; padding:6px 14px; }
+}
+{% endstyle %}
+{% schema %}
+{
+  "name": "WLD — Flash Banner",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Banner text", "default": "🚀 FLASH SALE: -30% + FREE SHIPPING" },
+    { "type": "text", "id": "timer_label", "label": "Timer label", "default": "Ends in" },
+    { "type": "text", "id": "cta", "label": "Button text", "default": "SHOP →" },
+    { "type": "url", "id": "link", "label": "Button link" }
+  ],
+  "presets": [ { "name": "WLD — Flash Banner" } ]
+}
+{% endschema %}

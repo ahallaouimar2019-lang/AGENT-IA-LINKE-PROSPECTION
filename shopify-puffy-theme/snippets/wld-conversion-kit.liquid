@@ -1,0 +1,52 @@
+{%- comment -%} Puffy Conversion Kit — drives the countdown + live viewers and the cart free-shipping banner. {%- endcomment -%}
+<style>
+  .wld-cart-ship { display:flex; align-items:center; gap:10px; background:#EAF7EE; color:#12833B; font-weight:800; border:1px solid #BBE9C9; border-radius:16px; padding:14px 18px; margin-bottom:22px; }
+</style>
+
+{% raw %}
+<script>
+(function(){
+  function ready(fn){ if(document.readyState!=='loading'){fn();} else {document.addEventListener('DOMContentLoaded',fn);} }
+  var mem={};
+  function lsGet(k){ try{return localStorage.getItem(k);}catch(e){return mem[k]||null;} }
+  function lsSet(k,v){ try{localStorage.setItem(k,v);}catch(e){mem[k]=v;} }
+
+  var KEY='wld_flash_end_15';
+  var DURATION=15*60*1000;
+  function getEnd(){
+    var e=parseInt(lsGet(KEY),10); var now=Date.now();
+    if(!e || isNaN(e) || e<now){ e=now+DURATION; lsSet(KEY,String(e)); }
+    return e;
+  }
+  function two(n){ return (n<10?'0':'')+n; }
+  function tick(){
+    var s=Math.max(0,Math.floor((getEnd()-Date.now())/1000));
+    var txt=two(Math.floor(s/3600))+':'+two(Math.floor((s%3600)/60))+':'+two(s%60);
+    var els=document.querySelectorAll('[data-wld-countdown]');
+    for(var i=0;i<els.length;i++){ els[i].textContent=txt; }
+  }
+
+  function startFomo(){
+    var els=document.querySelectorAll('[data-wld-fomo]');
+    for(var i=0;i<els.length;i++){ (function(el){
+      var base=parseInt(el.textContent,10)||340;
+      setInterval(function(){ base+=Math.floor(Math.random()*7)-3; if(base<180)base=180; if(base>520)base=520; el.textContent=base; }, 2400+Math.random()*2200);
+    })(els[i]); }
+  }
+
+  function injectCart(){
+    var wrap=document.querySelector('.pf-cart .pf-wrap');
+    if(!wrap || wrap.dataset.wldShip==='1') return; wrap.dataset.wldShip='1';
+    var b=document.createElement('div'); b.className='wld-cart-ship';
+    b.innerHTML='✅ <span>FREE SHIPPING unlocked on your order — worldwide &amp; fully tracked.</span>';
+    var h1=wrap.querySelector('h1'); if(h1){ h1.insertAdjacentElement('afterend',b); } else { wrap.insertBefore(b,wrap.firstChild); }
+  }
+
+  ready(function(){
+    tick(); setInterval(tick,1000);
+    startFomo();
+    injectCart();
+  });
+})();
+</script>
+{% endraw %}
