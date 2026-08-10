@@ -143,7 +143,7 @@
 </div>
 
 {%- style -%}
-#pfb-{{ section.id }} { --p:#8B5CF6; --pd:#6D4AE8; --ink:#2B2559; --lav:#F3F0FD; --lav2:#E9E3FB; --r:18px; --sh:0 10px 30px rgba(75,52,160,.10); --shl:0 16px 40px rgba(139,92,246,.22); font-family:'Inter',-apple-system,sans-serif; color:var(--ink); line-height:1.55; font-size:16px; }
+#pfb-{{ section.id }} { --p:#8B5CF6; --pd:#6D4AE8; --ink:#2B2559; --lav:#F3F0FD; --lav2:#E9E3FB; --r:18px; --sh:0 10px 30px rgba(75,52,160,.10); --shl:0 16px 40px rgba(139,92,246,.22); font-family:'Inter',-apple-system,sans-serif; color:var(--ink); line-height:1.55; font-size:16px; overflow-x:clip; }
 #pfb-{{ section.id }} *{box-sizing:border-box;margin:0}
 #pfb-{{ section.id }} img{max-width:100%;display:block}
 #pfb-{{ section.id }} .pfb-container{max-width:1120px;margin:0 auto;padding:0 24px}
@@ -201,8 +201,8 @@
 #pfb-{{ section.id }} .pfb-cta{width:100%;display:inline-flex;justify-content:center;align-items:center;gap:10px;background:#FF6B35;color:#fff;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;letter-spacing:.05em;text-transform:uppercase;border:none;padding:15px 30px;border-radius:999px;cursor:pointer;box-shadow:0 16px 40px rgba(255,107,53,.26);transition:.2s}
 #pfb-{{ section.id }} .pfb-cta:hover{transform:translateY(-2px);background:#E85826}
 #pfb-{{ section.id }} .pfb-cta[disabled]{opacity:.5;cursor:not-allowed}
-#pfb-{{ section.id }} .pfb-express{margin-top:10px;animation:pfbshake 2.6s ease-in-out infinite;transform-origin:center}
-@keyframes pfbshake{0%,84%,100%{transform:translateX(0)}86%{transform:translateX(-4px)}88%{transform:translateX(4px)}90%{transform:translateX(-4px)}92%{transform:translateX(4px)}94%{transform:translateX(-3px)}96%{transform:translateX(3px)}98%{transform:translateX(-1px)}}
+#pfb-{{ section.id }} .pfb-express{margin-top:10px;animation:pfbshake 1.8s ease-in-out infinite;transform-origin:center;will-change:transform}
+@keyframes pfbshake{0%,62%,100%{transform:translateX(0)}65%{transform:translateX(-7px)}68%{transform:translateX(7px)}71%{transform:translateX(-7px)}74%{transform:translateX(7px)}77%{transform:translateX(-5px)}80%{transform:translateX(5px)}83%{transform:translateX(-3px)}86%{transform:translateX(3px)}89%{transform:translateX(-1px)}}
 #pfb-{{ section.id }} .pfb-express .shopify-payment-button__button{border-radius:999px!important;font-family:'Poppins',sans-serif!important;font-weight:700!important;min-height:50px!important;font-size:15px!important}
 #pfb-{{ section.id }} .pfb-express .shopify-payment-button__more-options{margin-top:9px;font-size:13.5px;color:var(--p)}
 #pfb-{{ section.id }} .pfb-green{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}

@@ -1,0 +1,127 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div id="wld-puffy-{{ section.id }}" class="wld-puffy-root">
+
+  {%- if section.settings.show_announce and section.settings.announce_text != blank -%}
+  <a class="wld-announce" href="{{ section.settings.announce_link | default: '/collections/all' }}">{{ section.settings.announce_text }}</a>
+  {%- endif -%}
+
+  <header class="wld-header">
+    <div class="wld-container wld-header-in">
+      <button type="button" class="wld-burger" data-wld-burger aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="/" class="wld-logo">{{ section.settings.logo_text }}<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 13c-2.7 0-5 2-5 4.2 0 1.6 1.2 2.8 2.9 2.8 1 0 1.5-.4 2.1-.4s1.1.4 2.1.4c1.7 0 2.9-1.2 2.9-2.8C17 15 14.7 13 12 13zM6.2 8.6c-.9-1.4-2.4-2-3.3-1.4-.9.6-.9 2.3 0 3.7.9 1.4 2.4 2 3.3 1.4.9-.6.9-2.3 0-3.7zm11.6 0c-.9 1.4-.9 3.1 0 3.7.9.6 2.4 0 3.3-1.4.9-1.4.9-3.1 0-3.7-.9-.6-2.4 0-3.3 1.4zM9.4 4.1c-1.1-.3-2.3.7-2.7 2.2-.4 1.6.2 3.1 1.3 3.4 1.1.3 2.3-.7 2.7-2.2.4-1.6-.2-3.1-1.3-3.4zm5.2 0c-1.1.3-1.7 1.8-1.3 3.4.4 1.5 1.6 2.5 2.7 2.2 1.1-.3 1.7-1.8 1.3-3.4-.4-1.5-1.6-2.5-2.7-2.2z"/></svg></a>
+      <nav class="wld-nav" data-wld-nav>
+        {%- if section.settings.nav1_text != blank -%}<a href="{{ section.settings.nav1_link | default: '/' }}">{{ section.settings.nav1_text }}</a>{%- endif -%}
+        {%- if section.settings.nav2_text != blank -%}<a href="{{ section.settings.nav2_link | default: '/' }}">{{ section.settings.nav2_text }}</a>{%- endif -%}
+        {%- if section.settings.nav3_text != blank -%}<a href="{{ section.settings.nav3_link | default: '/' }}">{{ section.settings.nav3_text }}</a>{%- endif -%}
+        {%- if section.settings.nav4_text != blank -%}<a href="{{ section.settings.nav4_link | default: '/' }}">{{ section.settings.nav4_text }}</a>{%- endif -%}
+        {%- if section.settings.nav5_text != blank -%}<a href="{{ section.settings.nav5_link | default: '/' }}">{{ section.settings.nav5_text }}</a>{%- endif -%}
+      </nav>
+      <div class="wld-header-icons">
+        <a href="/search" class="wld-hicon wld-hide-m" aria-label="Search"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+        <a href="/account" class="wld-hicon wld-hide-m" aria-label="Account"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg></a>
+        <a href="/cart" class="wld-hicon wld-cart" aria-label="Cart">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 12.2a1.5 1.5 0 0 0 1.5 1.3h8.7a1.5 1.5 0 0 0 1.5-1.2L21 8H6"/><circle cx="10" cy="21" r="1.2"/><circle cx="18" cy="21" r="1.2"/></svg>
+          <span class="wld-cart-count">{{ cart.item_count }}</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+</div>
+
+{%- style -%}
+#wld-puffy-{{ section.id }} {
+  --p: #8B5CF6; --p-deep: #6D4AE8; --ink: #2B2559; --white: #FFFFFF;
+  --lav: #F3F0FD; --lav2: #E9E3FB; --lav3: #DDD3F9;
+  --shadow: 0 10px 30px rgba(75,52,160,.10);
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--ink); line-height: 1.6; display: block;
+}
+#wld-puffy-{{ section.id }} * { box-sizing: border-box; margin: 0; }
+#wld-puffy-{{ section.id }} .wld-container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+#wld-puffy-{{ section.id }} .wld-announce { display:block; background: var(--p); color: var(--white); text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .02em; padding: 10px 16px; text-decoration: none; cursor: pointer; transition: background .2s; }
+#wld-puffy-{{ section.id }} .wld-announce:hover { background: var(--p-deep); }
+#wld-puffy-{{ section.id }} .wld-header { background: var(--lav); position: relative; z-index: 20; }
+#wld-puffy-{{ section.id }} .wld-header-in { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 18px; padding-bottom: 18px; }
+#wld-puffy-{{ section.id }} .wld-logo { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 32px; color: var(--p); text-decoration: none; display: inline-flex; align-items: flex-start; gap: 2px; line-height: 1; }
+#wld-puffy-{{ section.id }} .wld-nav { display: flex; gap: 34px; }
+#wld-puffy-{{ section.id }} .wld-nav a { font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); text-decoration: none; padding: 6px 0; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+#wld-puffy-{{ section.id }} .wld-nav a:hover { color: var(--p); border-color: var(--p); }
+#wld-puffy-{{ section.id }} .wld-header-icons { display: flex; align-items: center; gap: 18px; }
+#wld-puffy-{{ section.id }} .wld-hicon { color: var(--ink); position: relative; display: inline-flex; }
+#wld-puffy-{{ section.id }} .wld-cart-count { position: absolute; top: -8px; right: -9px; background: var(--p); color: var(--white); font-size: 10px; font-weight: 700; min-width: 17px; height: 17px; border-radius: 999px; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+#wld-puffy-{{ section.id }} .wld-burger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+#wld-puffy-{{ section.id }} .wld-burger span { display: block; width: 26px; height: 3px; border-radius: 3px; background: var(--p); margin: 5px 0; transition: all .25s; }
+#wld-puffy-{{ section.id }} .wld-burger.is-open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+#wld-puffy-{{ section.id }} .wld-burger.is-open span:nth-child(2) { opacity: 0; }
+#wld-puffy-{{ section.id }} .wld-burger.is-open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+@media (max-width: 900px) {
+  #wld-puffy-{{ section.id }} .wld-burger { display: block; }
+  #wld-puffy-{{ section.id }} .wld-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); flex-direction: column; gap: 0; padding: 10px 24px 18px; box-shadow: var(--shadow); }
+  #wld-puffy-{{ section.id }} .wld-nav.is-open { display: flex; }
+  #wld-puffy-{{ section.id }} .wld-nav a { padding: 13px 0; border-bottom: 1px solid var(--lav2) !important; }
+  #wld-puffy-{{ section.id }} .wld-hide-m { display: none; }
+  #wld-puffy-{{ section.id }} .wld-logo { font-size: 28px; position: absolute; left: 50%; transform: translateX(-50%); }
+  #wld-puffy-{{ section.id }} .wld-header-in { position: relative; }
+}
+@media (max-width: 540px) {
+  #wld-puffy-{{ section.id }} .wld-container { padding: 0 16px; }
+}
+{%- endstyle -%}
+
+<script>
+(function () {
+  function initWldHeader(root) {
+    if (!root || root.dataset.wldInit === '1') return;
+    root.dataset.wldInit = '1';
+    var burger = root.querySelector('[data-wld-burger]');
+    var nav = root.querySelector('[data-wld-nav]');
+    if (burger && nav) {
+      burger.addEventListener('click', function () {
+        var open = nav.classList.toggle('is-open');
+        burger.classList.toggle('is-open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  }
+  initWldHeader(document.getElementById('wld-puffy-{{ section.id }}'));
+  document.addEventListener('shopify:section:load', function (e) {
+    var reloaded = e.target.querySelector('#wld-puffy-{{ section.id }}');
+    if (reloaded) { reloaded.dataset.wldInit = ''; initWldHeader(reloaded); }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "WLD — Puffy Header",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "📣 Announcement bar" },
+    { "type": "checkbox", "id": "show_announce", "label": "Show announcement bar", "default": true },
+    { "type": "text", "id": "announce_text", "label": "Text", "default": "🔥 SHOP THE SALE — up to 55% OFF →" },
+    { "type": "url", "id": "announce_link", "label": "Announcement link (→ packs)" },
+
+    { "type": "header", "content": "🧭 Navigation" },
+    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "Puffy" },
+    { "type": "text", "id": "nav1_text", "label": "Nav 1 text", "default": "Home" },
+    { "type": "url", "id": "nav1_link", "label": "Nav 1 link" },
+    { "type": "text", "id": "nav2_text", "label": "Nav 2 text", "default": "Shop" },
+    { "type": "url", "id": "nav2_link", "label": "Nav 2 link" },
+    { "type": "text", "id": "nav3_text", "label": "Nav 3 text", "default": "Our Story" },
+    { "type": "url", "id": "nav3_link", "label": "Nav 3 link" },
+    { "type": "text", "id": "nav4_text", "label": "Nav 4 text", "default": "Reviews" },
+    { "type": "url", "id": "nav4_link", "label": "Nav 4 link" },
+    { "type": "text", "id": "nav5_text", "label": "Nav 5 text", "default": "FAQ" },
+    { "type": "url", "id": "nav5_link", "label": "Nav 5 link" }
+  ],
+  "presets": [
+    { "name": "WLD — Puffy Header" }
+  ]
+}
+{% endschema %}
