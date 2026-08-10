@@ -121,9 +121,15 @@
         <button type="button" class="pfb-cta" disabled>⚠️ Sélectionne un produit dans les réglages</button>
         {%- endif -%}
 
-        <div class="pfb-ship">🚚 FREE WORLDWIDE SHIPPING INCLUDED</div>
-        <div class="pfb-guar"><span>🛡️ {{ section.settings.guarantee }}</span><span>🚚 {{ section.settings.shipping }}</span></div>
-        <div class="pfb-trust"><span>🔒 SSL secure checkout</span><span>🛡️ 30-day money-back</span><span>↩️ Easy returns</span></div>
+        <div class="pfb-green">
+          <div class="pfb-green-head">🚚 FREE WORLDWIDE SHIPPING INCLUDED</div>
+          <div class="pfb-green-list">
+            <span>🛡️ {{ section.settings.guarantee }}</span>
+            <span>🚚 {{ section.settings.shipping }}</span>
+            <span>🔒 SSL secure checkout</span>
+            <span>↩️ Easy returns</span>
+          </div>
+        </div>
         <div class="pfb-pay">
           <span class="pfb-pay-label">🔒 Guaranteed safe &amp; secure checkout</span>
           <div class="pfb-pay-icons">{%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'pfb-picon' }}{%- endfor -%}</div>
@@ -194,10 +200,11 @@
 #pfb-{{ section.id }} .pfb-express{margin-top:12px}
 #pfb-{{ section.id }} .pfb-express .shopify-payment-button__button{border-radius:999px!important;font-family:'Poppins',sans-serif!important;font-weight:700!important;min-height:52px!important;font-size:16px!important}
 #pfb-{{ section.id }} .pfb-express .shopify-payment-button__more-options{margin-top:10px;font-size:14px;color:var(--p)}
-#pfb-{{ section.id }} .pfb-ship{display:inline-flex;align-items:center;gap:8px;background:#EAF7EE;color:#12833B;font-weight:800;font-size:13px;padding:9px 16px;border-radius:99px;margin-top:14px}
-#pfb-{{ section.id }} .pfb-guar{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;font-size:13px;font-weight:600;color:rgba(43,37,89,.7)}
-#pfb-{{ section.id }} .pfb-trust{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:14px;font-size:12.5px;font-weight:600;color:rgba(43,37,89,.7)}
-#pfb-{{ section.id }} .pfb-pay{margin-top:20px;padding-top:18px;border-top:1px solid var(--lav2);text-align:center}
+#pfb-{{ section.id }} .pfb-green{margin-top:18px;background:linear-gradient(180deg,#EFFAF1,#E3F5E9);border:1.5px solid #BBE9C9;border-radius:18px;padding:16px 16px 14px;text-align:center}
+#pfb-{{ section.id }} .pfb-green-head{display:inline-flex;align-items:center;gap:8px;color:#0F7A38;font-weight:800;font-size:13.5px;letter-spacing:.02em;background:#D8F0E0;padding:8px 16px;border-radius:99px;margin-bottom:12px}
+#pfb-{{ section.id }} .pfb-green-list{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px}
+#pfb-{{ section.id }} .pfb-green-list span{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #CDEBD7;color:#12833B;font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:99px}
+#pfb-{{ section.id }} .pfb-pay{margin-top:18px;padding-top:18px;border-top:1px solid var(--lav2);text-align:center}
 #pfb-{{ section.id }} .pfb-pay-label{display:block;font-size:12.5px;font-weight:700;color:rgba(43,37,89,.6);margin-bottom:12px}
 #pfb-{{ section.id }} .pfb-pay-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
 #pfb-{{ section.id }} .pfb-pay-icons .pfb-picon{height:34px;width:auto;border-radius:5px}
@@ -303,7 +310,7 @@
     { "type": "text", "id": "offer_label", "label": "Label offre", "default": "Limited-Time Offer" },
     { "type": "text", "id": "cta", "label": "Bouton", "default": "Add to Cart — Free Shipping →" },
     { "type": "text", "id": "guarantee", "label": "Garantie", "default": "30-day money-back guarantee" },
-    { "type": "text", "id": "shipping", "label": "Livraison", "default": "Free tracked shipping" },
+    { "type": "text", "id": "shipping", "label": "Livraison", "default": "Free tracked shipping 24/24h" },
     { "type": "text", "id": "oos_label", "label": "Texte rupture", "default": "Sold out" },
     { "type": "text", "id": "save_prefix", "label": "Économie prefix", "default": "Save" },
     { "type": "text", "id": "save_suffix", "label": "Économie suffix", "default": "Today" }
