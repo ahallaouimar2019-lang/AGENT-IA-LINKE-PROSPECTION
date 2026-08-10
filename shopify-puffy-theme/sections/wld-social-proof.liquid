@@ -1,0 +1,103 @@
+<div id="wldsp-{{ section.id }}" class="wldsp">
+  <div class="wldsp-wrap">
+
+    <div class="wldsp-stats">
+      <div><b>1,839+</b><span>Happy customers</span></div>
+      <div><b>4.9/5</b><span>Average rating ⭐</span></div>
+      <div><b>30-Day</b><span>Money-back guarantee</span></div>
+      <div><b>Free</b><span>Worldwide shipping 🚚</span></div>
+    </div>
+
+    <div class="wldsp-trust">
+      <span>🔒 SSL Secure Checkout</span><span>🛡️ 30-Day Guarantee</span><span>🚚 Free Worldwide Shipping</span><span>💳 Visa · Mastercard</span><span>↩️ Easy Returns</span>
+    </div>
+
+    <h2 class="wldsp-h">{{ section.settings.reviews_title }}</h2>
+    <div class="wldsp-slider" data-wldsp-track>
+      <article class="wldsp-card"><div class="wldsp-stars">★★★★★</div><p>“This is the softest thing I’ve ever held. My anxiety melts the second I squeeze it. 💜”</p><footer><b>Sarah M.</b><span>✅ Verified buyer</span></footer></article>
+      <article class="wldsp-card"><div class="wldsp-stars">★★★★★</div><p>“Bought it for my daughter, ended up keeping it for myself 😂 Ships crazy fast too.”</p><footer><b>Jason R.</b><span>✅ Verified buyer</span></footer></article>
+      <article class="wldsp-card"><div class="wldsp-stars">★★★★★</div><p>“Exactly like the TikToks. The slow rebound is SO satisfying. Worth every penny.”</p><footer><b>Amara K.</b><span>✅ Verified buyer</span></footer></article>
+      <article class="wldsp-card"><div class="wldsp-stars">★★★★★</div><p>“Arrived in 6 days, tracked the whole way. Free worldwide shipping was a lovely surprise!”</p><footer><b>Leah T.</b><span>✅ Verified buyer</span></footer></article>
+      <article class="wldsp-card"><div class="wldsp-stars">★★★★★</div><p>“Best desk buddy for stressful workdays. Already ordered my second one. 🙌”</p><footer><b>Marc D.</b><span>✅ Verified buyer</span></footer></article>
+    </div>
+
+    <h2 class="wldsp-h">{{ section.settings.faq_title }}</h2>
+    <div class="wldsp-faq" data-wldsp-faq>
+      <div class="wldsp-q"><button type="button">Will it arrive on time? <i>+</i></button><div class="wldsp-a"><p>Yes! Every order ships within 24 hours with fully tracked delivery. Most customers receive theirs in 5–8 business days worldwide — and shipping is always 100% free.</p></div></div>
+      <div class="wldsp-q"><button type="button">Is shipping really free? <i>+</i></button><div class="wldsp-a"><p>Absolutely. Free tracked worldwide shipping is included on every single order, with no minimum spend.</p></div></div>
+      <div class="wldsp-q"><button type="button">What if I don’t love it? <i>+</i></button><div class="wldsp-a"><p>You’re fully covered by our 30-day money-back guarantee. If you’re not obsessed, we’ll refund you — no questions asked.</p></div></div>
+      <div class="wldsp-q"><button type="button">Are the materials safe? <i>+</i></button><div class="wldsp-a"><p>Yes. Every Puffy is made from non-toxic, child-safe materials that are rigorously checked before they reach your hands.</p></div></div>
+      <div class="wldsp-q"><button type="button">Is checkout secure? <i>+</i></button><div class="wldsp-a"><p>100%. Checkout is SSL-encrypted and we accept all major cards (Visa, Mastercard). No account required.</p></div></div>
+    </div>
+
+    <div class="wldsp-final">
+      <h2>{{ section.settings.final_title }}</h2>
+      <p>{{ section.settings.final_sub }}</p>
+      <a class="wldsp-btn" href="{{ section.settings.final_link | default: '/collections/all' }}">{{ section.settings.final_cta }}</a>
+      <div class="wldsp-final-timer">⏱️ Limited stock — offer ends in <b data-wld-countdown>02:47:12</b></div>
+    </div>
+
+  </div>
+</div>
+{% style %}
+#wldsp-{{ section.id }} { font-family:'Inter',-apple-system,sans-serif; color:#2B2559; background:#fff; }
+#wldsp-{{ section.id }} .wldsp-wrap { max-width:1180px; margin:0 auto; padding:56px 24px; }
+#wldsp-{{ section.id }} .wldsp-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+#wldsp-{{ section.id }} .wldsp-stats > div { background:#F3F0FD; border-radius:18px; padding:22px 14px; text-align:center; }
+#wldsp-{{ section.id }} .wldsp-stats b { display:block; font-family:'Poppins',sans-serif; font-size:26px; color:#8B5CF6; }
+#wldsp-{{ section.id }} .wldsp-stats span { font-size:13px; color:rgba(43,37,89,.7); }
+#wldsp-{{ section.id }} .wldsp-trust { display:flex; flex-wrap:wrap; justify-content:center; gap:12px 22px; margin-top:22px; font-size:13px; font-weight:600; color:rgba(43,37,89,.72); }
+#wldsp-{{ section.id }} .wldsp-h { font-family:'Poppins',sans-serif; font-size:clamp(24px,3.4vw,34px); text-align:center; letter-spacing:-.02em; margin:52px 0 24px; }
+#wldsp-{{ section.id }} .wldsp-slider { display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory; padding:6px 4px 18px; -webkit-overflow-scrolling:touch; }
+#wldsp-{{ section.id }} .wldsp-slider::-webkit-scrollbar { height:6px; } #wldsp-{{ section.id }} .wldsp-slider::-webkit-scrollbar-thumb { background:#E9E3FB; border-radius:99px; }
+#wldsp-{{ section.id }} .wldsp-card { flex:0 0 clamp(280px,80%,360px); scroll-snap-align:center; background:#F3F0FD; border-radius:20px; padding:24px; box-shadow:0 10px 30px rgba(75,52,160,.08); }
+#wldsp-{{ section.id }} .wldsp-stars { color:#FFB800; letter-spacing:3px; font-size:15px; }
+#wldsp-{{ section.id }} .wldsp-card p { margin:12px 0 16px; font-size:15px; line-height:1.55; }
+#wldsp-{{ section.id }} .wldsp-card footer { display:flex; flex-direction:column; }
+#wldsp-{{ section.id }} .wldsp-card footer b { font-size:14px; }
+#wldsp-{{ section.id }} .wldsp-card footer span { font-size:12.5px; color:#16A34A; font-weight:600; }
+#wldsp-{{ section.id }} .wldsp-faq { max-width:760px; margin:0 auto; }
+#wldsp-{{ section.id }} .wldsp-q { border:1.5px solid #E9E3FB; border-radius:16px; margin-bottom:12px; overflow:hidden; background:#fff; }
+#wldsp-{{ section.id }} .wldsp-q > button { width:100%; text-align:left; background:none; border:none; padding:18px 20px; font-family:'Poppins',sans-serif; font-weight:600; font-size:15.5px; color:#2B2559; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:14px; }
+#wldsp-{{ section.id }} .wldsp-q > button i { font-style:normal; font-size:22px; color:#8B5CF6; transition:transform .25s; flex:0 0 auto; }
+#wldsp-{{ section.id }} .wldsp-q.open > button i { transform:rotate(45deg); }
+#wldsp-{{ section.id }} .wldsp-a { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+#wldsp-{{ section.id }} .wldsp-q.open .wldsp-a { max-height:320px; }
+#wldsp-{{ section.id }} .wldsp-a p { margin:0; padding:0 20px 18px; color:rgba(43,37,89,.72); font-size:14.5px; line-height:1.6; }
+#wldsp-{{ section.id }} .wldsp-final { margin-top:54px; text-align:center; background:linear-gradient(135deg,#F3F0FD,#E9E3FB); border-radius:26px; padding:44px 24px; }
+#wldsp-{{ section.id }} .wldsp-final h2 { font-family:'Poppins',sans-serif; font-size:clamp(24px,3.6vw,36px); letter-spacing:-.02em; }
+#wldsp-{{ section.id }} .wldsp-final p { color:rgba(43,37,89,.72); margin:10px 0 22px; font-size:16px; }
+#wldsp-{{ section.id }} .wldsp-btn { display:inline-block; background:#FF6B35; color:#fff; font-family:'Poppins',sans-serif; font-weight:800; font-size:16px; letter-spacing:.04em; text-decoration:none; padding:18px 44px; border-radius:99px; box-shadow:0 20px 50px rgba(255,107,53,.3); transition:transform .18s; }
+#wldsp-{{ section.id }} .wldsp-btn:hover { transform:translateY(-2px); }
+#wldsp-{{ section.id }} .wldsp-final-timer { margin-top:18px; font-weight:700; color:#E03131; font-size:14px; }
+#wldsp-{{ section.id }} .wldsp-final-timer b { font-variant-numeric:tabular-nums; }
+@media (max-width:640px){ #wldsp-{{ section.id }} .wldsp-stats { grid-template-columns:repeat(2,1fr); } #wldsp-{{ section.id }} .wldsp-wrap { padding:44px 16px; } }
+{% endstyle %}
+<script>
+(function(){
+  function init(root){
+    if(!root || root.dataset.wldspInit==='1') return; root.dataset.wldspInit='1';
+    var faq=root.querySelector('[data-wldsp-faq]');
+    if(faq){ faq.addEventListener('click', function(e){ var btn=e.target.closest('.wldsp-q > button'); if(!btn) return; btn.parentNode.classList.toggle('open'); }); }
+    var track=root.querySelector('[data-wldsp-track]');
+    if(track){ var idx=0; setInterval(function(){ var cards=track.querySelectorAll('.wldsp-card'); if(!cards.length) return; idx=(idx+1)%cards.length; var cw=cards[0].getBoundingClientRect().width+18; track.scrollTo({left: idx*cw, behavior:'smooth'}); }, 3800); }
+  }
+  init(document.getElementById('wldsp-{{ section.id }}'));
+  document.addEventListener('shopify:section:load', function(e){ var r=e.target.querySelector('#wldsp-{{ section.id }}'); if(r){ r.dataset.wldspInit=''; init(r); } });
+})();
+</script>
+{% schema %}
+{
+  "name": "WLD — Social Proof",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "reviews_title", "label": "Reviews title", "default": "Loved by thousands ⭐" },
+    { "type": "text", "id": "faq_title", "label": "FAQ title", "default": "Frequently asked questions" },
+    { "type": "text", "id": "final_title", "label": "Final CTA title", "default": "Meet your squishy companion — trusted by thousands ⭐" },
+    { "type": "text", "id": "final_sub", "label": "Final CTA subtitle", "default": "Join 1,839+ happy customers. Free worldwide shipping + 30-day guarantee." },
+    { "type": "text", "id": "final_cta", "label": "Final CTA button", "default": "GET MY PUFFY NOW — LIMITED STOCK" },
+    { "type": "url", "id": "final_link", "label": "Final CTA link" }
+  ],
+  "presets": [ { "name": "WLD — Social Proof" } ]
+}
+{% endschema %}

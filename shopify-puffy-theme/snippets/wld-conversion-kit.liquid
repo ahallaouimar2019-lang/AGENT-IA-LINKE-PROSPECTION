@@ -1,0 +1,144 @@
+{%- comment -%} Puffy Conversion Kit — native urgency, FOMO, trust & email popup. Injected globally before </body>. Idempotent & self-contained. {%- endcomment -%}
+<style>
+  .pfb-cta { background:#FF6B35 !important; box-shadow:0 20px 50px rgba(255,107,53,.30) !important; }
+  .pfb-cta:hover { background:#E85826 !important; }
+  .pfb-price { color:#FF6B35 !important; }
+  .wld-sub { font-size:15px; font-weight:600; color:#6D4AE8; margin:2px 0 14px; }
+  .wld-urg { display:flex; flex-direction:column; gap:12px; margin:18px 0; }
+  .wld-timer { display:flex; align-items:center; gap:10px; justify-content:center; background:linear-gradient(135deg,#FF3B30,#E03131); color:#fff; font-weight:800; letter-spacing:.02em; padding:12px 16px; border-radius:14px; box-shadow:0 10px 24px rgba(224,49,49,.28); font-size:14.5px; text-align:center; }
+  .wld-timer b { font-variant-numeric:tabular-nums; font-size:17px; margin-left:2px; }
+  .wld-stock { background:#FFF1F0; border:1px solid #FFD5D1; border-radius:14px; padding:12px 14px; }
+  .wld-stock-top { display:flex; justify-content:space-between; gap:10px; font-size:13px; font-weight:700; color:#C92A2A; margin-bottom:8px; }
+  .wld-stock-bar { height:8px; border-radius:99px; background:#FFDAD6; overflow:hidden; }
+  .wld-stock-bar i { display:block; height:100%; width:14%; background:linear-gradient(90deg,#FF6B35,#E03131); border-radius:99px; }
+  .wld-fomo { display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:600; color:#2B2559; justify-content:center; }
+  .wld-fomo .dot { width:9px; height:9px; border-radius:50%; background:#16A34A; animation:wldpulse 1.6s infinite; }
+  @keyframes wldpulse { 0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)} 70%{box-shadow:0 0 0 8px rgba(22,163,74,0)} 100%{box-shadow:0 0 0 0 rgba(22,163,74,0)} }
+  .wld-ship { display:inline-flex; align-items:center; gap:8px; background:#EAF7EE; color:#12833B; font-weight:800; font-size:13px; padding:9px 16px; border-radius:99px; margin-top:14px; }
+  .wld-trust { display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:14px; font-size:12.5px; font-weight:600; color:rgba(43,37,89,.7); }
+  .wld-cart-ship { display:flex; align-items:center; gap:10px; background:#EAF7EE; color:#12833B; font-weight:800; border:1px solid #BBE9C9; border-radius:16px; padding:14px 18px; margin-bottom:22px; }
+  .wld-pop-ov { position:fixed; inset:0; background:rgba(43,37,89,.55); display:none; align-items:center; justify-content:center; z-index:99999; padding:20px; }
+  .wld-pop-ov.on { display:flex; }
+  .wld-pop { position:relative; width:100%; max-width:420px; background:#fff; border-radius:24px; padding:34px 30px 30px; text-align:center; box-shadow:0 30px 80px rgba(43,37,89,.35); font-family:'Inter',-apple-system,sans-serif; }
+  .wld-pop h3 { font-family:'Poppins',sans-serif; font-size:25px; color:#2B2559; margin:6px 0; }
+  .wld-pop p { color:rgba(43,37,89,.7); font-size:14.5px; margin:0 0 18px; line-height:1.55; }
+  .wld-pop .emoji { font-size:40px; }
+  .wld-pop input[type=email] { width:100%; border:1.5px solid #E9E3FB; border-radius:14px; padding:14px 16px; font-size:15px; margin-bottom:12px; box-sizing:border-box; }
+  .wld-pop button.sub { width:100%; background:#FF6B35; color:#fff; border:none; font-family:'Poppins',sans-serif; font-weight:700; font-size:15px; padding:15px; border-radius:99px; cursor:pointer; box-shadow:0 16px 40px rgba(255,107,53,.3); }
+  .wld-pop .x { position:absolute; top:12px; right:16px; background:none; border:none; font-size:24px; color:rgba(43,37,89,.4); cursor:pointer; line-height:1; }
+  .wld-pop .fine { font-size:11.5px; color:rgba(43,37,89,.45); margin-top:12px; }
+  .wld-pop-ok { display:none; }
+  .wld-pop-ok.on { display:block; }
+  .wld-code { display:inline-block; background:#F3F0FD; border:1.5px dashed #8B5CF6; color:#6D4AE8; font-weight:800; letter-spacing:.14em; padding:10px 18px; border-radius:12px; font-size:19px; margin:6px 0 4px; }
+</style>
+
+<div class="wld-pop-ov" data-wld-pop>
+  <div class="wld-pop">
+    <button class="x" data-wld-pop-x aria-label="Close">&times;</button>
+    <div class="wld-pop-form">
+      <div class="emoji">🎁</div>
+      <h3>Get 10% Off + a Free Gift</h3>
+      <p>Join 1,839+ happy customers. Drop your email to unlock your instant discount and a surprise gift with your first order.</p>
+      {% form 'customer' %}
+        <input type="hidden" name="contact[tags]" value="newsletter,popup-10off">
+        <input type="email" name="contact[email]" placeholder="Your email address" required>
+        <button type="submit" class="sub">UNLOCK MY 10% OFF &rarr;</button>
+      {% endform %}
+      <div class="fine">No spam. Unsubscribe anytime. 💜</div>
+    </div>
+    <div class="wld-pop-ok">
+      <div class="emoji">🎉</div>
+      <h3>Here is your code!</h3>
+      <p>Use it at checkout for 10% off your entire order:</p>
+      <div class="wld-code">WELCOME10</div>
+      <p style="margin-top:14px"><a href="/collections/all" style="color:#FF6B35;font-weight:700;text-decoration:none">Start Shopping &rarr;</a></p>
+    </div>
+  </div>
+</div>
+
+{% raw %}
+<script>
+(function(){
+  function ready(fn){ if(document.readyState!=='loading'){fn();} else {document.addEventListener('DOMContentLoaded',fn);} }
+  var mem={};
+  function lsGet(k){ try{return localStorage.getItem(k);}catch(e){return mem[k]||null;} }
+  function lsSet(k,v){ try{localStorage.setItem(k,v);}catch(e){mem[k]=v;} }
+
+  // ---- Evergreen flash-sale countdown (shared by banner + product timers) ----
+  var KEY='wld_flash_end';
+  function getEnd(){
+    var e=parseInt(lsGet(KEY),10); var now=Date.now();
+    if(!e || isNaN(e) || e<now){ e=now+(2*3600+47*60+12)*1000; lsSet(KEY,String(e)); }
+    return e;
+  }
+  function two(n){ return (n<10?'0':'')+n; }
+  function tick(){
+    var s=Math.max(0,Math.floor((getEnd()-Date.now())/1000));
+    var txt=two(Math.floor(s/3600))+':'+two(Math.floor((s%3600)/60))+':'+two(s%60);
+    var els=document.querySelectorAll('[data-wld-countdown]');
+    for(var i=0;i<els.length;i++){ els[i].textContent=txt; }
+  }
+
+  // ---- Live viewers (FOMO) ----
+  function startFomo(){
+    var els=document.querySelectorAll('[data-wld-fomo]');
+    for(var i=0;i<els.length;i++){ (function(el){
+      var base=parseInt(el.textContent,10)||340;
+      setInterval(function(){ base+=Math.floor(Math.random()*7)-3; if(base<180)base=180; if(base>520)base=520; el.textContent=base; }, 2400+Math.random()*2200);
+    })(els[i]); }
+  }
+
+  // ---- Inject urgency + trust into each product buy block ----
+  function injectBuy(block){
+    if(block.dataset.wldUrg==='1') return; block.dataset.wldUrg='1';
+    var text=block.querySelector('.pfb-text');
+    var form=block.querySelector('[data-pfb-form]');
+    var guar=block.querySelector('.pfb-guar');
+    if(text){ var sub=document.createElement('p'); sub.className='wld-sub'; sub.innerHTML='Transform your stress into smiles. Join 1,839+ happy customers 💜'; text.insertAdjacentElement('afterend',sub); }
+    var urg=document.createElement('div'); urg.className='wld-urg';
+    urg.innerHTML='<div class="wld-timer">⏱️ FLASH SALE ENDS IN <b data-wld-countdown>02:47:12</b></div>'+
+      '<div class="wld-stock"><div class="wld-stock-top"><span>🔥 Almost gone — selling fast!</span><span>Only 5 left</span></div><div class="wld-stock-bar"><i></i></div></div>'+
+      '<div class="wld-fomo"><span class="dot"></span><span><b data-wld-fomo>347</b> people are viewing this right now</span></div>';
+    if(form){ form.parentNode.insertBefore(urg,form); } else if(text){ text.insertAdjacentElement('afterend',urg); }
+    if(form){ var ship=document.createElement('div'); ship.className='wld-ship'; ship.innerHTML='🚚 FREE WORLDWIDE SHIPPING INCLUDED'; form.insertAdjacentElement('afterend',ship); }
+    var trust=document.createElement('div'); trust.className='wld-trust';
+    trust.innerHTML='<span>🔒 SSL secure checkout</span><span>🛡️ 30-day money-back</span><span>↩️ Easy returns</span><span>💳 Visa · Mastercard</span>';
+    (guar||form||block).insertAdjacentElement('afterend',trust);
+  }
+
+  // ---- Cart free-shipping banner ----
+  function injectCart(){
+    var wrap=document.querySelector('.pf-cart .pf-wrap');
+    if(!wrap || wrap.dataset.wldShip==='1') return; wrap.dataset.wldShip='1';
+    var b=document.createElement('div'); b.className='wld-cart-ship';
+    b.innerHTML='✅ <span>FREE SHIPPING unlocked on your order — worldwide &amp; fully tracked.</span>';
+    var h1=wrap.querySelector('h1'); if(h1){ h1.insertAdjacentElement('afterend',b); } else { wrap.insertBefore(b,wrap.firstChild); }
+  }
+
+  // ---- Email capture popup ----
+  function initPopup(){
+    var ov=document.querySelector('[data-wld-pop]'); if(!ov) return;
+    function close(){ ov.classList.remove('on'); lsSet('wld_pop_seen','1'); }
+    var x=ov.querySelector('[data-wld-pop-x]'); if(x) x.addEventListener('click',close);
+    ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+    var form=ov.querySelector('form');
+    if(form) form.addEventListener('submit',function(e){
+      e.preventDefault();
+      try{ fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}}); }catch(err){}
+      var f=ov.querySelector('.wld-pop-form'); if(f) f.style.display='none';
+      var ok=ov.querySelector('.wld-pop-ok'); if(ok) ok.classList.add('on');
+      lsSet('wld_pop_seen','1');
+    });
+    if(lsGet('wld_pop_seen')!=='1'){ setTimeout(function(){ ov.classList.add('on'); }, 7000); }
+  }
+
+  ready(function(){
+    tick(); setInterval(tick,1000);
+    var blocks=document.querySelectorAll('.pfb-buy'); for(var i=0;i<blocks.length;i++){ injectBuy(blocks[i]); }
+    startFomo();
+    injectCart();
+    initPopup();
+  });
+})();
+</script>
+{% endraw %}

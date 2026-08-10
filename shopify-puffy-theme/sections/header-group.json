@@ -1,0 +1,54 @@
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "header": {
+      "type": "wld-puffy-header",
+      "settings": {
+        "show_announce": true,
+        "announce_text": "🚚 FREE WORLDWIDE SHIPPING · ⚡ FLASH SALE: -30% TODAY ONLY 🔥",
+        "logo_text": "Puffy",
+        "nav1_text": "Home",
+        "nav1_link": "",
+        "nav2_text": "Shop",
+        "nav2_link": "",
+        "nav3_text": "Our Story",
+        "nav3_link": "",
+        "nav4_text": "Reviews",
+        "nav4_link": "",
+        "nav5_text": "FAQ",
+        "nav5_link": ""
+      }
+    },
+    "1785815119590f8226": {
+      "type": "apps",
+      "blocks": {
+        "essential_countdown_timer_app_block_pfiBba": {
+          "type": "shopify://apps/essential-countdown-timer/blocks/app-block/722378e8-5a70-4eae-aa89-9e44e8e9f6de",
+          "settings": { "id": "cmse2nlv3007go5xmnnurnocx" }
+        },
+        "essential_estimated_app_block_yT3F3t": {
+          "type": "shopify://apps/essential-estimated/blocks/app-block/02a895dd-b5b5-4103-8966-c6914aa8309e",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "essential_countdown_timer_app_block_pfiBba",
+        "essential_estimated_app_block_yT3F3t"
+      ],
+      "settings": {}
+    },
+    "1785817561c111c859": {
+      "type": "apps",
+      "blocks": {
+        "conversion_bear_trust_badges_widget_aBzNXG": {
+          "type": "shopify://apps/conversion-bear-trust-badges/blocks/widget/163a9b59-0ec2-4cb7-bf5c-31408b4a9420",
+          "settings": {}
+        }
+      },
+      "block_order": [ "conversion_bear_trust_badges_widget_aBzNXG" ],
+      "settings": {}
+    }
+  },
+  "order": [ "header", "1785815119590f8226", "1785817561c111c859" ]
+}
