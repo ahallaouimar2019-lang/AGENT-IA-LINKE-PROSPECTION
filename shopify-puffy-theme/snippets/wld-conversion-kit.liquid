@@ -1,34 +1,5 @@
-{%- comment -%} Puffy Conversion Kit — native urgency, FOMO, trust & email popup. Injected globally before </body>. Idempotent & self-contained. {%- endcomment -%}
+{%- comment -%} Puffy Conversion Kit — drives countdown + live viewers, cart free-shipping banner & email popup. Product urgency/trust/payment now live natively in the buy block. {%- endcomment -%}
 <style>
-  .pfb-cta { background:#FF6B35 !important; box-shadow:0 20px 50px rgba(255,107,53,.30) !important; }
-  .pfb-cta:hover { background:#E85826 !important; }
-  .pfb-price { color:#FF6B35 !important; }
-  .wld-sub { font-size:15px; font-weight:600; color:#6D4AE8; margin:2px 0 14px; }
-  .wld-urg { display:flex; flex-direction:column; gap:12px; margin:18px 0; }
-  .wld-timer { display:flex; align-items:center; gap:10px; justify-content:center; background:linear-gradient(135deg,#FF3B30,#E03131); color:#fff; font-weight:800; letter-spacing:.02em; padding:12px 16px; border-radius:14px; box-shadow:0 10px 24px rgba(224,49,49,.28); font-size:14.5px; text-align:center; }
-  .wld-timer b { font-variant-numeric:tabular-nums; font-size:17px; margin-left:2px; }
-  .wld-stock { background:#FFF1F0; border:1px solid #FFD5D1; border-radius:14px; padding:12px 14px; }
-  .wld-stock-top { display:flex; justify-content:space-between; gap:10px; font-size:13px; font-weight:700; color:#C92A2A; margin-bottom:8px; }
-  .wld-stock-bar { height:8px; border-radius:99px; background:#FFDAD6; overflow:hidden; }
-  .wld-stock-bar i { display:block; height:100%; width:95%; background:linear-gradient(90deg,#FF6B35,#E03131); border-radius:99px; }
-  .wld-fomo { display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:600; color:#2B2559; justify-content:center; }
-  .wld-fomo .dot { width:9px; height:9px; border-radius:50%; background:#16A34A; animation:wldpulse 1.6s infinite; }
-  @keyframes wldpulse { 0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)} 70%{box-shadow:0 0 0 8px rgba(22,163,74,0)} 100%{box-shadow:0 0 0 0 rgba(22,163,74,0)} }
-  .wld-ship { display:inline-flex; align-items:center; gap:8px; background:#EAF7EE; color:#12833B; font-weight:800; font-size:13px; padding:9px 16px; border-radius:99px; margin-top:14px; }
-  .wld-trust { display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:14px; font-size:12.5px; font-weight:600; color:rgba(43,37,89,.7); }
-  .wld-pay { margin-top:16px; padding-top:16px; border-top:1px solid #EFEBFA; text-align:center; }
-  .wld-pay-label { font-size:12px; font-weight:700; color:rgba(43,37,89,.6); margin-bottom:10px; }
-  .wld-pay-row { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
-  .wld-card { height:26px; min-width:44px; padding:0 9px; background:#fff; border:1px solid #E9E3FB; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; font-family:Arial,Helvetica,sans-serif; font-weight:800; font-size:12px; box-shadow:0 1px 2px rgba(0,0,0,.05); }
-  .wld-visa { color:#1A1F71; font-style:italic; letter-spacing:.5px; }
-  .wld-amex { color:#1F72CF; font-size:10px; letter-spacing:.5px; }
-  .wld-pp { color:#003087; font-style:italic; font-size:11.5px; }
-  .wld-pp b { color:#009CDE; font-weight:800; }
-  .wld-apay { color:#111; font-size:11px; }
-  .wld-mc { padding:0 11px; }
-  .wld-mc i { width:15px; height:15px; border-radius:50%; display:block; }
-  .wld-mc i:first-child { background:#EB001B; }
-  .wld-mc i:last-child { background:#F79E1B; margin-left:-7px; mix-blend-mode:multiply; }
   .wld-cart-ship { display:flex; align-items:center; gap:10px; background:#EAF7EE; color:#12833B; font-weight:800; border:1px solid #BBE9C9; border-radius:16px; padding:14px 18px; margin-bottom:22px; }
   .wld-pop-ov { position:fixed; inset:0; background:rgba(43,37,89,.55); display:none; align-items:center; justify-content:center; z-index:99999; padding:20px; }
   .wld-pop-ov.on { display:flex; }
@@ -77,7 +48,6 @@
   function lsGet(k){ try{return localStorage.getItem(k);}catch(e){return mem[k]||null;} }
   function lsSet(k,v){ try{localStorage.setItem(k,v);}catch(e){mem[k]=v;} }
 
-  // ---- Evergreen flash-sale countdown (shared by banner + product timers) ----
   var KEY='wld_flash_end_15';
   var DURATION=15*60*1000;
   function getEnd(){
@@ -93,7 +63,6 @@
     for(var i=0;i<els.length;i++){ els[i].textContent=txt; }
   }
 
-  // ---- Live viewers (FOMO) ----
   function startFomo(){
     var els=document.querySelectorAll('[data-wld-fomo]');
     for(var i=0;i<els.length;i++){ (function(el){
@@ -102,35 +71,6 @@
     })(els[i]); }
   }
 
-  // ---- Inject urgency + trust into each product buy block ----
-  function injectBuy(block){
-    if(block.dataset.wldUrg==='1') return; block.dataset.wldUrg='1';
-    var text=block.querySelector('.pfb-text');
-    var form=block.querySelector('[data-pfb-form]');
-    var guar=block.querySelector('.pfb-guar');
-    if(text){ var sub=document.createElement('p'); sub.className='wld-sub'; sub.innerHTML='Transform your stress into smiles. Join 1,839+ happy customers 💜'; text.insertAdjacentElement('afterend',sub); }
-    var urg=document.createElement('div'); urg.className='wld-urg';
-    urg.innerHTML='<div class="wld-timer">⏱️ FLASH SALE ENDS IN <b data-wld-countdown>00:15:00</b></div>'+
-      '<div class="wld-stock"><div class="wld-stock-top"><span>🔥 Almost gone — selling fast!</span><span>Only 5 left</span></div><div class="wld-stock-bar"><i></i></div></div>'+
-      '<div class="wld-fomo"><span class="dot"></span><span><b data-wld-fomo>347</b> people are viewing this right now</span></div>';
-    if(form){ form.parentNode.insertBefore(urg,form); } else if(text){ text.insertAdjacentElement('afterend',urg); }
-    if(form){ var ship=document.createElement('div'); ship.className='wld-ship'; ship.innerHTML='🚚 FREE WORLDWIDE SHIPPING INCLUDED'; form.insertAdjacentElement('afterend',ship); }
-    var trust=document.createElement('div'); trust.className='wld-trust';
-    trust.innerHTML='<span>🔒 SSL secure checkout</span><span>🛡️ 30-day money-back</span><span>↩️ Easy returns</span>';
-    (guar||form||block).insertAdjacentElement('afterend',trust);
-    var pay=document.createElement('div'); pay.className='wld-pay';
-    pay.innerHTML='<div class="wld-pay-label">🔒 Guaranteed safe &amp; secure checkout</div>'+
-      '<div class="wld-pay-row">'+
-      '<span class="wld-card wld-visa">VISA</span>'+
-      '<span class="wld-card wld-mc"><i></i><i></i></span>'+
-      '<span class="wld-card wld-amex">AMEX</span>'+
-      '<span class="wld-card wld-pp">Pay<b>Pal</b></span>'+
-      '<span class="wld-card wld-apay">Apple Pay</span>'+
-      '</div>';
-    trust.insertAdjacentElement('afterend',pay);
-  }
-
-  // ---- Cart free-shipping banner ----
   function injectCart(){
     var wrap=document.querySelector('.pf-cart .pf-wrap');
     if(!wrap || wrap.dataset.wldShip==='1') return; wrap.dataset.wldShip='1';
@@ -139,7 +79,6 @@
     var h1=wrap.querySelector('h1'); if(h1){ h1.insertAdjacentElement('afterend',b); } else { wrap.insertBefore(b,wrap.firstChild); }
   }
 
-  // ---- Email capture popup ----
   function initPopup(){
     var ov=document.querySelector('[data-wld-pop]'); if(!ov) return;
     function close(){ ov.classList.remove('on'); lsSet('wld_pop_seen','1'); }
@@ -158,7 +97,6 @@
 
   ready(function(){
     tick(); setInterval(tick,1000);
-    var blocks=document.querySelectorAll('.pfb-buy'); for(var i=0;i<blocks.length;i++){ injectBuy(blocks[i]); }
     startFomo();
     injectCart();
     initPopup();
