@@ -10,6 +10,10 @@
   elsif pfb_product.handle contains 'catmallow'
     assign stock_left = 13
   endif
+  assign use_section = false
+  if section.settings.image1 != blank
+    assign use_section = true
+  endif
 -%}
 
 <div id="pfb-{{ section.id }}" class="pfb-root">
@@ -18,36 +22,40 @@
 
       <div class="pfb-gallery">
         <div class="pfb-thumbs" data-pfb-thumbs>
-          {%- for i in (1..5) -%}
-            {%- assign ik = 'image' | append: i -%}
-            {%- assign img = section.settings[ik] -%}
-            {%- if img or forloop.first -%}
-            <button type="button" class="pfb-thumb{% if forloop.first %} pfb-on{% endif %}" data-pfb-t="{{ forloop.index0 }}">
-              {%- if img -%}
-                {{ img | image_url: width: 200 | image_tag: loading: 'lazy' }}
-              {%- else -%}
-                <span class="pfb-tph">🐱</span>
+          {%- if use_section -%}
+            {%- for i in (1..5) -%}
+              {%- assign ik = 'image' | append: i -%}
+              {%- assign img = section.settings[ik] -%}
+              {%- if img or forloop.first -%}
+              <button type="button" class="pfb-thumb{% if forloop.first %} pfb-on{% endif %}" data-pfb-t="{{ forloop.index0 }}">
+                {%- if img -%}{{ img | image_url: width: 200 | image_tag: loading: 'lazy' }}{%- else -%}<span class="pfb-tph">🐱</span>{%- endif -%}
+              </button>
               {%- endif -%}
-            </button>
-            {%- endif -%}
-          {%- endfor -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for media in pfb_product.images limit: 6 -%}
+              <button type="button" class="pfb-thumb{% if forloop.first %} pfb-on{% endif %}" data-pfb-t="{{ forloop.index0 }}">{{ media | image_url: width: 200 | image_tag: loading: 'lazy' }}</button>
+            {%- endfor -%}
+          {%- endif -%}
         </div>
         <div class="pfb-main">
-          {%- for i in (1..5) -%}
-            {%- assign ik = 'image' | append: i -%}
-            {%- assign img = section.settings[ik] -%}
-            {%- if img or forloop.first -%}
-            <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">
-              {%- if img -%}
-                {{ img | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'pfb-img' }}
-              {%- elsif pfb_product.featured_image -%}
-                {{ pfb_product.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'pfb-img' }}
-              {%- else -%}
-                <div class="pfb-ph">🐱 Image {{ i }}</div>
+          {%- if use_section -%}
+            {%- for i in (1..5) -%}
+              {%- assign ik = 'image' | append: i -%}
+              {%- assign img = section.settings[ik] -%}
+              {%- if img or forloop.first -%}
+              {%- if forloop.first -%}{%- assign ld = 'eager' -%}{%- else -%}{%- assign ld = 'lazy' -%}{%- endif -%}
+              <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">
+                {%- if img -%}{{ img | image_url: width: 1000 | image_tag: loading: ld, class: 'pfb-img' }}{%- elsif pfb_product.featured_image -%}{{ pfb_product.featured_image | image_url: width: 1000 | image_tag: loading: ld, class: 'pfb-img' }}{%- else -%}<div class="pfb-ph">🐱 Image {{ i }}</div>{%- endif -%}
+              </div>
               {%- endif -%}
-            </div>
-            {%- endif -%}
-          {%- endfor -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for media in pfb_product.images limit: 6 -%}
+              {%- if forloop.first -%}{%- assign ld = 'eager' -%}{%- else -%}{%- assign ld = 'lazy' -%}{%- endif -%}
+              <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">{{ media | image_url: width: 1000 | image_tag: loading: ld, class: 'pfb-img' }}</div>
+            {%- endfor -%}
+          {%- endif -%}
         </div>
       </div>
 
@@ -155,10 +163,11 @@
 #pfb-{{ section.id }} .pfb-thumb.pfb-on{border-color:var(--p);box-shadow:var(--sh)}
 #pfb-{{ section.id }} .pfb-thumb img{width:100%;height:100%;object-fit:cover}
 #pfb-{{ section.id }} .pfb-tph{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:22px;background:var(--lav2)}
-#pfb-{{ section.id }} .pfb-main{position:relative;flex:1;min-width:0}
+#pfb-{{ section.id }} .pfb-main{position:relative;flex:1;min-width:0;background:#F3F0FD;border-radius:var(--r)}
 #pfb-{{ section.id }} .pfb-slide{display:none}
 #pfb-{{ section.id }} .pfb-slide.pfb-on{display:block}
 #pfb-{{ section.id }} .pfb-img{width:100%;border-radius:var(--r);box-shadow:var(--shl)}
+#pfb-{{ section.id }} .pfb-img{object-fit:contain !important}
 #pfb-{{ section.id }} .pfb-ph{aspect-ratio:1/1;border-radius:var(--r);background:linear-gradient(135deg,var(--lav2),#DDD3F9);display:flex;align-items:center;justify-content:center;font-weight:600;color:rgba(43,37,89,.45);font-size:30px}
 #pfb-{{ section.id }} .pfb-info{min-width:0}
 #pfb-{{ section.id }} .pfb-badge{display:inline-block;background:#fff;color:var(--p);font-weight:700;font-size:12px;padding:6px 14px;border-radius:999px;box-shadow:var(--sh)}
@@ -235,19 +244,25 @@
     root.dataset.pfbInit = '1';
     var thumbs  = root.querySelector('[data-pfb-thumbs]');
     var bundles = root.querySelector('[data-pfb-bundles]');
+    var slides  = root.querySelectorAll('[data-pfb-img]');
     var vin = root.querySelector('[data-pfb-vinput]');
     var qin = root.querySelector('[data-pfb-qinput]');
     var pr  = root.querySelector('[data-pfb-pr]');
     var cp  = root.querySelector('[data-pfb-cp]');
     var sv  = root.querySelector('[data-pfb-sv]');
+    var cur = 0;
 
     function showImg(i) {
-      root.querySelectorAll('[data-pfb-img]').forEach(function (s) { s.classList.toggle('pfb-on', s.getAttribute('data-pfb-img') === String(i)); });
-      root.querySelectorAll('.pfb-thumb').forEach(function (t) { t.classList.toggle('pfb-on', t.getAttribute('data-pfb-t') === String(i)); });
+      cur = parseInt(i, 10) || 0;
+      root.querySelectorAll('[data-pfb-img]').forEach(function (s) { s.classList.toggle('pfb-on', s.getAttribute('data-pfb-img') === String(cur)); });
+      root.querySelectorAll('.pfb-thumb').forEach(function (t) { t.classList.toggle('pfb-on', t.getAttribute('data-pfb-t') === String(cur)); });
     }
     if (thumbs) thumbs.addEventListener('click', function (e) {
       var b = e.target.closest('.pfb-thumb'); if (b) showImg(b.getAttribute('data-pfb-t'));
     });
+    if (slides.length > 1) {
+      setInterval(function () { showImg((cur + 1) % slides.length); }, 3500);
+    }
 
     function selectBundle(b) {
       if (!b || b.hasAttribute('disabled')) return;
@@ -303,6 +318,7 @@
     { "type": "image_picker", "id": "image3", "label": "Image 3" },
     { "type": "image_picker", "id": "image4", "label": "Image 4" },
     { "type": "image_picker", "id": "image5", "label": "Image 5" },
+    { "type": "paragraph", "content": "Laisse vide pour afficher automatiquement toutes les images du produit." },
     { "type": "header", "content": "📦 Vignettes des packs" },
     { "type": "paragraph", "content": "Petite image affichée sur chaque pack. Pack 1 = 1 peluche, Pack 2 = 2 peluches, Pack 3 = 3 peluches." },
     { "type": "image_picker", "id": "bundle_img1", "label": "Pack 1 — 1 peluche" },
