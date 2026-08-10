@@ -17,23 +17,6 @@
     <div class="pfb-container pfb-grid">
 
       <div class="pfb-gallery">
-        <div class="pfb-main">
-          {%- for i in (1..5) -%}
-            {%- assign ik = 'image' | append: i -%}
-            {%- assign img = section.settings[ik] -%}
-            {%- if img or forloop.first -%}
-            <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">
-              {%- if img -%}
-                {{ img | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'pfb-img' }}
-              {%- elsif pfb_product.featured_image -%}
-                {{ pfb_product.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'pfb-img' }}
-              {%- else -%}
-                <div class="pfb-ph">🐱 Image {{ i }}</div>
-              {%- endif -%}
-            </div>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
         <div class="pfb-thumbs" data-pfb-thumbs>
           {%- for i in (1..5) -%}
             {%- assign ik = 'image' | append: i -%}
@@ -49,9 +32,26 @@
             {%- endif -%}
           {%- endfor -%}
         </div>
+        <div class="pfb-main">
+          {%- for i in (1..5) -%}
+            {%- assign ik = 'image' | append: i -%}
+            {%- assign img = section.settings[ik] -%}
+            {%- if img or forloop.first -%}
+            <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">
+              {%- if img -%}
+                {{ img | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'pfb-img' }}
+              {%- elsif pfb_product.featured_image -%}
+                {{ pfb_product.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'pfb-img' }}
+              {%- else -%}
+                <div class="pfb-ph">🐱 Image {{ i }}</div>
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
       </div>
 
-      <div>
+      <div class="pfb-info">
         <span class="pfb-badge">{{ section.settings.badge }}</span>
         <h2 class="pfb-title">{{ section.settings.title }}</h2>
         <div class="pfb-rating"><span class="pfb-stars">★★★★★</span><span>{{ section.settings.rating_text }}</span></div>
@@ -80,7 +80,7 @@
                 data-pfb-save="{% if has_comp %}{{ section.settings.save_prefix }} {{ v.compare_at_price | minus: v.price | money }} {{ section.settings.save_suffix }}{% endif %}">
                 {%- if forloop.index == 2 -%}<span class="pfb-flag">⭐ MOST POPULAR</span>{%- elsif forloop.index > 2 -%}<span class="pfb-flag pfb-flag2">🏆 BEST VALUE</span>{%- endif -%}
                 <span class="pfb-radio"></span>
-                {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 180 }}" alt="" loading="lazy" width="56" height="56">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 180 }}" alt="" loading="lazy" width="56" height="56">{%- endif -%}
+                {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- endif -%}
                 <span class="pfb-binfo">{{ v.title }}{% unless v.available %} — {{ section.settings.oos_label }}{% endunless %}</span>
                 <span class="pfb-bprice">{%- if has_comp -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}<b>{{ v.price | money }}</b></span>
               </button>
@@ -95,7 +95,7 @@
             -%}
             <button type="button" class="pfb-bundle pfb-on" data-pfb-vid="{{ pfb_first.id }}" data-pfb-price="{{ pfb_first.price | money }}" data-pfb-comp="{% if has_comp %}{{ pfb_first.compare_at_price | money }}{% endif %}" data-pfb-save="{% if has_comp %}{{ section.settings.save_prefix }} {{ pfb_first.compare_at_price | minus: pfb_first.price | money }} {{ section.settings.save_suffix }}{% endif %}">
               <span class="pfb-radio"></span>
-              {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 180 }}" alt="" loading="lazy" width="56" height="56">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 180 }}" alt="" loading="lazy" width="56" height="56">{%- endif -%}
+              {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- endif -%}
               <span class="pfb-binfo">{{ pfb_product.title }}</span>
               <span class="pfb-bprice">{%- if has_comp -%}<s>{{ pfb_first.compare_at_price | money }}</s>{%- endif -%}<b>{{ pfb_first.price | money }}</b></span>
             </button>
@@ -143,85 +143,88 @@
 </div>
 
 {%- style -%}
-#pfb-{{ section.id }} { --p:#8B5CF6; --pd:#6D4AE8; --ink:#2B2559; --lav:#F3F0FD; --lav2:#E9E3FB; --r:20px; --sh:0 10px 30px rgba(75,52,160,.10); --shl:0 20px 50px rgba(139,92,246,.25); font-family:'Inter',-apple-system,sans-serif; color:var(--ink); line-height:1.6; font-size:16px; }
+#pfb-{{ section.id }} { --p:#8B5CF6; --pd:#6D4AE8; --ink:#2B2559; --lav:#F3F0FD; --lav2:#E9E3FB; --r:18px; --sh:0 10px 30px rgba(75,52,160,.10); --shl:0 16px 40px rgba(139,92,246,.22); font-family:'Inter',-apple-system,sans-serif; color:var(--ink); line-height:1.55; font-size:16px; }
 #pfb-{{ section.id }} *{box-sizing:border-box;margin:0}
 #pfb-{{ section.id }} img{max-width:100%;display:block}
-#pfb-{{ section.id }} .pfb-container{max-width:1180px;margin:0 auto;padding:0 24px}
-#pfb-{{ section.id }} .pfb-buy{background:linear-gradient(180deg,#fff 0%,var(--lav) 100%);padding:72px 0}
-#pfb-{{ section.id }} .pfb-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-#pfb-{{ section.id }} .pfb-gallery{position:sticky;top:24px}
-#pfb-{{ section.id }} .pfb-main{position:relative}
+#pfb-{{ section.id }} .pfb-container{max-width:1120px;margin:0 auto;padding:0 24px}
+#pfb-{{ section.id }} .pfb-buy{background:linear-gradient(180deg,#fff 0%,var(--lav) 100%);padding:44px 0}
+#pfb-{{ section.id }} .pfb-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:start}
+#pfb-{{ section.id }} .pfb-gallery{position:sticky;top:20px;display:flex;gap:12px;align-items:flex-start}
+#pfb-{{ section.id }} .pfb-thumbs{display:flex;flex-direction:column;gap:10px;flex:0 0 66px}
+#pfb-{{ section.id }} .pfb-thumb{width:66px;height:66px;border:2px solid var(--lav2);border-radius:12px;overflow:hidden;cursor:pointer;padding:0;background:#fff;transition:.2s}
+#pfb-{{ section.id }} .pfb-thumb.pfb-on{border-color:var(--p);box-shadow:var(--sh)}
+#pfb-{{ section.id }} .pfb-thumb img{width:100%;height:100%;object-fit:cover}
+#pfb-{{ section.id }} .pfb-tph{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:22px;background:var(--lav2)}
+#pfb-{{ section.id }} .pfb-main{position:relative;flex:1;min-width:0}
 #pfb-{{ section.id }} .pfb-slide{display:none}
 #pfb-{{ section.id }} .pfb-slide.pfb-on{display:block}
 #pfb-{{ section.id }} .pfb-img{width:100%;border-radius:var(--r);box-shadow:var(--shl)}
-#pfb-{{ section.id }} .pfb-ph{aspect-ratio:1/1;border-radius:var(--r);background:linear-gradient(135deg,var(--lav2),#DDD3F9);display:flex;align-items:center;justify-content:center;font-weight:600;color:rgba(43,37,89,.45);font-size:34px}
-#pfb-{{ section.id }} .pfb-thumbs{display:flex;gap:10px;margin-top:14px}
-#pfb-{{ section.id }} .pfb-thumb{flex:1;aspect-ratio:1/1;border:2px solid var(--lav2);border-radius:14px;overflow:hidden;cursor:pointer;padding:0;background:#fff;transition:.2s}
-#pfb-{{ section.id }} .pfb-thumb.pfb-on{border-color:var(--p);box-shadow:var(--sh)}
-#pfb-{{ section.id }} .pfb-thumb img{width:100%;height:100%;object-fit:cover}
-#pfb-{{ section.id }} .pfb-tph{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:24px;background:var(--lav2)}
-#pfb-{{ section.id }} .pfb-badge{display:inline-block;background:#fff;color:var(--p);font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;box-shadow:var(--sh)}
-#pfb-{{ section.id }} .pfb-title{font-family:'Poppins',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:clamp(28px,3.8vw,42px);line-height:1.1;margin:14px 0}
-#pfb-{{ section.id }} .pfb-rating{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;margin:8px 0 12px}
+#pfb-{{ section.id }} .pfb-ph{aspect-ratio:1/1;border-radius:var(--r);background:linear-gradient(135deg,var(--lav2),#DDD3F9);display:flex;align-items:center;justify-content:center;font-weight:600;color:rgba(43,37,89,.45);font-size:30px}
+#pfb-{{ section.id }} .pfb-info{min-width:0}
+#pfb-{{ section.id }} .pfb-badge{display:inline-block;background:#fff;color:var(--p);font-weight:700;font-size:12px;padding:6px 14px;border-radius:999px;box-shadow:var(--sh)}
+#pfb-{{ section.id }} .pfb-title{font-family:'Poppins',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:clamp(23px,2.6vw,32px);line-height:1.12;margin:10px 0 6px}
+#pfb-{{ section.id }} .pfb-rating{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;margin:4px 0 10px}
 #pfb-{{ section.id }} .pfb-stars{color:#FFB800;letter-spacing:2px}
-#pfb-{{ section.id }} .pfb-text{color:rgba(43,37,89,.75)}
-#pfb-{{ section.id }} .pfb-stock{background:#FFF1F0;border:1px solid #FFD5D1;border-radius:14px;padding:12px 14px;margin-top:16px}
-#pfb-{{ section.id }} .pfb-stock-top{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:700;color:#C92A2A;margin-bottom:8px}
-#pfb-{{ section.id }} .pfb-stock-bar{height:8px;border-radius:99px;background:#FFDAD6;overflow:hidden}
+#pfb-{{ section.id }} .pfb-text{color:rgba(43,37,89,.75);font-size:14.5px}
+#pfb-{{ section.id }} .pfb-stock{background:#FFF1F0;border:1px solid #FFD5D1;border-radius:12px;padding:10px 13px;margin-top:14px}
+#pfb-{{ section.id }} .pfb-stock-top{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;font-weight:700;color:#C92A2A;margin-bottom:7px}
+#pfb-{{ section.id }} .pfb-stock-bar{height:7px;border-radius:99px;background:#FFDAD6;overflow:hidden}
 #pfb-{{ section.id }} .pfb-stock-bar i{display:block;height:100%;width:95%;background:linear-gradient(90deg,#FF6B35,#E03131);border-radius:99px}
-#pfb-{{ section.id }} .pfb-fomo{display:flex;align-items:center;gap:8px;justify-content:center;font-size:13.5px;font-weight:600;color:var(--ink);margin-top:10px}
+#pfb-{{ section.id }} .pfb-fomo{display:flex;align-items:center;gap:8px;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);margin-top:9px}
 #pfb-{{ section.id }} .pfb-fomo .dot{width:9px;height:9px;border-radius:50%;background:#16A34A;animation:pfbpulse 1.6s infinite}
 @keyframes pfbpulse{0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)}70%{box-shadow:0 0 0 8px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
-#pfb-{{ section.id }} .pfb-choose{font-weight:600;font-size:14px;margin:18px 0 10px}
-#pfb-{{ section.id }} .pfb-bundles{display:flex;flex-direction:column;gap:14px;margin-top:8px}
-#pfb-{{ section.id }} .pfb-bundle{position:relative;display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:2px solid var(--lav2);border-radius:18px;padding:16px 20px;cursor:pointer;transition:.25s;font-family:inherit;font-size:15px;color:var(--ink);box-shadow:0 4px 14px rgba(75,52,160,.06)}
-#pfb-{{ section.id }} .pfb-bundle:hover{border-color:var(--p);transform:translateY(-1px)}
-#pfb-{{ section.id }} .pfb-bundle.pfb-on{border-color:var(--p);background:var(--lav);box-shadow:0 14px 34px rgba(139,92,246,.22);transform:translateY(-1px)}
+#pfb-{{ section.id }} .pfb-choose{font-weight:600;font-size:13.5px;margin:14px 0 8px}
+#pfb-{{ section.id }} .pfb-bundles{display:flex;flex-direction:column;gap:10px}
+#pfb-{{ section.id }} .pfb-bundle{position:relative;display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:2px solid var(--lav2);border-radius:15px;padding:12px 15px;cursor:pointer;transition:.22s;font-family:inherit;font-size:14.5px;color:var(--ink);box-shadow:0 3px 12px rgba(75,52,160,.06)}
+#pfb-{{ section.id }} .pfb-bundle:hover{border-color:var(--p)}
+#pfb-{{ section.id }} .pfb-bundle.pfb-on{border-color:var(--p);background:var(--lav);box-shadow:0 10px 26px rgba(139,92,246,.2)}
 #pfb-{{ section.id }} .pfb-bundle.pfb-oos{opacity:.45;cursor:not-allowed}
-#pfb-{{ section.id }} .pfb-radio{flex:0 0 20px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--lav2);background:#fff;transition:.25s}
+#pfb-{{ section.id }} .pfb-radio{flex:0 0 19px;width:19px;height:19px;border-radius:50%;border:1.5px solid var(--lav2);background:#fff;transition:.22s}
 #pfb-{{ section.id }} .pfb-bundle.pfb-on .pfb-radio{border:6px solid var(--p)}
-#pfb-{{ section.id }} .pfb-bthumb{flex:0 0 56px;width:56px;height:56px;border-radius:12px;object-fit:cover;background:#fff;border:1.5px solid var(--lav2);box-shadow:0 3px 10px rgba(75,52,160,.14)}
+#pfb-{{ section.id }} .pfb-bthumb{flex:0 0 48px;width:48px;height:48px;border-radius:10px;object-fit:cover;background:#fff;border:1.5px solid var(--lav2);box-shadow:0 2px 8px rgba(75,52,160,.12)}
 #pfb-{{ section.id }} .pfb-bundle.pfb-on .pfb-bthumb{border-color:var(--p)}
-#pfb-{{ section.id }} .pfb-binfo{flex:1;font-weight:600;font-size:15.5px}
-#pfb-{{ section.id }} .pfb-bprice{text-align:right;display:flex;flex-direction:column;line-height:1.35}
-#pfb-{{ section.id }} .pfb-bprice s{color:rgba(43,37,89,.4);font-size:13px}
-#pfb-{{ section.id }} .pfb-bprice b{font-size:18px;color:#FF6B35}
-#pfb-{{ section.id }} .pfb-flag{position:absolute;top:-12px;right:16px;background:linear-gradient(135deg,#8B5CF6,#6D4AE8);color:#fff;font-size:12.5px;font-weight:800;letter-spacing:.03em;padding:6px 16px;border-radius:999px;box-shadow:0 8px 22px rgba(139,92,246,.55);text-shadow:0 1px 2px rgba(0,0,0,.18);z-index:3;animation:pfbglow 2s ease-in-out infinite}
-@keyframes pfbglow{0%,100%{box-shadow:0 8px 22px rgba(139,92,246,.45)}50%{box-shadow:0 10px 32px rgba(139,92,246,.85)}}
-#pfb-{{ section.id }} .pfb-flag2{background:linear-gradient(135deg,#14122E,#2B2559);color:#F5C542;border:1px solid rgba(245,197,66,.55);box-shadow:0 8px 22px rgba(20,18,46,.5);text-shadow:none;animation:none}
-#pfb-{{ section.id }} .pfb-flash{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#FF3B30,#E03131);color:#fff;font-weight:800;font-size:14.5px;letter-spacing:.02em;padding:13px 16px;border-radius:14px;box-shadow:0 10px 26px rgba(224,49,49,.3);margin:20px 0 6px;text-align:center}
-#pfb-{{ section.id }} .pfb-flash b{font-variant-numeric:tabular-nums;font-size:18px}
-#pfb-{{ section.id }} .pfb-price-row{display:flex;align-items:baseline;gap:12px;margin:10px 0 16px}
-#pfb-{{ section.id }} .pfb-price{font-family:'Poppins',sans-serif;font-size:32px;font-weight:700;color:#FF6B35;transition:opacity .25s}
-#pfb-{{ section.id }} .pfb-comp{color:rgba(43,37,89,.38);font-size:17px}
+#pfb-{{ section.id }} .pfb-binfo{flex:1;font-weight:600;font-size:14.5px}
+#pfb-{{ section.id }} .pfb-bprice{text-align:right;display:flex;flex-direction:column;line-height:1.3}
+#pfb-{{ section.id }} .pfb-bprice s{color:rgba(43,37,89,.4);font-size:12.5px}
+#pfb-{{ section.id }} .pfb-bprice b{font-size:17px;color:#FF6B35}
+#pfb-{{ section.id }} .pfb-flag{position:absolute;top:-11px;right:14px;background:linear-gradient(135deg,#8B5CF6,#6D4AE8);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.03em;padding:5px 13px;border-radius:999px;box-shadow:0 7px 18px rgba(139,92,246,.55);text-shadow:0 1px 2px rgba(0,0,0,.18);z-index:3;animation:pfbglow 2s ease-in-out infinite}
+@keyframes pfbglow{0%,100%{box-shadow:0 7px 18px rgba(139,92,246,.45)}50%{box-shadow:0 9px 28px rgba(139,92,246,.85)}}
+#pfb-{{ section.id }} .pfb-flag2{background:linear-gradient(135deg,#14122E,#2B2559);color:#F5C542;border:1px solid rgba(245,197,66,.55);box-shadow:0 7px 18px rgba(20,18,46,.5);text-shadow:none;animation:none}
+#pfb-{{ section.id }} .pfb-flash{display:flex;align-items:center;justify-content:center;gap:9px;background:linear-gradient(135deg,#FF3B30,#E03131);color:#fff;font-weight:800;font-size:13.5px;letter-spacing:.02em;padding:11px 15px;border-radius:12px;box-shadow:0 8px 22px rgba(224,49,49,.28);margin:14px 0 4px;text-align:center}
+#pfb-{{ section.id }} .pfb-flash b{font-variant-numeric:tabular-nums;font-size:16px}
+#pfb-{{ section.id }} .pfb-price-row{display:flex;align-items:baseline;gap:11px;margin:10px 0 12px}
+#pfb-{{ section.id }} .pfb-price{font-family:'Poppins',sans-serif;font-size:28px;font-weight:700;color:#FF6B35;transition:opacity .25s}
+#pfb-{{ section.id }} .pfb-comp{color:rgba(43,37,89,.38);font-size:16px}
 #pfb-{{ section.id }} .pfb-comp:empty{display:none}
-#pfb-{{ section.id }} .pfb-save{background:var(--lav2);color:var(--p);font-size:12px;font-weight:600;padding:5px 14px;border-radius:999px}
+#pfb-{{ section.id }} .pfb-save{background:var(--lav2);color:var(--p);font-size:11.5px;font-weight:600;padding:5px 12px;border-radius:999px}
 #pfb-{{ section.id }} .pfb-save:empty{display:none}
-#pfb-{{ section.id }} .pfb-cta{width:100%;display:inline-flex;justify-content:center;align-items:center;gap:10px;background:#FF6B35;color:#fff;font-family:'Poppins',sans-serif;font-weight:600;font-size:16px;letter-spacing:.06em;text-transform:uppercase;border:none;padding:18px 40px;border-radius:999px;cursor:pointer;box-shadow:0 20px 50px rgba(255,107,53,.28);transition:.2s}
+#pfb-{{ section.id }} .pfb-cta{width:100%;display:inline-flex;justify-content:center;align-items:center;gap:10px;background:#FF6B35;color:#fff;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;letter-spacing:.05em;text-transform:uppercase;border:none;padding:15px 30px;border-radius:999px;cursor:pointer;box-shadow:0 16px 40px rgba(255,107,53,.26);transition:.2s}
 #pfb-{{ section.id }} .pfb-cta:hover{transform:translateY(-2px);background:#E85826}
 #pfb-{{ section.id }} .pfb-cta[disabled]{opacity:.5;cursor:not-allowed}
-#pfb-{{ section.id }} .pfb-express{margin-top:12px;animation:pfbshake 2.6s ease-in-out infinite;transform-origin:center}
+#pfb-{{ section.id }} .pfb-express{margin-top:10px;animation:pfbshake 2.6s ease-in-out infinite;transform-origin:center}
 @keyframes pfbshake{0%,84%,100%{transform:translateX(0)}86%{transform:translateX(-4px)}88%{transform:translateX(4px)}90%{transform:translateX(-4px)}92%{transform:translateX(4px)}94%{transform:translateX(-3px)}96%{transform:translateX(3px)}98%{transform:translateX(-1px)}}
-#pfb-{{ section.id }} .pfb-express .shopify-payment-button__button{border-radius:999px!important;font-family:'Poppins',sans-serif!important;font-weight:700!important;min-height:52px!important;font-size:16px!important}
-#pfb-{{ section.id }} .pfb-express .shopify-payment-button__more-options{margin-top:10px;font-size:14px;color:var(--p)}
-#pfb-{{ section.id }} .pfb-green{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:18px}
-#pfb-{{ section.id }} .pfb-green span{display:inline-flex;align-items:center;gap:7px;background:#D8F0E0;color:#0F7A38;font-weight:800;font-size:12.5px;letter-spacing:.02em;padding:8px 14px;border-radius:99px}
-#pfb-{{ section.id }} .pfb-pay{margin-top:18px;padding-top:18px;border-top:1px solid var(--lav2);text-align:center}
-#pfb-{{ section.id }} .pfb-pay-label{display:block;font-size:12.5px;font-weight:700;color:rgba(43,37,89,.6);margin-bottom:12px}
-#pfb-{{ section.id }} .pfb-pay-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-#pfb-{{ section.id }} .pfb-pay-icons .pfb-picon{height:34px;width:auto;border-radius:5px}
+#pfb-{{ section.id }} .pfb-express .shopify-payment-button__button{border-radius:999px!important;font-family:'Poppins',sans-serif!important;font-weight:700!important;min-height:50px!important;font-size:15px!important}
+#pfb-{{ section.id }} .pfb-express .shopify-payment-button__more-options{margin-top:9px;font-size:13.5px;color:var(--p)}
+#pfb-{{ section.id }} .pfb-green{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+#pfb-{{ section.id }} .pfb-green span{display:inline-flex;align-items:center;gap:7px;background:#D8F0E0;color:#0F7A38;font-weight:800;font-size:12px;letter-spacing:.02em;padding:8px 13px;border-radius:99px}
+#pfb-{{ section.id }} .pfb-pay{margin-top:14px;padding-top:14px;border-top:1px solid var(--lav2);text-align:center}
+#pfb-{{ section.id }} .pfb-pay-label{display:block;font-size:12px;font-weight:700;color:rgba(43,37,89,.6);margin-bottom:10px}
+#pfb-{{ section.id }} .pfb-pay-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:7px}
+#pfb-{{ section.id }} .pfb-pay-icons .pfb-picon{height:30px;width:auto;border-radius:5px}
 @media (prefers-reduced-motion: reduce){#pfb-{{ section.id }} .pfb-express{animation:none}}
 @media (max-width:900px){
-  #pfb-{{ section.id }} .pfb-buy{padding:52px 0}
-  #pfb-{{ section.id }} .pfb-grid{grid-template-columns:1fr;gap:32px}
+  #pfb-{{ section.id }} .pfb-buy{padding:34px 0}
+  #pfb-{{ section.id }} .pfb-grid{grid-template-columns:1fr;gap:26px}
   #pfb-{{ section.id }} .pfb-gallery{position:static}
 }
 @media (max-width:540px){
   #pfb-{{ section.id }} .pfb-container{padding:0 16px}
-  #pfb-{{ section.id }} .pfb-price{font-size:26px}
-  #pfb-{{ section.id }} .pfb-bthumb{flex:0 0 48px;width:48px;height:48px}
-  #pfb-{{ section.id }} .pfb-green span{font-size:11.5px;padding:7px 12px}
-  #pfb-{{ section.id }} .pfb-pay-icons .pfb-picon{height:30px}
+  #pfb-{{ section.id }} .pfb-gallery{flex-direction:column-reverse;gap:10px}
+  #pfb-{{ section.id }} .pfb-thumbs{flex-direction:row;flex:none}
+  #pfb-{{ section.id }} .pfb-thumb{flex:1;width:auto;height:auto;aspect-ratio:1/1}
+  #pfb-{{ section.id }} .pfb-price{font-size:25px}
+  #pfb-{{ section.id }} .pfb-green span{font-size:11px;padding:7px 11px}
+  #pfb-{{ section.id }} .pfb-pay-icons .pfb-picon{height:28px}
 }
 {%- endstyle -%}
 
