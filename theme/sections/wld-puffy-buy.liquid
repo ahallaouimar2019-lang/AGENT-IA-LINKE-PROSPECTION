@@ -1,0 +1,371 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+{%- liquid
+  if request.page_type == 'product'
+    assign pfb_product = product
+  else
+    assign pfb_product = section.settings.product | default: product
+  endif
+  assign pfb_first = pfb_product.selected_or_first_available_variant | default: pfb_product.variants.first
+  assign stock_left = 5
+  if pfb_product.handle contains 'mochi'
+    assign stock_left = 9
+  elsif pfb_product.handle contains 'catmallow'
+    assign stock_left = 13
+  endif
+  assign use_section = false
+  if section.settings.image1 != blank and request.page_type != 'product'
+    assign use_section = true
+  endif
+-%}
+
+<div id="pfb-{{ section.id }}" class="pfb-root">
+  <section class="pfb-buy" id="pfb-anchor-{{ section.id }}">
+    <div class="pfb-container pfb-grid">
+
+      <div class="pfb-gallery">
+        <div class="pfb-thumbs" data-pfb-thumbs>
+          {%- if use_section -%}
+            {%- for i in (1..5) -%}
+              {%- assign ik = 'image' | append: i -%}
+              {%- assign img = section.settings[ik] -%}
+              {%- if img or forloop.first -%}
+              <button type="button" class="pfb-thumb{% if forloop.first %} pfb-on{% endif %}" data-pfb-t="{{ forloop.index0 }}">
+                {%- if img -%}{{ img | image_url: width: 180 | image_tag: loading: 'lazy' }}{%- else -%}<span class="pfb-tph">🐱</span>{%- endif -%}
+              </button>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for media in pfb_product.images limit: 6 -%}
+              <button type="button" class="pfb-thumb{% if forloop.first %} pfb-on{% endif %}" data-pfb-t="{{ forloop.index0 }}">{{ media | image_url: width: 180 | image_tag: loading: 'lazy' }}</button>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+        <div class="pfb-main">
+          {%- if use_section -%}
+            {%- for i in (1..5) -%}
+              {%- assign ik = 'image' | append: i -%}
+              {%- assign img = section.settings[ik] -%}
+              {%- if img or forloop.first -%}
+              <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">
+                {%- if img -%}{{ img | image_url: width: 900 | image_tag: loading: 'eager', fetchpriority: 'low', class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}{%- elsif pfb_product.featured_image -%}{{ pfb_product.featured_image | image_url: width: 900 | image_tag: loading: 'eager', fetchpriority: 'low', class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}{%- else -%}<div class="pfb-ph">🐱 Image {{ i }}</div>{%- endif -%}
+              </div>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for media in pfb_product.images limit: 6 -%}
+              <div class="pfb-slide{% if forloop.first %} pfb-on{% endif %}" data-pfb-img="{{ forloop.index0 }}">{{ media | image_url: width: 900 | image_tag: loading: 'eager', fetchpriority: 'low', class: 'pfb-img', widths: '360, 540, 720, 900', sizes: '(max-width: 900px) 92vw, 46vw' }}</div>
+            {%- endfor -%}
+          {%- endif -%}
+          <button type="button" class="pfb-arrow pfb-prev" data-pfb-prev aria-label="Image précédente">‹</button>
+          <button type="button" class="pfb-arrow pfb-next" data-pfb-next aria-label="Image suivante">›</button>
+        </div>
+      </div>
+
+      <div class="pfb-info">
+        <span class="pfb-badge">{{ section.settings.badge }}</span>
+        <h2 class="pfb-title">{% if request.page_type == 'product' %}{{ pfb_product.title }}{% else %}{{ section.settings.title }}{% endif %}</h2>
+        <div class="pfb-rating"><span class="pfb-stars">★★★★★</span><span>{{ section.settings.rating_text }}</span></div>
+        <p class="pfb-text">{{ section.settings.text }}</p>
+
+        <div class="pfb-stock"><div class="pfb-stock-top"><span>🔥 Almost gone — selling fast!</span><span>Only {{ stock_left }} left</span></div><div class="pfb-stock-bar"><i></i></div></div>
+        <div class="pfb-fomo"><span class="dot"></span><span><b data-wld-fomo>342</b> people are viewing this right now</span></div>
+
+        <p class="pfb-choose">{{ section.settings.pack_label }}</p>
+        <div class="pfb-bundles" data-pfb-bundles>
+          {%- if pfb_product and pfb_product.variants.size > 1 -%}
+            {%- for v in pfb_product.variants limit: 6 -%}
+              {%- liquid
+                assign has_comp = false
+                if v.compare_at_price and v.compare_at_price > v.price
+                  assign has_comp = true
+                endif
+                assign bimg_key = 'bundle_img' | append: forloop.index
+                assign bimg = section.settings[bimg_key]
+              -%}
+              <button type="button" class="pfb-bundle{% if forloop.first %} pfb-on{% endif %}{% unless v.available %} pfb-oos{% endunless %}"
+                {% unless v.available %}disabled{% endunless %}
+                data-pfb-vid="{{ v.id }}"
+                data-pfb-price="{{ v.price | money }}"
+                data-pfb-comp="{% if has_comp %}{{ v.compare_at_price | money }}{% endif %}"
+                data-pfb-save="{% if has_comp %}{{ section.settings.save_prefix }} {{ v.compare_at_price | minus: v.price | money }} {{ section.settings.save_suffix }}{% endif %}">
+                {%- if forloop.index == 2 -%}<span class="pfb-flag">⭐ MOST POPULAR</span>{%- elsif forloop.index > 2 -%}<span class="pfb-flag pfb-flag2">🏆 BEST VALUE</span>{%- endif -%}
+                <span class="pfb-radio"></span>
+                {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- endif -%}
+                <span class="pfb-binfo">{{ v.title }}{% unless v.available %} — {{ section.settings.oos_label }}{% endunless %}</span>
+                <span class="pfb-bprice">{%- if has_comp -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}<b>{{ v.price | money }}</b></span>
+              </button>
+            {%- endfor -%}
+          {%- elsif pfb_product -%}
+            {%- liquid
+              assign has_comp = false
+              if pfb_first.compare_at_price and pfb_first.compare_at_price > pfb_first.price
+                assign has_comp = true
+              endif
+              assign bimg = section.settings.bundle_img1
+            -%}
+            <button type="button" class="pfb-bundle pfb-on" data-pfb-vid="{{ pfb_first.id }}" data-pfb-price="{{ pfb_first.price | money }}" data-pfb-comp="{% if has_comp %}{{ pfb_first.compare_at_price | money }}{% endif %}" data-pfb-save="{% if has_comp %}{{ section.settings.save_prefix }} {{ pfb_first.compare_at_price | minus: pfb_first.price | money }} {{ section.settings.save_suffix }}{% endif %}">
+              <span class="pfb-radio"></span>
+              {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- endif -%}
+              <span class="pfb-binfo">{{ pfb_product.title }}</span>
+              <span class="pfb-bprice">{%- if has_comp -%}<s>{{ pfb_first.compare_at_price | money }}</s>{%- endif -%}<b>{{ pfb_first.price | money }}</b></span>
+            </button>
+          {%- endif -%}
+        </div>
+
+        <div class="pfb-flash">⏱️ FLASH SALE ENDS IN <b data-wld-countdown>00:15:00</b></div>
+
+        <div class="pfb-price-row">
+          {%- liquid
+            assign f_comp = false
+            if pfb_first.compare_at_price and pfb_first.compare_at_price > pfb_first.price
+              assign f_comp = true
+            endif
+          -%}
+          <b class="pfb-price" data-pfb-pr>{{ pfb_first.price | money }}</b>
+          <s class="pfb-comp" data-pfb-cp>{% if f_comp %}{{ pfb_first.compare_at_price | money }}{% endif %}</s>
+          <span class="pfb-save" data-pfb-sv>{% if f_comp %}{{ section.settings.save_prefix }} {{ pfb_first.compare_at_price | minus: pfb_first.price | money }} {{ section.settings.save_suffix }}{% endif %}</span>
+        </div>
+
+        {%- if pfb_product -%}
+        {% form 'product', pfb_product %}
+          <input type="hidden" name="id" value="{{ pfb_first.id }}" data-pfb-vinput>
+          <input type="hidden" name="quantity" value="1" data-pfb-qinput>
+          <input type="hidden" name="return_to" value="/checkout">
+          <button type="submit" name="add" class="pfb-cta" data-pfb-cta>{{ section.settings.cta }}</button>
+          <div class="pfb-express">{{ form | payment_button }}</div>
+        {% endform %}
+        {%- else -%}
+        <button type="button" class="pfb-cta" disabled>⚠️ Sélectionne un produit dans les réglages</button>
+        {%- endif -%}
+
+        <div class="pfb-green">
+          <span>🚚 FREE WORLDWIDE SHIPPING</span>
+          <span>🛡️ 30-day money-back guarantee</span>
+          <span>🔒 SSL secure checkout</span>
+        </div>
+        <div class="pfb-pay">
+          <span class="pfb-pay-label">🔒 Guaranteed safe &amp; secure checkout</span>
+          <div class="pfb-pay-icons">{%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'pfb-picon' }}{%- endfor -%}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{%- style -%}
+#pfb-{{ section.id }} { --p:#8B5CF6; --pd:#6D4AE8; --ink:#2B2559; --lav:#F3F0FD; --lav2:#E9E3FB; --r:18px; --sh:0 10px 30px rgba(75,52,160,.10); --shl:0 16px 40px rgba(139,92,246,.22); font-family:'Inter',-apple-system,sans-serif; color:var(--ink); line-height:1.55; font-size:16px; overflow-x:clip; }
+#pfb-{{ section.id }} *{box-sizing:border-box;margin:0}
+#pfb-{{ section.id }} img{max-width:100%;display:block}
+#pfb-{{ section.id }} .pfb-container{max-width:1120px;margin:0 auto;padding:0 24px}
+#pfb-{{ section.id }} .pfb-buy{background:linear-gradient(180deg,#fff 0%,var(--lav) 100%);padding:44px 0}
+#pfb-{{ section.id }} .pfb-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:start}
+#pfb-{{ section.id }} .pfb-gallery{position:sticky;top:20px;display:flex;gap:12px;align-items:flex-start}
+#pfb-{{ section.id }} .pfb-thumbs{display:flex;flex-direction:column;gap:10px;flex:0 0 66px}
+#pfb-{{ section.id }} .pfb-thumb{width:66px;height:66px;border:2px solid var(--lav2);border-radius:12px;overflow:hidden;cursor:pointer;padding:0;background:#fff;transition:.2s}
+#pfb-{{ section.id }} .pfb-thumb.pfb-on{border-color:var(--p);box-shadow:var(--sh)}
+#pfb-{{ section.id }} .pfb-thumb img{width:100%;height:100%;object-fit:cover}
+#pfb-{{ section.id }} .pfb-tph{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:22px;background:var(--lav2)}
+#pfb-{{ section.id }} .pfb-main{position:relative;flex:1;min-width:0;background:#F3F0FD;border-radius:var(--r);overflow:hidden}
+#pfb-{{ section.id }} .pfb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,.92);color:var(--ink);font-size:24px;line-height:1;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(75,52,160,.2);display:flex;align-items:center;justify-content:center;padding-bottom:3px;transition:.18s}
+#pfb-{{ section.id }} .pfb-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+#pfb-{{ section.id }} .pfb-prev{left:10px}
+#pfb-{{ section.id }} .pfb-next{right:10px}
+#pfb-{{ section.id }} .pfb-slide{display:none}
+#pfb-{{ section.id }} .pfb-slide.pfb-on{display:block}
+#pfb-{{ section.id }} .pfb-img{width:100%;height:auto;border-radius:var(--r);box-shadow:none;display:block}
+#pfb-{{ section.id }} .pfb-gallery .pfb-main{aspect-ratio:auto !important;height:auto !important}
+#pfb-{{ section.id }} .pfb-gallery .pfb-main .pfb-slide{height:auto !important}
+#pfb-{{ section.id }} .pfb-gallery .pfb-main .pfb-slide .pfb-img{width:100% !important;height:auto !important;object-fit:contain !important;aspect-ratio:auto !important}
+#pfb-{{ section.id }} .pfb-ph{aspect-ratio:1/1;border-radius:var(--r);background:linear-gradient(135deg,var(--lav2),#DDD3F9);display:flex;align-items:center;justify-content:center;font-weight:600;color:rgba(43,37,89,.45);font-size:30px}
+#pfb-{{ section.id }} .pfb-info{min-width:0}
+#pfb-{{ section.id }} .pfb-badge{display:inline-block;background:#fff;color:var(--p);font-weight:700;font-size:12px;padding:6px 14px;border-radius:999px;box-shadow:var(--sh)}
+#pfb-{{ section.id }} .pfb-title{font-family:'Poppins',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:clamp(23px,2.6vw,32px);line-height:1.12;margin:10px 0 6px}
+#pfb-{{ section.id }} .pfb-rating{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;margin:4px 0 10px}
+#pfb-{{ section.id }} .pfb-stars{color:#FFB800;letter-spacing:2px}
+#pfb-{{ section.id }} .pfb-text{color:rgba(43,37,89,.75);font-size:14.5px}
+#pfb-{{ section.id }} .pfb-stock{background:#FFF1F0;border:1px solid #FFD5D1;border-radius:12px;padding:10px 13px;margin-top:14px}
+#pfb-{{ section.id }} .pfb-stock-top{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;font-weight:700;color:#C92A2A;margin-bottom:7px}
+#pfb-{{ section.id }} .pfb-stock-bar{height:7px;border-radius:99px;background:#FFDAD6;overflow:hidden}
+#pfb-{{ section.id }} .pfb-stock-bar i{display:block;height:100%;width:95%;background:linear-gradient(90deg,#FF6B35,#E03131);border-radius:99px}
+#pfb-{{ section.id }} .pfb-fomo{display:flex;align-items:center;gap:8px;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);margin-top:9px}
+#pfb-{{ section.id }} .pfb-fomo .dot{width:9px;height:9px;border-radius:50%;background:#16A34A;animation:pfbpulse 1.6s infinite}
+@keyframes pfbpulse{0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)}70%{box-shadow:0 0 0 8px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+#pfb-{{ section.id }} .pfb-choose{font-weight:600;font-size:13.5px;margin:14px 0 8px}
+#pfb-{{ section.id }} .pfb-bundles{display:flex;flex-direction:column;gap:10px}
+#pfb-{{ section.id }} .pfb-bundle{position:relative;display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:2px solid var(--lav2);border-radius:15px;padding:12px 15px;cursor:pointer;transition:.22s;font-family:inherit;font-size:14.5px;color:var(--ink);box-shadow:0 3px 12px rgba(75,52,160,.06)}
+#pfb-{{ section.id }} .pfb-bundle:hover{border-color:var(--p)}
+#pfb-{{ section.id }} .pfb-bundle.pfb-on{border-color:var(--p);background:var(--lav);box-shadow:0 10px 26px rgba(139,92,246,.2)}
+#pfb-{{ section.id }} .pfb-bundle.pfb-oos{opacity:.45;cursor:not-allowed}
+#pfb-{{ section.id }} .pfb-radio{flex:0 0 19px;width:19px;height:19px;border-radius:50%;border:1.5px solid var(--lav2);background:#fff;transition:.22s}
+#pfb-{{ section.id }} .pfb-bundle.pfb-on .pfb-radio{border:6px solid var(--p)}
+#pfb-{{ section.id }} .pfb-bthumb{flex:0 0 48px;width:48px;height:48px;border-radius:10px;object-fit:cover;background:#fff;border:1.5px solid var(--lav2);box-shadow:0 2px 8px rgba(75,52,160,.12)}
+#pfb-{{ section.id }} .pfb-bundle.pfb-on .pfb-bthumb{border-color:var(--p)}
+#pfb-{{ section.id }} .pfb-binfo{flex:1;font-weight:600;font-size:14.5px}
+#pfb-{{ section.id }} .pfb-bprice{text-align:right;display:flex;flex-direction:column;line-height:1.3}
+#pfb-{{ section.id }} .pfb-bprice s{color:rgba(43,37,89,.4);font-size:12.5px}
+#pfb-{{ section.id }} .pfb-bprice b{font-size:17px;color:#FF6B35}
+#pfb-{{ section.id }} .pfb-flag{position:absolute;top:-11px;right:14px;background:linear-gradient(135deg,#8B5CF6,#6D4AE8);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.03em;padding:5px 13px;border-radius:999px;box-shadow:0 7px 18px rgba(139,92,246,.55);text-shadow:0 1px 2px rgba(0,0,0,.18);z-index:3;animation:pfbglow 2s ease-in-out infinite}
+@keyframes pfbglow{0%,100%{box-shadow:0 7px 18px rgba(139,92,246,.45)}50%{box-shadow:0 9px 28px rgba(139,92,246,.85)}}
+#pfb-{{ section.id }} .pfb-flag2{background:linear-gradient(135deg,#14122E,#2B2559);color:#F5C542;border:1px solid rgba(245,197,66,.55);box-shadow:0 7px 18px rgba(20,18,46,.5);text-shadow:none;animation:none}
+#pfb-{{ section.id }} .pfb-flash{display:flex;align-items:center;justify-content:center;gap:9px;background:linear-gradient(135deg,#FF3B30,#E03131);color:#fff;font-weight:800;font-size:13.5px;letter-spacing:.02em;padding:11px 15px;border-radius:12px;box-shadow:0 8px 22px rgba(224,49,49,.28);margin:14px 0 4px;text-align:center}
+#pfb-{{ section.id }} .pfb-flash b{font-variant-numeric:tabular-nums;font-size:16px}
+#pfb-{{ section.id }} .pfb-price-row{display:flex;align-items:baseline;gap:11px;margin:10px 0 12px}
+#pfb-{{ section.id }} .pfb-price{font-family:'Poppins',sans-serif;font-size:28px;font-weight:700;color:#FF6B35;transition:opacity .25s}
+#pfb-{{ section.id }} .pfb-comp{color:rgba(43,37,89,.38);font-size:16px}
+#pfb-{{ section.id }} .pfb-comp:empty{display:none}
+#pfb-{{ section.id }} .pfb-save{background:var(--lav2);color:var(--p);font-size:11.5px;font-weight:600;padding:5px 12px;border-radius:999px}
+#pfb-{{ section.id }} .pfb-save:empty{display:none}
+#pfb-{{ section.id }} .pfb-cta{width:100%;display:inline-flex;justify-content:center;align-items:center;gap:10px;background:#FF6B35;color:#fff;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;letter-spacing:.05em;text-transform:uppercase;border:none;padding:15px 30px;border-radius:999px;cursor:pointer;box-shadow:0 16px 40px rgba(255,107,53,.26);transition:.2s}
+#pfb-{{ section.id }} .pfb-cta:hover{transform:translateY(-2px);background:#E85826}
+#pfb-{{ section.id }} .pfb-cta[disabled]{opacity:.5;cursor:not-allowed}
+#pfb-{{ section.id }} .pfb-express{margin-top:10px;animation:pfbshake 1.8s ease-in-out infinite;transform-origin:center;will-change:transform}
+@keyframes pfbshake{0%,62%,100%{transform:translateX(0)}65%{transform:translateX(-7px)}68%{transform:translateX(7px)}71%{transform:translateX(-7px)}74%{transform:translateX(7px)}77%{transform:translateX(-5px)}80%{transform:translateX(5px)}83%{transform:translateX(-3px)}86%{transform:translateX(3px)}89%{transform:translateX(-1px)}}
+#pfb-{{ section.id }} .pfb-express .shopify-payment-button__button{border-radius:999px!important;font-family:'Poppins',sans-serif!important;font-weight:700!important;min-height:50px!important;font-size:15px!important}
+#pfb-{{ section.id }} .pfb-express .shopify-payment-button__more-options{margin-top:9px;font-size:13.5px;color:var(--p)}
+#pfb-{{ section.id }} .pfb-green{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+#pfb-{{ section.id }} .pfb-green span{display:inline-flex;align-items:center;gap:7px;background:#D8F0E0;color:#0F7A38;font-weight:800;font-size:12px;letter-spacing:.02em;padding:8px 13px;border-radius:99px}
+#pfb-{{ section.id }} .pfb-pay{margin-top:14px;padding-top:14px;border-top:1px solid var(--lav2);text-align:center}
+#pfb-{{ section.id }} .pfb-pay-label{display:block;font-size:12px;font-weight:700;color:rgba(43,37,89,.6);margin-bottom:10px}
+#pfb-{{ section.id }} .pfb-pay-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:7px}
+#pfb-{{ section.id }} .pfb-pay-icons .pfb-picon{height:30px;width:auto;border-radius:5px}
+@media (prefers-reduced-motion: reduce){#pfb-{{ section.id }} .pfb-express{animation:none}}
+@media (max-width:900px){
+  #pfb-{{ section.id }} .pfb-buy{padding:34px 0}
+  #pfb-{{ section.id }} .pfb-grid{grid-template-columns:1fr;gap:26px}
+  #pfb-{{ section.id }} .pfb-gallery{position:static}
+}
+@media (max-width:540px){
+  #pfb-{{ section.id }} .pfb-container{padding:0 16px}
+  #pfb-{{ section.id }} .pfb-gallery{flex-direction:column-reverse;gap:10px}
+  #pfb-{{ section.id }} .pfb-thumbs{flex-direction:row;flex:none}
+  #pfb-{{ section.id }} .pfb-thumb{flex:1;width:auto;height:auto;aspect-ratio:1/1}
+  #pfb-{{ section.id }} .pfb-arrow{width:36px;height:36px;font-size:21px}
+  #pfb-{{ section.id }} .pfb-price{font-size:25px}
+  #pfb-{{ section.id }} .pfb-green span{font-size:11px;padding:7px 11px}
+  #pfb-{{ section.id }} .pfb-pay-icons .pfb-picon{height:28px}
+}
+{%- endstyle -%}
+
+<script>
+(function () {
+  function init(root) {
+    if (!root || root.dataset.pfbInit === '1') return;
+    root.dataset.pfbInit = '1';
+    var thumbs  = root.querySelector('[data-pfb-thumbs]');
+    var bundles = root.querySelector('[data-pfb-bundles]');
+    var slides  = root.querySelectorAll('[data-pfb-img]');
+    var vin = root.querySelector('[data-pfb-vinput]');
+    var qin = root.querySelector('[data-pfb-qinput]');
+    var pr  = root.querySelector('[data-pfb-pr]');
+    var cp  = root.querySelector('[data-pfb-cp]');
+    var sv  = root.querySelector('[data-pfb-sv]');
+    var cur = 0;
+
+    function preloadAll() {
+      for (var k = 0; k < slides.length; k++) {
+        var im = slides[k] ? slides[k].querySelector('img') : null;
+        if (im) {
+          im.setAttribute('loading', 'eager');
+          if (im.decode) { try { im.decode(); } catch (e) {} }
+        }
+      }
+    }
+    preloadAll();
+
+    function showImg(i) {
+      cur = parseInt(i, 10) || 0;
+      root.querySelectorAll('[data-pfb-img]').forEach(function (s) { s.classList.toggle('pfb-on', s.getAttribute('data-pfb-img') === String(cur)); });
+      root.querySelectorAll('.pfb-thumb').forEach(function (t) { t.classList.toggle('pfb-on', t.getAttribute('data-pfb-t') === String(cur)); });
+    }
+    if (thumbs) thumbs.addEventListener('click', function (e) {
+      var b = e.target.closest('.pfb-thumb'); if (b) showImg(b.getAttribute('data-pfb-t'));
+    });
+    var prevBtn = root.querySelector('[data-pfb-prev]');
+    var nextBtn = root.querySelector('[data-pfb-next]');
+    if (slides.length < 2) {
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+    } else {
+      if (prevBtn) prevBtn.addEventListener('click', function () { showImg((cur - 1 + slides.length) % slides.length); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { showImg((cur + 1) % slides.length); });
+    }
+
+    function selectBundle(b) {
+      if (!b || b.hasAttribute('disabled')) return;
+      bundles.querySelectorAll('.pfb-bundle').forEach(function (x) { x.classList.toggle('pfb-on', x === b); });
+      var vid = b.getAttribute('data-pfb-vid');
+      if (vin && vid) vin.value = vid;
+      if (qin) qin.value = '1';
+      if (pr) {
+        pr.style.opacity = '0';
+        setTimeout(function () {
+          pr.textContent = b.getAttribute('data-pfb-price') || '';
+          if (cp) cp.textContent = b.getAttribute('data-pfb-comp') || '';
+          if (sv) sv.textContent = b.getAttribute('data-pfb-save') || '';
+          pr.style.opacity = '1';
+        }, 150);
+      }
+    }
+
+    if (bundles) {
+      bundles.addEventListener('click', function (e) {
+        selectBundle(e.target.closest('.pfb-bundle'));
+      });
+      var first = bundles.querySelector('.pfb-bundle.pfb-on') || bundles.querySelector('.pfb-bundle:not([disabled])');
+      if (first) {
+        first.classList.add('pfb-on');
+        var v0 = first.getAttribute('data-pfb-vid');
+        if (vin && v0) vin.value = v0;
+        if (qin) qin.value = '1';
+        if (pr) pr.textContent = first.getAttribute('data-pfb-price') || pr.textContent;
+        if (cp) cp.textContent = first.getAttribute('data-pfb-comp') || '';
+        if (sv) sv.textContent = first.getAttribute('data-pfb-save') || '';
+      }
+    }
+  }
+  init(document.getElementById('pfb-{{ section.id }}'));
+  document.addEventListener('shopify:section:load', function (e) {
+    var r = e.target.querySelector('#pfb-{{ section.id }}');
+    if (r) { r.dataset.pfbInit = ''; init(r); }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Puffy — Buy Block",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "🛒 Produit" },
+    { "type": "product", "id": "product", "label": "Produit" },
+    { "type": "header", "content": "🖼️ Galerie principale" },
+    { "type": "image_picker", "id": "image1", "label": "Image 1" },
+    { "type": "image_picker", "id": "image2", "label": "Image 2" },
+    { "type": "image_picker", "id": "image3", "label": "Image 3" },
+    { "type": "image_picker", "id": "image4", "label": "Image 4" },
+    { "type": "image_picker", "id": "image5", "label": "Image 5" },
+    { "type": "paragraph", "content": "Laisse vide pour afficher automatiquement toutes les images du produit." },
+    { "type": "header", "content": "📦 Vignettes des packs" },
+    { "type": "paragraph", "content": "Petite image affichée sur chaque pack. Pack 1 = 1 peluche, Pack 2 = 2 peluches, Pack 3 = 3 peluches." },
+    { "type": "image_picker", "id": "bundle_img1", "label": "Pack 1 — 1 peluche" },
+    { "type": "image_picker", "id": "bundle_img2", "label": "Pack 2 — 2 peluches" },
+    { "type": "image_picker", "id": "bundle_img3", "label": "Pack 3 — 3 peluches" },
+    { "type": "header", "content": "✍️ Textes" },
+    { "type": "text", "id": "badge", "label": "Badge", "default": "💜 SQUISHY. SOFT. IRRESISTIBLE." },
+    { "type": "text", "id": "title", "label": "Titre", "default": "The Squishy Viral Cat" },
+    { "type": "text", "id": "rating_text", "label": "Note", "default": "4.9/5 — 10,000+ happy customers" },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Your new cuddle companion." },
+    { "type": "text", "id": "pack_label", "label": "Label packs", "default": "Choose your pack:" },
+    { "type": "text", "id": "offer_label", "label": "Label offre", "default": "Limited-Time Offer" },
+    { "type": "text", "id": "cta", "label": "Bouton", "default": "Add to Cart — Free Shipping →" },
+    { "type": "text", "id": "guarantee", "label": "Garantie", "default": "30-day money-back guarantee" },
+    { "type": "text", "id": "shipping", "label": "Livraison", "default": "Free tracked shipping 24/24h" },
+    { "type": "text", "id": "oos_label", "label": "Texte rupture", "default": "Sold out" },
+    { "type": "text", "id": "save_prefix", "label": "Économie prefix", "default": "Save" },
+    { "type": "text", "id": "save_suffix", "label": "Économie suffix", "default": "Today" }
+  ],
+  "presets": [ { "name": "Puffy — Buy Block" } ]
+}
+{% endschema %}
