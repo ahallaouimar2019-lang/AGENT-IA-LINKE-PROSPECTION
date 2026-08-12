@@ -1,0 +1,48 @@
+{%- comment -%} Live social-proof toast (fixed, rotating) {%- endcomment -%}
+{%- style -%}
+  #spb-{{ section.id }}{position:fixed;left:18px;bottom:18px;z-index:55;max-width:320px;
+    font-family:'Poppins',sans-serif;background:#fff;border:1px solid #EDE9FE;border-radius:14px;
+    box-shadow:0 10px 30px rgba(75,52,160,.20);padding:12px 14px;display:flex;align-items:center;gap:12px;
+    transform:translateY(140%);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s}
+  #spb-{{ section.id }}.spb-on{transform:translateY(0);opacity:1}
+  #spb-{{ section.id }} .spb-av{flex:0 0 40px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#F3F0FF;font-size:20px}
+  #spb-{{ section.id }} .spb-txt{font-size:12.5px;color:#2B2559;line-height:1.35}
+  #spb-{{ section.id }} .spb-txt b{color:#1A1A1A}
+  #spb-{{ section.id }} .spb-meta{font-size:10.5px;color:#8B84B0;margin-top:2px;display:flex;align-items:center;gap:6px}
+  #spb-{{ section.id }} .spb-dot{width:7px;height:7px;border-radius:50%;background:#16A34A;display:inline-block}
+  #spb-{{ section.id }} .spb-x{position:absolute;top:6px;right:9px;border:none;background:none;color:#B7B0D6;font-size:15px;cursor:pointer;line-height:1}
+  @media (max-width:540px){#spb-{{ section.id }}{left:10px;right:10px;bottom:10px;max-width:none}}
+  @media (prefers-reduced-motion:reduce){#spb-{{ section.id }}{transition:opacity .3s}}
+{%- endstyle -%}
+<div id="spb-{{ section.id }}" role="status" aria-live="polite">
+  <span class="spb-av" data-spb-av>🐱</span>
+  <div class="spb-txt"><span data-spb-msg></span><div class="spb-meta"><span class="spb-dot"></span><span data-spb-time></span> · Verified</div></div>
+  <button class="spb-x" data-spb-close aria-label="Close">×</button>
+</div>
+<script>
+(function(){
+  var root=document.getElementById('spb-{{ section.id }}');
+  if(!root)return;
+  var msg=root.querySelector('[data-spb-msg]'),av=root.querySelector('[data-spb-av]'),tm=root.querySelector('[data-spb-time]');
+  var closed=false;
+  root.querySelector('[data-spb-close]').addEventListener('click',function(){closed=true;root.classList.remove('spb-on');});
+  var names=['Emma','Liam','Sofia','Noah','Olivia','Lucas','Mia','Léa','Hugo','Chloé','Jade','Adam','Zoé','Nathan','Manon'];
+  var cities=['Paris','London','New York','Berlin','Madrid','Lyon','Toronto','Amsterdam','Dublin','Milan'];
+  var products={{ collections['puffy-collection-premium'].products | map: 'title' | json }};
+  if(!products||!products.length){products=['Cat Mallow','Ginger Amber','Sakura Cat','Peach Dream','Smoke Cloud'];}
+  var avs=['🐱','😻','🐈','🎁','💜'];
+  function rnd(a){return a[Math.floor(Math.random()*a.length)];}
+  function build(){
+    var mins=Math.floor(Math.random()*24)+1;
+    msg.innerHTML='<b>'+rnd(names)+'</b> from '+rnd(cities)+' just bought <b>'+rnd(products)+'</b>';
+    av.textContent=rnd(avs);
+    tm.textContent=mins+' min ago';
+  }
+  function show(){if(closed)return;build();root.classList.add('spb-on');setTimeout(function(){root.classList.remove('spb-on');},4500);}
+  setTimeout(show,3000);
+  setInterval(show,9000);
+})();
+</script>
+{% schema %}
+{ "name": "Puffy — Social Proof Bar", "tag": "section", "settings": [], "presets": [ { "name": "Puffy — Social Proof Bar" } ] }
+{% endschema %}
