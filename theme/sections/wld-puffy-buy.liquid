@@ -93,7 +93,7 @@
                 {%- if forloop.index == 2 -%}<span class="pfb-flag">⭐ MOST POPULAR</span>{%- elsif forloop.index > 2 -%}<span class="pfb-flag pfb-flag2">🏆 BEST VALUE</span>{%- endif -%}
                 <span class="pfb-radio"></span>
                 {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- endif -%}
-                <span class="pfb-binfo">{{ v.title }}{% unless v.available %} — {{ section.settings.oos_label }}{% endunless %}</span>
+                <span class="pfb-binfo">{% if forloop.index == 1 %}🐱 {% elsif forloop.index == 2 %}🎁🔥 {% else %}🏆💜 {% endif %}{{ v.title }}{% unless v.available %} — {{ section.settings.oos_label }}{% endunless %}</span>
                 <span class="pfb-bprice">{%- if has_comp -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}<b>{{ v.price | money }}</b></span>
               </button>
             {%- endfor -%}
@@ -108,7 +108,7 @@
             <button type="button" class="pfb-bundle pfb-on" data-pfb-vid="{{ pfb_first.id }}" data-pfb-price="{{ pfb_first.price | money }}" data-pfb-comp="{% if has_comp %}{{ pfb_first.compare_at_price | money }}{% endif %}" data-pfb-save="{% if has_comp %}{{ section.settings.save_prefix }} {{ pfb_first.compare_at_price | minus: pfb_first.price | money }} {{ section.settings.save_suffix }}{% endif %}">
               <span class="pfb-radio"></span>
               {%- if bimg -%}<img class="pfb-bthumb" src="{{ bimg | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- elsif pfb_product.featured_image -%}<img class="pfb-bthumb" src="{{ pfb_product.featured_image | image_url: width: 150 }}" alt="" loading="lazy" width="48" height="48">{%- endif -%}
-              <span class="pfb-binfo">{{ pfb_product.title }}</span>
+              <span class="pfb-binfo">🐱 {{ pfb_product.title }}</span>
               <span class="pfb-bprice">{%- if has_comp -%}<s>{{ pfb_first.compare_at_price | money }}</s>{%- endif -%}<b>{{ pfb_first.price | money }}</b></span>
             </button>
           {%- endif -%}
@@ -139,6 +139,9 @@
         {%- else -%}
         <button type="button" class="pfb-cta" disabled>⚠️ Sélectionne un produit dans les réglages</button>
         {%- endif -%}
+
+        <p class="pfb-guarantee2">💯 <b>Guaranteed:</b> full refund or a brand-new squishy cat — no questions asked.</p>
+        <div class="pfb-protect">🛡️ <b>Free Shipping Protection</b> — lost, stolen or damaged in transit? We reship free.</div>
 
         <div class="pfb-green">
           <span>🚚 FREE WORLDWIDE SHIPPING</span>
@@ -226,6 +229,8 @@
 #pfb-{{ section.id }} .pfb-express .shopify-payment-button__more-options{margin-top:9px;font-size:13.5px;color:var(--p)}
 #pfb-{{ section.id }} .pfb-green{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
 #pfb-{{ section.id }} .pfb-green span{display:inline-flex;align-items:center;gap:7px;background:#D8F0E0;color:#0F7A38;font-weight:800;font-size:12px;letter-spacing:.02em;padding:8px 13px;border-radius:99px}
+#pfb-{{ section.id }} .pfb-guarantee2{margin:12px 0 0;text-align:center;font-size:13px;font-weight:600;color:#0F7A38;background:#EAF8EF;border:1px solid #BEE8CD;border-radius:12px;padding:11px 14px;line-height:1.4}
+#pfb-{{ section.id }} .pfb-protect{margin:10px 0 0;display:flex;align-items:center;gap:8px;justify-content:center;text-align:center;font-size:12.5px;font-weight:600;color:var(--ink);background:var(--lav);border:1px solid var(--lav2);border-radius:12px;padding:10px 13px;line-height:1.4}
 #pfb-{{ section.id }} .pfb-pay{margin-top:14px;padding-top:14px;border-top:1px solid var(--lav2);text-align:center}
 #pfb-{{ section.id }} .pfb-pay-label{display:block;font-size:12px;font-weight:700;color:rgba(43,37,89,.6);margin-bottom:10px}
 #pfb-{{ section.id }} .pfb-pay-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:7px}
@@ -313,9 +318,10 @@
       bundles.addEventListener('click', function (e) {
         selectBundle(e.target.closest('.pfb-bundle'));
       });
-      var first = bundles.querySelector('.pfb-bundle.pfb-on') || bundles.querySelector('.pfb-bundle:not([disabled])');
+      var avail = bundles.querySelectorAll('.pfb-bundle:not([disabled])');
+      var first = avail.length ? avail[avail.length - 1] : bundles.querySelector('.pfb-bundle.pfb-on');
       if (first) {
-        first.classList.add('pfb-on');
+        bundles.querySelectorAll('.pfb-bundle').forEach(function (x) { x.classList.toggle('pfb-on', x === first); });
         var v0 = first.getAttribute('data-pfb-vid');
         if (vin && v0) vin.value = v0;
         if (qin) qin.value = '1';
