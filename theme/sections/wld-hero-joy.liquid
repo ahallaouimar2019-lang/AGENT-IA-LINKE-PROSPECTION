@@ -1,0 +1,144 @@
+{%- comment -%}
+  PART 0 — Puffy Hero: "Transform Your Stress Into Joy"
+  Responsive 60/40 hero (image left, text right on desktop; stacked on tablet/mobile).
+  Violet gradient CTA, 3 trust badges, load animations, full breakpoint coverage.
+{%- endcomment -%}
+{%- liquid
+  assign img = section.settings.image
+-%}
+{%- style -%}
+  #hj-{{ section.id }}{
+    font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:linear-gradient(180deg,{{ section.settings.bg_top }} 0%,{{ section.settings.bg_bottom }} 100%);
+    padding:{{ section.settings.pad_desktop }}px 24px;box-sizing:border-box;
+  }
+  #hj-{{ section.id }} *,#hj-{{ section.id }} *::before,#hj-{{ section.id }} *::after{box-sizing:border-box}
+  #hj-{{ section.id }} .hj-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:30px}
+  #hj-{{ section.id }} .hj-media{flex:0 0 58%;max-width:58%}
+  #hj-{{ section.id }} .hj-figure{margin:0;width:100%;max-width:440px;position:relative}
+  #hj-{{ section.id }} .hj-seals{position:absolute;top:-18px;right:-16px;display:flex;gap:8px;z-index:5;pointer-events:none}
+  #hj-{{ section.id }} .hj-seal{width:66px;height:auto;line-height:0;filter:drop-shadow(0 4px 7px rgba(0,0,0,.22))}
+  #hj-{{ section.id }} .hj-figure img,#hj-{{ section.id }} .hj-figure .hj-ph{
+    width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;display:block;
+    border-radius:16px;box-shadow:0 8px 32px rgba(147,112,219,.20);
+    opacity:0;animation:hjFade .8s ease forwards;
+  }
+  #hj-{{ section.id }} .hj-content{flex:0 0 42%;max-width:42%;padding-left:30px;opacity:0;animation:hjSlide .6s ease .15s forwards}
+  #hj-{{ section.id }} .hj-h1{font-size:48px;font-weight:700;color:#1A1A1A;letter-spacing:1px;line-height:1.2;margin:0}
+  #hj-{{ section.id }} .hj-sub{font-size:18px;color:#808080;margin:16px 0 0;font-weight:500;line-height:1.4}
+  #hj-{{ section.id }} .hj-desc{font-size:14px;color:#666;line-height:1.6;margin:12px 0 0;max-width:500px}
+  #hj-{{ section.id }} .hj-badges{display:flex;flex-wrap:wrap;gap:18px;margin:24px 0 0}
+  #hj-{{ section.id }} .hj-badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:#2B2559}
+  #hj-{{ section.id }} .hj-badge svg{width:16px;height:16px;color:#7C3AED;flex:0 0 16px}
+  #hj-{{ section.id }} .hj-cta{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    min-width:200px;min-height:52px;margin:24px 0 0;padding:16px 28px;
+    background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;font-weight:700;font-size:16px;
+    font-family:inherit;text-decoration:none;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;
+    box-shadow:0 8px 20px rgba(124,58,237,.30);
+    transition:transform .25s ease,box-shadow .25s ease,background .25s ease;
+    animation:hjPulse 2.6s ease-in-out infinite;
+  }
+  #hj-{{ section.id }} .hj-cta:hover{
+    background:linear-gradient(135deg,#8B5CF6,#7C3AED);transform:scale(1.05);
+    box-shadow:0 12px 30px rgba(139,92,246,.45);animation-play-state:paused;
+  }
+  #hj-{{ section.id }} .hj-cta-row{margin-top:6px}
+  #hj-{{ section.id }} .hj-cta2{display:inline-block;margin:14px 0 0;font-size:14px;font-weight:600;color:#7C3AED;text-decoration:none}
+  #hj-{{ section.id }} .hj-cta2:hover{text-decoration:underline}
+  @keyframes hjFade{to{opacity:1}}
+  @keyframes hjSlide{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes hjPulse{0%,100%{box-shadow:0 8px 20px rgba(124,58,237,.30)}50%{box-shadow:0 10px 30px rgba(124,58,237,.52)}}
+  /* TABLET */
+  @media (max-width:1119px){
+    #hj-{{ section.id }}{padding:60px 20px}
+    #hj-{{ section.id }} .hj-wrap{flex-direction:column;text-align:center;gap:26px}
+    #hj-{{ section.id }} .hj-media,#hj-{{ section.id }} .hj-content{flex:0 0 100%;max-width:100%;padding-left:0}
+    #hj-{{ section.id }} .hj-figure{margin:0 auto;max-width:340px}
+    #hj-{{ section.id }} .hj-seals{top:-16px;right:-10px}
+    #hj-{{ section.id }} .hj-seal{width:60px}
+    #hj-{{ section.id }} .hj-figure img,#hj-{{ section.id }} .hj-figure .hj-ph{aspect-ratio:3/4}
+    #hj-{{ section.id }} .hj-h1{font-size:45px}
+    #hj-{{ section.id }} .hj-sub{font-size:17px}
+    #hj-{{ section.id }} .hj-desc{font-size:13.5px;margin-left:auto;margin-right:auto}
+    #hj-{{ section.id }} .hj-badges{justify-content:center}
+    #hj-{{ section.id }} .hj-content{animation-name:hjFade}
+  }
+  /* MOBILE */
+  @media (max-width:767px){
+    #hj-{{ section.id }}{padding:40px 16px}
+    #hj-{{ section.id }} .hj-figure{max-width:100%}
+    #hj-{{ section.id }} .hj-seals{top:-12px;right:-6px;gap:6px}
+    #hj-{{ section.id }} .hj-seal{width:48px}
+    #hj-{{ section.id }} .hj-figure img,#hj-{{ section.id }} .hj-figure .hj-ph{aspect-ratio:auto;height:260px;max-height:280px}
+    #hj-{{ section.id }} .hj-h1{font-size:32px;letter-spacing:.5px}
+    #hj-{{ section.id }} .hj-sub{font-size:16px;margin-top:12px}
+    #hj-{{ section.id }} .hj-desc{font-size:13px}
+    #hj-{{ section.id }} .hj-badges{flex-direction:column;align-items:center;gap:10px}
+    #hj-{{ section.id }} .hj-cta{width:100%;min-width:0;max-width:360px;min-height:48px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #hj-{{ section.id }} .hj-figure img,#hj-{{ section.id }} .hj-figure .hj-ph,#hj-{{ section.id }} .hj-content{animation:none;opacity:1;transform:none}
+    #hj-{{ section.id }} .hj-cta{animation:none}
+  }
+{%- endstyle -%}
+<section id="hj-{{ section.id }}" aria-label="{{ section.settings.headline | escape }}">
+  <div class="hj-wrap">
+    <div class="hj-media">
+      <figure class="hj-figure">
+        <div class="hj-seals" aria-hidden="true"><span class="hj-seal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 156" width="100%" height="100%" role="img" aria-label="Safe"><defs><radialGradient id="sf-seal" cx="38%" cy="34%" r="72%"><stop offset="0" stop-color="#57C777"/><stop offset="55%" stop-color="#1E9E3E"/><stop offset="100%" stop-color="#0B6B24"/></radialGradient><radialGradient id="sf-bump" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#1C8F38"/><stop offset="100%" stop-color="#0B5E20"/></radialGradient><linearGradient id="sf-rib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#189A34"/><stop offset="100%" stop-color="#0C6A22"/></linearGradient><filter id="sf-ds" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2.5" stdDeviation="2.4" flood-color="#111" flood-opacity="0.4"/></filter></defs><g filter="url(#sf-ds)"><path d="M46 92 L36 150 L52 138 L58 150 L64 100 Z" fill="url(#sf-rib)"/><path d="M82 92 L92 150 L76 138 L70 150 L64 100 Z" fill="url(#sf-rib)"/><path d="M46 92 L36 150 L41 147 L50 96 Z" fill="#0C6A22" opacity="0.55"/><path d="M82 92 L92 150 L87 147 L78 96 Z" fill="#0C6A22" opacity="0.55"/><circle cx="110.0" cy="60.0" r="9.0" fill="url(#sf-bump)"/><circle cx="106.5" cy="77.6" r="9.0" fill="url(#sf-bump)"/><circle cx="96.5" cy="92.5" r="9.0" fill="url(#sf-bump)"/><circle cx="81.6" cy="102.5" r="9.0" fill="url(#sf-bump)"/><circle cx="64.0" cy="106.0" r="9.0" fill="url(#sf-bump)"/><circle cx="46.4" cy="102.5" r="9.0" fill="url(#sf-bump)"/><circle cx="31.5" cy="92.5" r="9.0" fill="url(#sf-bump)"/><circle cx="21.5" cy="77.6" r="9.0" fill="url(#sf-bump)"/><circle cx="18.0" cy="60.0" r="9.0" fill="url(#sf-bump)"/><circle cx="21.5" cy="42.4" r="9.0" fill="url(#sf-bump)"/><circle cx="31.5" cy="27.5" r="9.0" fill="url(#sf-bump)"/><circle cx="46.4" cy="17.5" r="9.0" fill="url(#sf-bump)"/><circle cx="64.0" cy="14.0" r="9.0" fill="url(#sf-bump)"/><circle cx="81.6" cy="17.5" r="9.0" fill="url(#sf-bump)"/><circle cx="96.5" cy="27.5" r="9.0" fill="url(#sf-bump)"/><circle cx="106.5" cy="42.4" r="9.0" fill="url(#sf-bump)"/><circle cx="64" cy="60" r="46" fill="url(#sf-seal)"/><circle cx="64" cy="60" r="41" fill="none" stroke="#0B6B24" stroke-width="2" opacity="0.65"/><circle cx="64" cy="60" r="38.5" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.28"/><ellipse cx="50" cy="40" rx="26" ry="15" fill="#ffffff" opacity="0.16"/><g fill="#ffffff" font-family="Poppins, Arial, sans-serif" font-weight="800" text-anchor="middle"><text x="64" y="70" font-size="26" letter-spacing="2">SAFE</text></g></g></svg></span><span class="hj-seal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 156" width="100%" height="100%" role="img" aria-label="Non-toxic"><defs><radialGradient id="nt-seal" cx="38%" cy="34%" r="72%"><stop offset="0" stop-color="#B98BF3"/><stop offset="55%" stop-color="#8B3FE8"/><stop offset="100%" stop-color="#5B21B6"/></radialGradient><radialGradient id="nt-bump" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#7C3AED"/><stop offset="100%" stop-color="#5B21B6"/></radialGradient><linearGradient id="nt-rib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8B3FE8"/><stop offset="100%" stop-color="#5B21B6"/></linearGradient><filter id="nt-ds" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2.5" stdDeviation="2.4" flood-color="#111" flood-opacity="0.4"/></filter></defs><g filter="url(#nt-ds)"><path d="M46 92 L36 150 L52 138 L58 150 L64 100 Z" fill="url(#nt-rib)"/><path d="M82 92 L92 150 L76 138 L70 150 L64 100 Z" fill="url(#nt-rib)"/><path d="M46 92 L36 150 L41 147 L50 96 Z" fill="#5B21B6" opacity="0.55"/><path d="M82 92 L92 150 L87 147 L78 96 Z" fill="#5B21B6" opacity="0.55"/><circle cx="110.0" cy="60.0" r="9.0" fill="url(#nt-bump)"/><circle cx="106.5" cy="77.6" r="9.0" fill="url(#nt-bump)"/><circle cx="96.5" cy="92.5" r="9.0" fill="url(#nt-bump)"/><circle cx="81.6" cy="102.5" r="9.0" fill="url(#nt-bump)"/><circle cx="64.0" cy="106.0" r="9.0" fill="url(#nt-bump)"/><circle cx="46.4" cy="102.5" r="9.0" fill="url(#nt-bump)"/><circle cx="31.5" cy="92.5" r="9.0" fill="url(#nt-bump)"/><circle cx="21.5" cy="77.6" r="9.0" fill="url(#nt-bump)"/><circle cx="18.0" cy="60.0" r="9.0" fill="url(#nt-bump)"/><circle cx="21.5" cy="42.4" r="9.0" fill="url(#nt-bump)"/><circle cx="31.5" cy="27.5" r="9.0" fill="url(#nt-bump)"/><circle cx="46.4" cy="17.5" r="9.0" fill="url(#nt-bump)"/><circle cx="64.0" cy="14.0" r="9.0" fill="url(#nt-bump)"/><circle cx="81.6" cy="17.5" r="9.0" fill="url(#nt-bump)"/><circle cx="96.5" cy="27.5" r="9.0" fill="url(#nt-bump)"/><circle cx="106.5" cy="42.4" r="9.0" fill="url(#nt-bump)"/><circle cx="64" cy="60" r="46" fill="url(#nt-seal)"/><circle cx="64" cy="60" r="41" fill="none" stroke="#5B21B6" stroke-width="2" opacity="0.65"/><circle cx="64" cy="60" r="38.5" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.28"/><ellipse cx="50" cy="40" rx="26" ry="15" fill="#ffffff" opacity="0.16"/><g fill="#ffffff"><path d="M64 27 C60 22 53 22 51 27 C55 29 61 29 64 27 Z"/><path d="M64 27 C68 22 75 22 77 27 C73 29 67 29 64 27 Z"/><rect x="63" y="27" width="2" height="6" rx="1"/></g><g fill="#ffffff" font-family="Poppins, Arial, sans-serif" font-weight="800" text-anchor="middle"><text x="64" y="55" font-size="19" letter-spacing="1">NO</text><text x="64" y="76" font-size="18" letter-spacing="0.5">TOXIC</text></g><g fill="#ffffff"><ellipse cx="64" cy="90" rx="5" ry="4"/><circle cx="57" cy="85.5" r="2"/><circle cx="61.5" cy="83.5" r="2"/><circle cx="66.5" cy="83.5" r="2"/><circle cx="71" cy="85.5" r="2"/></g></g></svg></span></div>
+        {%- if img != blank -%}
+          <img src="{{ img | image_url: width: 880 }}"
+               srcset="{{ img | image_url: width: 440 }} 440w, {{ img | image_url: width: 880 }} 880w"
+               sizes="(max-width:767px) 92vw, (max-width:1119px) 340px, 440px"
+               alt="{{ img.alt | default: section.settings.headline | escape }}"
+               width="440" height="550" loading="eager" fetchpriority="high" decoding="async">
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'hj-ph' }}
+        {%- endif -%}
+      </figure>
+    </div>
+    <div class="hj-content">
+      <h1 class="hj-h1">{{ section.settings.headline }}</h1>
+      <p class="hj-sub">{{ section.settings.subheading }}</p>
+      <p class="hj-desc">{{ section.settings.description }}</p>
+      <div class="hj-badges">
+        {%- assign badges = section.settings.badges | split: '|' -%}
+        {%- for b in badges -%}
+          {%- assign bt = b | strip -%}
+          {%- if bt != blank -%}
+          <span class="hj-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>{{ bt }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div class="hj-cta-row">
+        <a class="hj-cta" href="{{ section.settings.cta_link | default: '/collections/all' }}">{{ section.settings.cta_text }}</a>
+      </div>
+      <a class="hj-cta2" href="{{ section.settings.cta2_link | default: '/collections/all' }}">{{ section.settings.cta2_text }}</a>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Puffy — Hero Joy",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Hero image (Puffy squishies)" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Transform Your Stress Into Joy" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Meet Puffy: Premium Squishy Cats Designed for Comfort" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Handcrafted with premium gel material, perfect for stress relief, gifts, or collection." },
+    { "type": "text", "id": "badges", "label": "Badges (separate with |)", "default": "Free Shipping|30-Day Guarantee|1000+ Happy Customers" },
+    { "type": "header", "content": "Primary button" },
+    { "type": "text", "id": "cta_text", "label": "Button text", "default": "SHOP THE COLLECTION →" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "header", "content": "Secondary link" },
+    { "type": "text", "id": "cta2_text", "label": "Secondary text", "default": "View All Products" },
+    { "type": "url", "id": "cta2_link", "label": "Secondary link" },
+    { "type": "header", "content": "Style" },
+    { "type": "color", "id": "bg_top", "label": "Background top", "default": "#F3F0FF" },
+    { "type": "color", "id": "bg_bottom", "label": "Background bottom", "default": "#FFFFFF" },
+    { "type": "range", "id": "pad_desktop", "label": "Section padding (desktop)", "min": 40, "max": 120, "step": 4, "default": 80, "unit": "px" }
+  ],
+  "presets": [ { "name": "Puffy — Hero Joy" } ]
+}
+{% endschema %}

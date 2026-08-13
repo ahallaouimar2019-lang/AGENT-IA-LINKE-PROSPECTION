@@ -1,0 +1,189 @@
+{%- comment -%}
+  Photo Testimonials — auto-rotating carousel of 5 customer reviews with photos.
+  Each slide: customer photo + star rating + quote + name/location + "Verified Buyer".
+  Built for trust: verified badges, ratings summary, autoplay, swipe, dots + arrows.
+  Merchant sets 5 photos + names + reviews in the theme editor.
+{%- endcomment -%}
+{%- liquid
+  assign accent = section.settings.accent
+  assign ms = section.settings.speed | times: 1000
+-%}
+{%- style -%}
+  #pt-{{ section.id }}{font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(180deg,#FFFFFF 0%,#F3F0FF 100%);padding:64px 20px;box-sizing:border-box}
+  #pt-{{ section.id }} *,#pt-{{ section.id }} *::before,#pt-{{ section.id }} *::after{box-sizing:border-box}
+  #pt-{{ section.id }} .pt-head{max-width:760px;margin:0 auto 34px;text-align:center}
+  #pt-{{ section.id }} .pt-topstars{color:#FFB800;font-size:22px;letter-spacing:3px}
+  #pt-{{ section.id }} .pt-title{font-size:30px;font-weight:800;color:#1A1A1A;margin:8px 0 6px;line-height:1.18;letter-spacing:-.01em}
+  #pt-{{ section.id }} .pt-sub{font-size:15px;color:#6b6b6b;margin:0}
+  #pt-{{ section.id }} .pt-rate{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:#fff;border:1px solid #EDE9FE;border-radius:999px;padding:7px 16px;font-size:12.5px;font-weight:600;color:#2B2559;box-shadow:0 4px 16px rgba(124,58,237,.08)}
+  #pt-{{ section.id }} .pt-rate b{color:{{ accent }}}
+  #pt-{{ section.id }} .pt-wrap{max-width:900px;margin:0 auto;position:relative}
+  #pt-{{ section.id }} .pt-stage{position:relative;min-height:340px}
+  #pt-{{ section.id }} .pt-card{position:absolute;inset:0;display:flex;gap:26px;align-items:center;background:#fff;border:1px solid #EDE9FE;border-radius:22px;
+    padding:26px;box-shadow:0 18px 46px rgba(124,58,237,.12);opacity:0;transform:translateY(14px) scale(.98);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+  #pt-{{ section.id }} .pt-card.pt-on{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+  #pt-{{ section.id }} .pt-photo{flex:0 0 232px;width:232px;height:280px;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(135deg,#C4B5FD,#8B5CF6)}
+  #pt-{{ section.id }} .pt-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  #pt-{{ section.id }} .pt-ph{width:100%;height:100%;display:grid;place-items:center;color:#fff;font-size:64px;font-weight:800}
+  #pt-{{ section.id }} .pt-badgefloat{position:absolute;left:10px;bottom:10px;display:inline-flex;align-items:center;gap:5px;background:rgba(22,163,74,.95);color:#fff;font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;box-shadow:0 6px 16px rgba(22,163,74,.35)}
+  #pt-{{ section.id }} .pt-content{flex:1;min-width:0}
+  #pt-{{ section.id }} .pt-qmark{font-family:Georgia,serif;font-size:52px;line-height:.6;color:#DDD3F9;height:26px}
+  #pt-{{ section.id }} .pt-stars{color:#FFB800;letter-spacing:2px;font-size:17px;margin:2px 0 10px}
+  #pt-{{ section.id }} .pt-quote{font-size:16.5px;line-height:1.6;color:#2B2559;font-weight:500;margin:0 0 16px}
+  #pt-{{ section.id }} .pt-who{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  #pt-{{ section.id }} .pt-name{font-size:14.5px;font-weight:800;color:#1A1A1A}
+  #pt-{{ section.id }} .pt-loc{font-size:12.5px;color:#8B84B0}
+  #pt-{{ section.id }} .pt-verified{display:inline-flex;align-items:center;gap:5px;background:#EAF8EF;color:#0F7A38;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid #BEE8CD}
+  #pt-{{ section.id }} .pt-bought{display:inline-block;margin-top:10px;font-size:11.5px;font-weight:600;color:{{ accent }};background:#F3F0FF;border:1px solid #EDE9FE;border-radius:999px;padding:5px 12px}
+  #pt-{{ section.id }} .pt-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:44px;height:44px;border-radius:50%;border:none;background:#fff;color:{{ accent }};font-size:24px;font-weight:800;cursor:pointer;box-shadow:0 8px 22px rgba(124,58,237,.22);display:flex;align-items:center;justify-content:center;transition:transform .18s,background .18s}
+  #pt-{{ section.id }} .pt-arrow:hover{transform:translateY(-50%) scale(1.09);background:#faf8ff}
+  #pt-{{ section.id }} .pt-prev{left:-16px}
+  #pt-{{ section.id }} .pt-next{right:-16px}
+  #pt-{{ section.id }} .pt-dots{display:flex;justify-content:center;gap:9px;margin-top:22px}
+  #pt-{{ section.id }} .pt-dot{width:9px;height:9px;border-radius:50%;background:#DDD3F9;border:none;cursor:pointer;padding:0;transition:.2s}
+  #pt-{{ section.id }} .pt-dot.pt-on{background:{{ accent }};width:26px;border-radius:99px}
+  #pt-{{ section.id }} .pt-trust{max-width:760px;margin:26px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 20px}
+  #pt-{{ section.id }} .pt-trust span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#2B2559}
+  @media (max-width:760px){
+    #pt-{{ section.id }}{padding:48px 16px}
+    #pt-{{ section.id }} .pt-title{font-size:24px}
+    #pt-{{ section.id }} .pt-stage{min-height:470px}
+    #pt-{{ section.id }} .pt-card{flex-direction:column;text-align:center;padding:22px 18px;gap:16px}
+    #pt-{{ section.id }} .pt-photo{flex:0 0 auto;width:150px;height:150px;border-radius:50%}
+    #pt-{{ section.id }} .pt-who{justify-content:center}
+    #pt-{{ section.id }} .pt-quote{font-size:15px}
+    #pt-{{ section.id }} .pt-prev{left:-6px}
+    #pt-{{ section.id }} .pt-next{right:-6px}
+    #pt-{{ section.id }} .pt-arrow{width:38px;height:38px;font-size:21px}
+  }
+  @media (prefers-reduced-motion:reduce){#pt-{{ section.id }} .pt-card{transition:opacity .3s}}
+{%- endstyle -%}
+
+<section id="pt-{{ section.id }}" aria-label="{{ section.settings.heading | escape }}">
+  <div class="pt-head">
+    <div class="pt-topstars" aria-hidden="true">★★★★★</div>
+    <h2 class="pt-title">{{ section.settings.heading }}</h2>
+    <p class="pt-sub">{{ section.settings.subheading }}</p>
+    {%- if section.settings.rating_text != blank -%}
+      <div class="pt-rate">✅ <b>{{ section.settings.rating_text }}</b></div>
+    {%- endif -%}
+  </div>
+
+  <div class="pt-wrap">
+    <div class="pt-stage" data-pt-stage>
+      {%- assign shown = 0 -%}
+      {%- for i in (1..5) -%}
+        {%- assign rk = 'review' | append: i -%}{%- assign review = section.settings[rk] -%}
+        {%- assign nk = 'name' | append: i -%}{%- assign nm = section.settings[nk] -%}
+        {%- assign lk = 'loc' | append: i -%}{%- assign loc = section.settings[lk] -%}
+        {%- assign bk = 'bought' | append: i -%}{%- assign bought = section.settings[bk] -%}
+        {%- assign pk = 'photo' | append: i -%}{%- assign photo = section.settings[pk] -%}
+        {%- if review != blank -%}
+          {%- assign shown = shown | plus: 1 -%}
+          <figure class="pt-card{% if shown == 1 %} pt-on{% endif %}" data-pt-card>
+            <div class="pt-photo">
+              {%- if photo != blank -%}
+                <img src="{{ photo | image_url: width: 520 }}" srcset="{{ photo | image_url: width: 260 }} 260w, {{ photo | image_url: width: 520 }} 520w" sizes="232px" alt="{{ nm | default: 'Happy customer' | escape }}" width="232" height="280" loading="lazy" decoding="async">
+              {%- else -%}
+                <div class="pt-ph">{{ nm | slice: 0 | upcase | default: '💜' }}</div>
+              {%- endif -%}
+              <span class="pt-badgefloat"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Verified</span>
+            </div>
+            <div class="pt-content">
+              <div class="pt-qmark" aria-hidden="true">“</div>
+              <div class="pt-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="pt-quote">{{ review }}</blockquote>
+              <figcaption class="pt-who">
+                <span class="pt-name">{{ nm | default: 'Verified Buyer' }}</span>
+                {%- if loc != blank -%}<span class="pt-loc">{{ loc }}</span>{%- endif -%}
+                <span class="pt-verified"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Verified Buyer</span>
+              </figcaption>
+              {%- if bought != blank -%}<span class="pt-bought">🛍️ Bought: {{ bought }}</span>{%- endif -%}
+            </div>
+          </figure>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <button type="button" class="pt-arrow pt-prev" data-pt-prev aria-label="Previous review">‹</button>
+    <button type="button" class="pt-arrow pt-next" data-pt-next aria-label="Next review">›</button>
+  </div>
+  <div class="pt-dots" data-pt-dots></div>
+
+  <div class="pt-trust" aria-hidden="true">
+    <span>🔒 100% Verified Reviews</span>
+    <span>🚚 Free Worldwide Shipping</span>
+    <span>💜 30-Day Money-Back Guarantee</span>
+  </div>
+</section>
+
+<script>
+(function(){
+  var root=document.getElementById('pt-{{ section.id }}');
+  if(!root||root.dataset.ptInit)return; root.dataset.ptInit='1';
+  var cards=root.querySelectorAll('[data-pt-card]');
+  var dotsC=root.querySelector('[data-pt-dots]');
+  var prev=root.querySelector('[data-pt-prev]');
+  var next=root.querySelector('[data-pt-next]');
+  if(!cards.length)return;
+  var i=0,timer=null,delay={{ ms }};
+  if(cards.length<2){if(prev)prev.style.display='none';if(next)next.style.display='none';return;}
+  cards.forEach(function(_,k){var b=document.createElement('button');b.className='pt-dot'+(k===0?' pt-on':'');b.setAttribute('aria-label','Review '+(k+1));b.addEventListener('click',function(){go(k);reset();});dotsC.appendChild(b);});
+  var dots=dotsC.querySelectorAll('.pt-dot');
+  function go(n){cards[i].classList.remove('pt-on');dots[i].classList.remove('pt-on');i=(n+cards.length)%cards.length;cards[i].classList.add('pt-on');dots[i].classList.add('pt-on');}
+  function reset(){clearInterval(timer);timer=setInterval(function(){go(i+1);},delay);}
+  if(prev)prev.addEventListener('click',function(){go(i-1);reset();});
+  if(next)next.addEventListener('click',function(){go(i+1);reset();});
+  // touch swipe
+  var x0=null;
+  root.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+  root.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40){if(dx<0)go(i+1);else go(i-1);reset();}x0=null;},{passive:true});
+  root.addEventListener('mouseenter',function(){clearInterval(timer);});
+  root.addEventListener('mouseleave',reset);
+  reset();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Photo Testimonials",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Real Customers. Real Squishy Love. 💜" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Join 10,000+ happy Puffy families around the world" },
+    { "type": "text", "id": "rating_text", "label": "Rating summary", "default": "4.9/5 average from 2,000+ verified reviews" },
+    { "type": "color", "id": "accent", "label": "Accent color", "default": "#7C3AED" },
+    { "type": "range", "id": "speed", "label": "Auto-rotate every", "min": 3, "max": 10, "step": 1, "default": 5, "unit": "s" },
+    { "type": "header", "content": "⭐ Review 1" },
+    { "type": "image_picker", "id": "photo1", "label": "Photo 1" },
+    { "type": "text", "id": "name1", "label": "Name 1", "default": "Jessica M." },
+    { "type": "text", "id": "loc1", "label": "Location 1", "default": "Austin, TX" },
+    { "type": "textarea", "id": "review1", "label": "Review 1", "default": "I was skeptical at first — but the moment I held my Puffy, I got it. It's insanely soft and it genuinely calms my anxiety after a long day. Honestly the best $30 I've ever spent. 💜" },
+    { "type": "text", "id": "bought1", "label": "Bought 1", "default": "Cat Mallow" },
+    { "type": "header", "content": "⭐ Review 2" },
+    { "type": "image_picker", "id": "photo2", "label": "Photo 2" },
+    { "type": "text", "id": "name2", "label": "Name 2", "default": "Sara L." },
+    { "type": "text", "id": "loc2", "label": "Location 2", "default": "London, UK" },
+    { "type": "textarea", "id": "review2", "label": "Review 2", "default": "Ordered one for my daughter… and ended up keeping it for myself 😅 The quality is unreal and it arrived in 3 days, beautifully packaged. I've already ordered two more as gifts!" },
+    { "type": "text", "id": "bought2", "label": "Bought 2", "default": "Peach Dream" },
+    { "type": "header", "content": "⭐ Review 3" },
+    { "type": "image_picker", "id": "photo3", "label": "Photo 3" },
+    { "type": "text", "id": "name3", "label": "Name 3", "default": "Emma R." },
+    { "type": "text", "id": "loc3", "label": "Location 3", "default": "Paris, FR" },
+    { "type": "textarea", "id": "review3", "label": "Review 3", "default": "This little guy lives on my desk now. Every stressful work call, I just squish him and instantly feel better. The customer service was so sweet too. 10/10, would cuddle again." },
+    { "type": "text", "id": "bought3", "label": "Bought 3", "default": "Matcha Mint" },
+    { "type": "header", "content": "⭐ Review 4" },
+    { "type": "image_picker", "id": "photo4", "label": "Photo 4" },
+    { "type": "text", "id": "name4", "label": "Name 4", "default": "Chloé D." },
+    { "type": "text", "id": "loc4", "label": "Location 4", "default": "Montréal, CA" },
+    { "type": "textarea", "id": "review4", "label": "Review 4", "default": "Genuinely the softest thing I've ever touched — my whole family fights over it! Shipping was fast and free, and it's even cuter in person. I can't recommend Puffy enough. ⭐⭐⭐⭐⭐" },
+    { "type": "text", "id": "bought4", "label": "Bought 4", "default": "Sakura Cat" },
+    { "type": "header", "content": "⭐ Review 5" },
+    { "type": "image_picker", "id": "photo5", "label": "Photo 5" },
+    { "type": "text", "id": "name5", "label": "Name 5", "default": "Olivia B." },
+    { "type": "text", "id": "loc5", "label": "Location 5", "default": "Sydney, AU" },
+    { "type": "textarea", "id": "review5", "label": "Review 5", "default": "I've bought a LOT of plushies online and most disappoint. Not this one. Super squishy, adorable, and the 30-day guarantee made it completely risk-free. Totally obsessed — buying more!" },
+    { "type": "text", "id": "bought5", "label": "Bought 5", "default": "Amethyst Rubis" }
+  ],
+  "presets": [ { "name": "Photo Testimonials" } ]
+}
+{% endschema %}

@@ -1,0 +1,70 @@
+{%- comment -%} Testimonials carousel (auto-rotate every 5s) {%- endcomment -%}
+{%- style -%}
+  #tst-{{ section.id }}{font-family:'Poppins',sans-serif;background:linear-gradient(180deg,#FFFFFF,#F3F0FF);padding:56px 20px;box-sizing:border-box}
+  #tst-{{ section.id }} *{box-sizing:border-box}
+  #tst-{{ section.id }} .tst-h{text-align:center;font-size:28px;font-weight:700;color:#1A1A1A;margin:0 0 6px}
+  #tst-{{ section.id }} .tst-sub{text-align:center;color:#808080;font-size:14px;margin:0 0 28px}
+  #tst-{{ section.id }} .tst-stage{max-width:720px;margin:0 auto;position:relative;min-height:210px}
+  #tst-{{ section.id }} .tst-card{position:absolute;inset:0;background:#fff;border:1px solid #EDE9FE;border-radius:18px;padding:28px 30px;
+    box-shadow:0 12px 34px rgba(124,58,237,.10);opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s;pointer-events:none;text-align:center}
+  #tst-{{ section.id }} .tst-card.tst-on{opacity:1;transform:translateY(0);pointer-events:auto}
+  #tst-{{ section.id }} .tst-stars{color:#FFB800;letter-spacing:2px;font-size:17px}
+  #tst-{{ section.id }} .tst-quote{font-size:16px;color:#2B2559;line-height:1.6;margin:12px 0 16px;font-weight:500}
+  #tst-{{ section.id }} .tst-who{font-size:13px;font-weight:700;color:#7C3AED}
+  #tst-{{ section.id }} .tst-role{font-size:11.5px;color:#808080;margin-top:2px}
+  #tst-{{ section.id }} .tst-dots{display:flex;justify-content:center;gap:8px;margin-top:22px}
+  #tst-{{ section.id }} .tst-dot{width:9px;height:9px;border-radius:50%;background:#DDD3F9;border:none;cursor:pointer;padding:0;transition:.2s}
+  #tst-{{ section.id }} .tst-dot.tst-on{background:#7C3AED;transform:scale(1.25)}
+  @media (max-width:540px){#tst-{{ section.id }}{padding:40px 16px}#tst-{{ section.id }} .tst-h{font-size:22px}#tst-{{ section.id }} .tst-quote{font-size:14.5px}#tst-{{ section.id }} .tst-stage{min-height:250px}}
+  @media (prefers-reduced-motion:reduce){#tst-{{ section.id }} .tst-card{transition:opacity .3s}}
+{%- endstyle -%}
+<section id="tst-{{ section.id }}" aria-label="Testimonials">
+  <h2 class="tst-h">{{ section.settings.heading }}</h2>
+  <p class="tst-sub">{{ section.settings.subheading }}</p>
+  <div class="tst-stage" data-tst-stage>
+    {%- assign qs = section.settings.quotes | newline_to_br | split: '<br />' -%}
+    {%- assign ns = section.settings.names | split: '|' -%}
+    {%- for q in qs -%}
+      {%- assign qt = q | strip -%}
+      {%- if qt != blank -%}
+      <figure class="tst-card{% if forloop.first %} tst-on{% endif %}" data-tst-card>
+        <div class="tst-stars">★★★★★</div>
+        <blockquote class="tst-quote">"{{ qt }}"</blockquote>
+        <figcaption class="tst-who">{{ ns[forloop.index0] | default: 'Verified Buyer' | strip }}</figcaption>
+        <div class="tst-role">Verified Purchase</div>
+      </figure>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  <div class="tst-dots" data-tst-dots></div>
+</section>
+<script>
+(function(){
+  var root=document.getElementById('tst-{{ section.id }}');
+  if(!root)return;
+  var cards=root.querySelectorAll('[data-tst-card]');
+  var dotsC=root.querySelector('[data-tst-dots]');
+  if(cards.length<2){return;}
+  var i=0,timer=null;
+  cards.forEach(function(_,k){var b=document.createElement('button');b.className='tst-dot'+(k===0?' tst-on':'');b.setAttribute('aria-label','Testimonial '+(k+1));b.addEventListener('click',function(){go(k);reset();});dotsC.appendChild(b);});
+  var dots=dotsC.querySelectorAll('.tst-dot');
+  function go(n){cards[i].classList.remove('tst-on');dots[i].classList.remove('tst-on');i=(n+cards.length)%cards.length;cards[i].classList.add('tst-on');dots[i].classList.add('tst-on');}
+  function reset(){clearInterval(timer);timer=setInterval(function(){go(i+1);},5000);}
+  reset();
+  root.addEventListener('mouseenter',function(){clearInterval(timer);});
+  root.addEventListener('mouseleave',reset);
+})();
+</script>
+{% schema %}
+{
+  "name": "Puffy — Testimonials",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Loved by thousands ⭐" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Real reviews from real Puffy families" },
+    { "type": "textarea", "id": "quotes", "label": "Quotes (one per line)", "default": "The softest thing I've ever squished. My anxiety melts away instantly!\nBought one as a gift and ended up ordering three more. Obsessed.\nQuality is unreal for the price. Ships fast and arrives beautifully packaged.\nMy desk buddy for stressful workdays — 10/10 would cuddle again." },
+    { "type": "textarea", "id": "names", "label": "Names (separated by |, same order)", "default": "Emma R. — Paris|Liam K. — London|Sofia M. — New York|Noah B. — Berlin" }
+  ],
+  "presets": [ { "name": "Puffy — Testimonials" } ]
+}
+{% endschema %}

@@ -1,0 +1,29 @@
+{%- comment -%} Trust badges strip (below hero) {%- endcomment -%}
+{%- style -%}
+  #tb-{{ section.id }}{font-family:'Poppins',sans-serif;background:{{ section.settings.bg }};padding:26px 20px;box-sizing:border-box}
+  #tb-{{ section.id }} *{box-sizing:border-box}
+  #tb-{{ section.id }} .tb-wrap{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  #tb-{{ section.id }} .tb-item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #EDE9FE;border-radius:14px;padding:16px 18px;box-shadow:0 3px 12px rgba(124,58,237,.06)}
+  #tb-{{ section.id }} .tb-ic{flex:0 0 40px;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:#F3F0FF;color:#7C3AED}
+  #tb-{{ section.id }} .tb-ic svg{width:22px;height:22px}
+  #tb-{{ section.id }} .tb-t{font-size:13.5px;font-weight:700;color:#1A1A1A;line-height:1.25}
+  #tb-{{ section.id }} .tb-s{font-size:11.5px;color:#808080;margin-top:2px}
+  @media (max-width:900px){#tb-{{ section.id }} .tb-wrap{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){#tb-{{ section.id }} .tb-wrap{grid-template-columns:1fr}}
+{%- endstyle -%}
+<section id="tb-{{ section.id }}" aria-label="Trust badges">
+  <div class="tb-wrap">
+    <div class="tb-item"><span class="tb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><path d="M16 8h4l3 3v5h-7V8z"></path><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></span><div><div class="tb-t">Free Worldwide Shipping</div><div class="tb-s">On every order, no minimum</div></div></div>
+    <div class="tb-item"><span class="tb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg></span><div><div class="tb-t">30-Day Money-Back</div><div class="tb-s">Risk-free guarantee</div></div></div>
+    <div class="tb-item"><span class="tb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span><div><div class="tb-t">Secure Checkout</div><div class="tb-s">SSL encrypted payment</div></div></div>
+    <div class="tb-item"><span class="tb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span><div><div class="tb-t">Friendly Support</div><div class="tb-s">We reply within 24h</div></div></div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Puffy — Trust Badges",
+  "tag": "section",
+  "settings": [ { "type": "color", "id": "bg", "label": "Background", "default": "#FFFFFF" } ],
+  "presets": [ { "name": "Puffy — Trust Badges" } ]
+}
+{% endschema %}
